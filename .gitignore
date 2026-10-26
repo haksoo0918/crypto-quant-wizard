@@ -1,0 +1,59 @@
+# 파이썬 캐시 및 빌드 파일
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+
+# 가상환경
+.venv/
+venv/
+ENV/
+env/
+
+# 환경 변수 및 보안 키 파일 (절대 커밋 금지)
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.pub
+id_rsa*
+*.secret
+secrets.json
+config.json
+
+# 운영체제 생성 임시 파일
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE 및 에디터 설정 파일
+.vscode/
+.idea/
+.gemini/
+.agents/
+*.swp
+*.swo
+
+# 로컬 실행 로그 파일
+*.log
+logs/
+trading_log.txt
+cron.log
+server.log
+
+# 사용자 개인 거래/자산 데이터 (오픈소스 복제자 개인 자산 및 체결 내역 보호)
+data/*
+!data/.gitkeep
+docs/data/*
+!docs/data/.gitkeep
+
+# 백테스트 실행 결과물 및 임시 파일
+backtest/
+temp/
+tmp/

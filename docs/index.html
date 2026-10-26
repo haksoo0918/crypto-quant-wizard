@@ -1,0 +1,3595 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>퀀트 코인 전략 대시보드</title>
+  
+  <!-- PWA 및 모바일 메타 태그 설정 -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" id="meta-theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="QuantCoin">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+
+  <!-- 프리텐다드(Pretendard) 웹 폰트: 모던 핀테크 표준 (영문/숫자/한글 일체화) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <!-- Chart.js CDN (초경량 반응형 Canvas 차트 엔진) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       hs-style 디자인 시스템 변수 정의 (모던 딥 틸 & 에메랄드 포인트)
+       ========================================================================== */
+    :root, [data-theme="light"] {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fb;
+      --bg-card: #ffffff;
+      --bg-card-sub: #f8f9fb;
+      --border-color: #e5e7eb;
+      --border-card: #e5e7eb;
+      --text-primary: #1a1d2e;
+      --text-secondary: #6b7280;
+      --text-muted: #9ca3af;
+      
+      --accent-primary: #0d9488;      /* 딥 틸 (라이트 모드 포인트) */
+      --accent-primary-hover: #0f766e;
+      --on-primary: #ffffff;
+      
+      --accent-cyan: #0d9488;
+      --accent-emerald: #10b981;     /* 성공 상태 */
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;     /* 경고/주의 상태 */
+      --accent-indigo: #0d9488;
+
+      --pill-bull-bg: rgba(16, 185, 129, 0.12);
+      --pill-bull-text: #059669;
+      --pill-bull-border: rgba(16, 185, 129, 0.3);
+
+      --pill-bear-bg: rgba(239, 68, 68, 0.12);
+      --pill-bear-text: #dc2626;
+      --pill-bear-border: rgba(239, 68, 68, 0.3);
+
+      --pill-buffer-bg: rgba(245, 158, 11, 0.12);
+      --pill-buffer-text: #d97706;
+      --pill-buffer-border: rgba(245, 158, 11, 0.3);
+
+      --card-shadow: 0 1px 3px rgba(10, 14, 39, 0.08), 0 1px 2px rgba(10, 14, 39, 0.04);
+      --banner-bg: linear-gradient(135deg, #ffffff, #f0fdfa);
+      --banner-border: #ccfbf1;
+
+      --guide-box-bg: #f8f9fb;
+      --guide-box-border: #0d9488;
+
+      --chart-grid: rgba(0, 0, 0, 0.05);
+      --chart-tick: #6b7280;
+
+      --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      --font-mono: 'Pretendard', -apple-system, BlinkMacSystemFont, monospace;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 10px;
+      --radius-xl: 14px;
+      --radius-pill: 9999px;
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: #0a0e27;
+      --bg-secondary: #141838;
+      --bg-card: #1a1f3a;
+      --bg-card-sub: #121630;
+      --border-color: #2d3548;
+      --border-card: #2d3548;
+      --text-primary: #f0f4f8;
+      --text-secondary: #8b92a9;
+      --text-muted: #5e6680;
+      
+      --accent-primary: #2dd4bf;      /* 에메랄드 틸 (다크 모드 포인트) */
+      --accent-primary-hover: #5eead4;
+      --on-primary: #0a0e27;         /* 에메랄드 틸 배경 위 고대비 다크 텍스트 */
+      
+      --accent-cyan: #2dd4bf;
+      --accent-emerald: #6ee7b7;     /* 성공 상태 */
+      --accent-green: #6ee7b7;
+      --accent-amber: #fbbf24;     /* 경고/주의 상태 */
+      --accent-indigo: #2dd4bf;
+
+      --pill-bull-bg: rgba(45, 212, 191, 0.18);
+      --pill-bull-text: #2dd4bf;
+      --pill-bull-border: rgba(45, 212, 191, 0.35);
+
+      --pill-bear-bg: rgba(248, 113, 113, 0.18);
+      --pill-bear-text: #f87171;
+      --pill-bear-border: rgba(248, 113, 113, 0.35);
+
+      --pill-buffer-bg: rgba(251, 191, 36, 0.18);
+      --pill-buffer-text: #fbbf24;
+      --pill-buffer-border: rgba(251, 191, 36, 0.35);
+
+      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      --banner-bg: linear-gradient(135deg, rgba(26, 31, 58, 0.95), rgba(18, 22, 48, 0.95));
+      --banner-border: rgba(45, 212, 191, 0.35);
+
+      --guide-box-bg: rgba(18, 22, 48, 0.8);
+      --guide-box-border: #2dd4bf;
+
+      --chart-grid: rgba(255, 255, 255, 0.08);
+      --chart-tick: #8b92a9;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: var(--font-family);
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 40px;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      font-family: var(--font-family);
+      font-feature-settings: 'tnum';
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.015em;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    .hidden { display: none !important; }
+    .btn-text { display: inline; }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.75px;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .icon-sm { width: 16px; height: 16px; }
+    .icon-lg { width: 24px; height: 24px; }
+    .icon-cyan { stroke: var(--accent-cyan); }
+    .icon-green { stroke: var(--accent-green); }
+    .icon-indigo { stroke: var(--accent-indigo); }
+    .icon-amber { stroke: var(--accent-amber); }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 20px;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--accent-primary);
+      color: var(--on-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(13, 148, 136, 0.2);
+    }
+
+    .brand h1 {
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      transition: all 0.15s ease-in-out;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      height: 38px;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background-color: var(--bg-secondary);
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: var(--on-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-primary-hover);
+      color: var(--on-primary);
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--bg-card-sub);
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .status-updated-time {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .action-banner {
+      background: var(--banner-bg);
+      border: 1px solid var(--banner-border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 24px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .action-banner h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .action-item {
+      background: var(--guide-box-bg);
+      border-left: 3px solid var(--guide-box-border);
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      border-left-width: 3px;
+      border-left-color: var(--accent-primary);
+    }
+
+    .action-item.bithumb {
+      border-left-color: var(--accent-green);
+    }
+
+    .action-item.binance {
+      border-left-color: var(--accent-amber);
+    }
+
+    .action-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .action-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 28px 0 14px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+    }
+
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin: -6px 0 14px 0;
+      word-break: keep-all;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      border-color: var(--accent-primary);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .coin-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .coin-badge {
+      font-size: 11px;
+      padding: 2px 6px;
+      background: var(--bg-card-sub);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      border: 1px solid var(--border-color);
+    }
+
+    .status-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-width: 1px;
+      border-style: solid;
+      white-space: nowrap;
+    }
+
+    .status-bull {
+      background: var(--pill-bull-bg);
+      color: var(--pill-bull-text);
+      border-color: var(--pill-bull-border);
+    }
+
+    .status-bear {
+      background: var(--pill-bear-bg);
+      color: var(--pill-bear-text);
+      border-color: var(--pill-bear-border);
+    }
+
+    .status-buffer, .status-neutral {
+      background: var(--pill-buffer-bg);
+      color: var(--pill-buffer-text);
+      border-color: var(--pill-buffer-border);
+    }
+
+    .price-display {
+      margin-bottom: 14px;
+    }
+
+    .price-main {
+      font-size: 22px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .price-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .channel-box {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+
+    .channel-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      color: var(--text-secondary);
+    }
+
+    .channel-row .val {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card-footer-guide {
+      font-size: 12px;
+      color: var(--accent-primary);
+      font-weight: 600;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-color);
+      word-break: keep-all;
+    }
+
+    .alt-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    .alt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .filter-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-left: 6px;
+    }
+
+    .alt-strategy-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 14px;
+      word-break: keep-all;
+    }
+
+    .alt-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .alt-item {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent-primary);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .alt-coin-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    .alt-return {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+    }
+
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chart-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-card-sub);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      width: 100%;
+    }
+
+    .chart-tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .chart-tab.active {
+      background: var(--accent-primary);
+      color: var(--on-primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .chart-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chart-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chart-meta-item .val {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .chart-canvas-wrapper {
+      position: relative;
+      width: 100%;
+      height: 280px;
+    }
+
+    .stats-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+    }
+
+    .stats-card-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-box {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .stat-val {
+      font-size: 18px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .stat-val-cyan { color: var(--accent-cyan); }
+    .stat-val-green { color: var(--accent-green); }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .backtest-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-card-sub);
+      padding: 4px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin-bottom: 14px;
+      width: 100%;
+    }
+
+    .backtest-tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px 12px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .backtest-tab.active {
+      background: var(--accent-primary);
+      color: var(--on-primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .backtest-info-box {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent-primary);
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 14px;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text-primary);
+    }
+
+    .backtest-info-sub {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+    }
+
+    .backtest-img-wrapper {
+      margin-top: 16px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .backtest-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* 거래 내역 및 자산 현황 스타일 */
+    .trade-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .asset-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .asset-summary-item {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--accent-primary);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .asset-summary-item.grand {
+      background: var(--banner-bg);
+      border-color: var(--banner-border);
+      border-left: 4px solid var(--accent-primary);
+    }
+
+    .asset-summary-item.binance {
+      border-left-color: var(--accent-amber);
+    }
+
+    .asset-summary-item.bithumb {
+      border-left-color: var(--accent-green);
+    }
+
+    .asset-item-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .asset-item-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.3px;
+    }
+
+    .asset-summary-item.grand .asset-item-val {
+      font-size: 20px;
+      color: var(--accent-primary);
+    }
+
+    .asset-item-sub {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* 코인 보유 수량 요약 그리드 */
+    .holdings-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .holding-card {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .holding-card.btc {
+      border-left: 3px solid #f7931a;
+    }
+
+    .holding-card.eth {
+      border-left: 3px solid #627eea;
+    }
+
+    .holding-card.cash {
+      border-left: 3px solid var(--accent-emerald);
+    }
+
+    .holding-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .holding-coin-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .coin-symbol-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: var(--radius-pill);
+      color: #fff;
+      font-family: var(--font-mono);
+    }
+
+    .coin-symbol-badge.btc {
+      background: #f7931a;
+    }
+
+    .coin-symbol-badge.eth {
+      background: #627eea;
+    }
+
+    .coin-symbol-badge.cash {
+      background: var(--accent-emerald);
+    }
+
+    .holding-coin-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .holding-qty-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+
+    .holding-krw-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      margin-bottom: 6px;
+    }
+
+    .holding-detail-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px dashed var(--border-color);
+      padding-top: 6px;
+      margin-top: 2px;
+      font-family: var(--font-mono);
+    }
+
+    /* 보안 잠금 패널 스타일 */
+    .security-lock-panel {
+      background: linear-gradient(135deg, rgba(13, 148, 136, 0.05), rgba(15, 23, 42, 0.03));
+      border: 1.5px dashed var(--accent-primary);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .security-lock-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .security-lock-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .security-pin-form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .security-pin-input {
+      width: 140px;
+      padding: 10px 14px;
+      font-size: 18px;
+      font-family: var(--font-mono);
+      letter-spacing: 6px;
+      text-align: center;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .security-pin-input:focus {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    }
+
+    .security-btn {
+      padding: 10px 18px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--on-primary);
+      background: var(--accent-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: opacity 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .security-btn:hover {
+      opacity: 0.9;
+    }
+
+    .security-remember-wrap {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .security-remember-wrap input {
+      cursor: pointer;
+    }
+
+    .security-error-msg {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #ef4444;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* 자산 마스킹 및 블러 모드 */
+    .portfolio-locked .sensitive-data {
+      filter: blur(7px);
+      user-select: none;
+      pointer-events: none;
+      transition: filter 0.3s ease;
+    }
+
+    .privacy-masked .sensitive-val {
+      letter-spacing: 2px !important;
+    }
+
+    .privacy-toggle-btn {
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .privacy-toggle-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-primary);
+    }
+
+    .asset-sub-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 16px 0 10px 0;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .asset-sub-header:first-of-type {
+      margin-top: 4px;
+    }
+
+    .asset-sub-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .asset-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-card-sub);
+      padding: 3px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .asset-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: var(--font-family);
+      transition: all 0.15s ease;
+    }
+
+    .asset-tab.active {
+      background: var(--accent-primary);
+      color: var(--on-primary);
+    }
+
+    .asset-chart-wrapper {
+      position: relative;
+      height: 240px;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .trade-table-wrapper {
+      overflow-x: auto;
+      margin-top: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .trade-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .trade-table th {
+      background: var(--bg-card-sub);
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 11.5px;
+    }
+
+    .trade-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .trade-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .trade-table tr:hover td {
+      background-color: var(--bg-card-sub);
+    }
+
+    .badge-exchange {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      letter-spacing: 0.3px;
+    }
+
+    .badge-exchange.upbit {
+      background: rgba(13, 148, 136, 0.12);
+      color: var(--accent-primary);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+    }
+
+    .badge-exchange.bithumb {
+      background: rgba(16, 185, 129, 0.12);
+      color: var(--accent-green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-exchange.binance {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    [data-theme="dark"] .badge-exchange.binance {
+      color: #fbbf24;
+    }
+
+    .badge-side {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-side-buy {
+      background: var(--pill-bull-bg);
+      color: var(--pill-bull-text);
+      border: 1px solid var(--pill-bull-border);
+    }
+
+    .badge-side-sell {
+      background: var(--pill-bear-bg);
+      color: var(--pill-bear-text);
+      border: 1px solid var(--pill-bear-border);
+    }
+
+    .trade-reason-tag {
+      font-size: 11px;
+      color: var(--text-secondary);
+      background: var(--bg-card-sub);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .trade-empty {
+      text-align: center;
+      padding: 24px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 0 10px 0;
+      font-size: 12px;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-color);
+      line-height: 1.7;
+    }
+
+    .footer-data-source {
+      margin: 6px 0;
+    }
+
+    .footer-links a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      text-decoration: underline;
+    }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: currentColor;
+      animation: spin 0.6s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 10px; }
+      .card-grid, .action-grid, .alt-list, .stats-grid { grid-template-columns: 1fr; }
+      .card, .action-banner, .alt-card, .chart-card, .stats-card { padding: 14px; }
+      .chart-canvas-wrapper { height: 230px; }
+      .price-main { font-size: 20px; }
+      .chart-meta-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 10px;
+        font-size: 11.5px;
+        padding: 8px 10px;
+      }
+      .chart-meta-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .chart-tab {
+        font-size: 12px;
+        padding: 7px 4px;
+      }
+      #btn-theme .btn-text,
+      #btn-refresh .btn-text {
+        display: none;
+      }
+      #btn-theme,
+      #btn-refresh {
+        padding: 0;
+        width: 34px;
+        height: 34px;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 10px 0;
+        gap: 6px;
+      }
+      .brand { gap: 8px; }
+      .brand h1 { font-size: 16px; }
+      .brand-icon-box { width: 30px; height: 30px; }
+      .brand-icon-box svg { width: 18px; height: 18px; }
+      .header-actions { gap: 5px; }
+      .btn {
+        padding: 6px 8px;
+        font-size: 11.5px;
+        height: 32px;
+        gap: 4px;
+      }
+      #btn-theme,
+      #btn-refresh {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+      }
+      .btn svg { width: 14px; height: 14px; }
+      .section-title { font-size: 14px; margin: 20px 0 10px 0; }
+      .chart-tab, .backtest-tab { font-size: 11px; padding: 7px 4px; }
+      .stat-val { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- 상단 헤더 -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon-box">
+          <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97M7.48 20.364l3.126-17.727"/></svg>
+        </div>
+        <div>
+          <h1>퀀트 코인 전략</h1>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- 다크모드 전환 토글 -->
+        <button id="btn-theme" class="btn" title="테마 전환" aria-label="테마 전환">
+          <svg id="theme-icon-sun" class="icon hidden" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="theme-icon-moon" class="icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span id="theme-text" class="btn-text">다크모드</span>
+        </button>
+
+        <!-- 실시간 시세 갱신 버튼 -->
+        <button id="btn-refresh" class="btn" title="현재가 실시간 동기화" aria-label="실시간 시세 갱신">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+            <path d="M21 3v5h-5"/>
+            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+            <path d="M8 16H3v5"/>
+          </svg>
+          <span class="btn-text">실시간 시세</span>
+        </button>
+
+        <!-- PWA 앱 설치 버튼 -->
+        <button id="btn-install" class="btn btn-primary hidden" title="스마트폰 홈 화면에 앱 설치" aria-label="앱 설치">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <span class="btn-text">앱 설치</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 기준 일시 및 상태 바 -->
+    <div class="status-bar">
+      <div id="updated-time" class="status-updated-time">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>기준 일시: 로딩 중...</span>
+      </div>
+      <div id="cache-status-badge" style="font-size: 11px; color: var(--accent-primary);">
+        ⚡ 스마트 로컬 캐싱 활성
+      </div>
+    </div>
+
+    <!-- 오늘의 종합 매매 행동 가이드 배너 -->
+    <div class="action-banner">
+      <h2>
+        <svg class="icon" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+        <span>오늘의 종합 매매 행동 가이드 (09:00 판정 기준)</span>
+      </h2>
+      <div class="action-grid">
+        <div class="action-item">
+          <div class="action-label">🔵 업비트 메인 (KRW 50:50 | BTC 220일 + ETH 50일)</div>
+          <div id="guide-upbit" class="action-value">BTC: 매수 보유 🟢 | ETH: 매수 보유 🟢</div>
+        </div>
+        <div class="action-item bithumb">
+          <div class="action-label">🟢 빗썸 서브 (KRW 100% | ETH SuperTrend)</div>
+          <div id="guide-bithumb" class="action-value">이더리움 100% 매수 집중 보유 🟢</div>
+        </div>
+        <div class="action-item binance">
+          <div class="action-label">🟡 바이낸스 글로벌 (USDT 50:50 | BTC 200일 + ETH 40일)</div>
+          <div id="guide-binance" class="action-value">BTC: 매수 보유 🟢 | ETH: 현금화 🔴</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 섹션 1: 메인 전략 (업비트 BTC/ETH 50:50) -->
+    <div class="section-title">
+      <svg class="icon icon-cyan" viewBox="0 0 24 24"><path d="m3 3 7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/><path d="m13 13 6 6"/></svg>
+      <span>메인 전략 (50:50 듀얼 모멘텀)</span>
+    </div>
+    <div class="section-desc">
+      비트코인(220일 SMA 버퍼)과 이더리움(50일 SMA ATR 채널)의 추세를 개별 추종하여 상승장에 50:50으로 균형 투자하고, 하락장에는 안전하게 현금화하며 비중 편차(±10%p) 발생 시 자동으로 리밸런싱합니다.
+    </div>
+
+    <div class="card-grid">
+      
+      <!-- BTC Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="coin-title">
+            <span>비트코인</span>
+            <span class="coin-badge">BTC</span>
+          </div>
+          <div id="btc-status-badge" class="status-pill status-bull">🟢 상승 돌파</div>
+        </div>
+
+        <div class="price-display">
+          <div id="btc-price" class="price-main">108,221,000 원</div>
+          <div id="btc-sma-diff" class="price-sub">기준 220일 SMA: 103,282,155 원</div>
+        </div>
+
+        <div class="channel-box">
+          <div class="channel-row">
+            <span>상한 버퍼 (+2%)</span>
+            <span id="btc-upper" class="val">105,347,798 원</span>
+          </div>
+          <div class="channel-row">
+            <span>기준 220일 SMA</span>
+            <span id="btc-sma" class="val">103,282,155 원</span>
+          </div>
+          <div class="channel-row">
+            <span>하한 버퍼 (-2%)</span>
+            <span id="btc-lower" class="val">101,216,511 원</span>
+          </div>
+        </div>
+
+        <div id="btc-guide" class="card-footer-guide">
+          💡 행동 가이드: BTC 50% 비중 매수 또는 보유 유지
+        </div>
+      </div>
+
+      <!-- ETH Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="coin-title">
+            <span>이더리움</span>
+            <span class="coin-badge">ETH</span>
+          </div>
+          <div id="eth-status-badge" class="status-pill status-bull">🟢 상승 채널 돌파</div>
+        </div>
+
+        <div class="price-display">
+          <div id="eth-price" class="price-main">3,378,000 원</div>
+          <div id="eth-sma-diff" class="price-sub">기준 50일 SMA: 2,884,320 원</div>
+        </div>
+
+        <div class="channel-box">
+          <div class="channel-row">
+            <span>상한 밴드 (+1.5 ATR)</span>
+            <span id="eth-upper" class="val">3,131,713 원</span>
+          </div>
+          <div class="channel-row">
+            <span>기준 50일 SMA</span>
+            <span id="eth-sma" class="val">2,884,320 원</span>
+          </div>
+          <div class="channel-row">
+            <span>하한 밴드 (-1.5 ATR)</span>
+            <span id="eth-lower" class="val">2,636,927 원</span>
+          </div>
+        </div>
+
+        <div id="eth-guide" class="card-footer-guide">
+          💡 행동 가이드: ETH 50% 비중 매수 또는 보유 유지
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 전략 섹션 2: 서브 전략 (이더리움 SuperTrend + 50일 SMA) -->
+    <div class="section-title">
+      <svg class="icon icon-green" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+      <span>서브 전략 (이더리움 SuperTrend + 50일 SMA)</span>
+    </div>
+
+    <div class="alt-card">
+      <div class="alt-header">
+        <div>
+          <strong class="filter-title">이더리움 단독 추세 추종 신호</strong>
+          <span class="filter-subtitle">(SuperTrend 7, 3.5 & 50일 SMA 복합)</span>
+        </div>
+        <div id="bithumb-signal-badge" class="status-pill status-bull">🚀 ETH 100% 풀매수</div>
+      </div>
+
+      <div class="alt-strategy-desc" id="bithumb-strategy-desc">
+        이더리움(ETH)의 대세 상승 파동을 끝까지 추종하여 고수익을 창출하고, 50일 SMA 이탈 또는 SuperTrend 하락 전환 시 100% 현금화(KRW)하여 원금을 철저히 보존합니다.
+      </div>
+
+      <div id="alt-recommend-box">
+        <div class="alt-list">
+          <div class="alt-item" id="bithumb-st-box">
+            <div class="alt-coin-name">SuperTrend (7, 3.5) 추세선</div>
+            <div class="alt-return" id="bithumb-st-val">2,993,000 원 (상승 🟢)</div>
+          </div>
+          <div class="alt-item" id="bithumb-sma-box">
+            <div class="alt-coin-name">대추세 필터 (50일 SMA)</div>
+            <div class="alt-return" id="bithumb-sma-val">2,884,320 원 (상회 🟢)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 섹션 3: 바이낸스 글로벌 전략 (USDT 50:50 동적 리밸런싱) -->
+    <div class="section-title">
+      <svg class="icon icon-amber" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="M17 10H9.5a2.5 2.5 0 0 0 0 5H14a2.5 2.5 0 0 1 0 5H6"/></svg>
+      <span>바이낸스 글로벌 전략 (USDT 50:50 동적 리밸런싱)</span>
+      <span id="binance-usd-krw-badge" class="coin-badge" style="margin-left: auto; font-size: 11.5px; font-weight: 600;">환율: 로딩 중...</span>
+    </div>
+    <div class="section-desc">
+      바이낸스 USDT 현물 마켓에서 글로벌 최적 파라미터(BTC 200일 SMA 버퍼, ETH 40일 SMA 1.2 ATR 채널)를 적용하여 50:50으로 운용하며, 60% 비중 초과 시 안전자산(USDT)으로 이익을 확정 회수합니다.
+    </div>
+
+    <div class="card-grid">
+      <!-- Binance BTC Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="coin-title">
+            <span>비트코인 (글로벌)</span>
+            <span class="coin-badge">BTC/USDT</span>
+          </div>
+          <div id="bin-btc-status-badge" class="status-pill status-bull">🟢 상승 돌파</div>
+        </div>
+
+        <div class="price-display">
+          <div id="bin-btc-price" class="price-main">$0.00</div>
+          <div id="bin-btc-sma-diff" class="price-sub">기준 200일 SMA: $0.00</div>
+        </div>
+
+        <div class="channel-box">
+          <div class="channel-row">
+            <span>상한 버퍼 (+2%)</span>
+            <span id="bin-btc-upper" class="val">$0.00</span>
+          </div>
+          <div class="channel-row">
+            <span>기준 200일 SMA</span>
+            <span id="bin-btc-sma" class="val">$0.00</span>
+          </div>
+          <div class="channel-row">
+            <span>하한 버퍼 (-2%)</span>
+            <span id="bin-btc-lower" class="val">$0.00</span>
+          </div>
+          <div class="channel-row">
+            <span>원화 환산가 (추정)</span>
+            <span id="bin-btc-krw-price" class="val">- 원</span>
+          </div>
+          <div class="channel-row">
+            <span>포트폴리오 목표 비중</span>
+            <span class="val">50% (60% 초과시 USDT 회수)</span>
+          </div>
+        </div>
+
+        <div id="bin-btc-guide" class="card-footer-guide">
+          💡 행동 가이드: BTC 50% 비중 매수 또는 보유 유지
+        </div>
+      </div>
+
+      <!-- Binance ETH Card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="coin-title">
+            <span>이더리움 (글로벌)</span>
+            <span class="coin-badge">ETH/USDT</span>
+          </div>
+          <div id="bin-eth-status-badge" class="status-pill status-bear">🔴 하락 이탈</div>
+        </div>
+
+        <div class="price-display">
+          <div id="bin-eth-price" class="price-main">$0.00</div>
+          <div id="bin-eth-sma-diff" class="price-sub">기준 40일 SMA: $0.00</div>
+        </div>
+
+        <div class="channel-box">
+          <div class="channel-row">
+            <span>상한 밴드 (+1.2 ATR)</span>
+            <span id="bin-eth-upper" class="val">$0.00</span>
+          </div>
+          <div class="channel-row">
+            <span>기준 40일 SMA</span>
+            <span id="bin-eth-sma" class="val">$0.00</span>
+          </div>
+          <div class="channel-row">
+            <span>하한 밴드 (-1.2 ATR)</span>
+            <span id="bin-eth-lower" class="val">$0.00</span>
+          </div>
+          <div class="channel-row">
+            <span>원화 환산가 (추정)</span>
+            <span id="bin-eth-krw-price" class="val">- 원</span>
+          </div>
+          <div class="channel-row">
+            <span>포트폴리오 목표 비중</span>
+            <span class="val">50% (하락 시 100% USDT)</span>
+          </div>
+        </div>
+
+        <div id="bin-eth-guide" class="card-footer-guide">
+          💡 행동 가이드: ETH 전량 매도 및 현금(USDT) 확보
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 섹션 4: 전략별 인터랙티브 Canvas 시각화 차트 뷰 -->
+    <div class="section-title">
+      <svg class="icon icon-cyan" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>전략별 지표 시각화 차트 (최근 60일)</span>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-header">
+        <div class="chart-tabs">
+          <button class="chart-tab active" id="tab-btc" onclick="switchChartTab('btc')">비트코인 220일 버퍼</button>
+          <button class="chart-tab" id="tab-eth" onclick="switchChartTab('eth')">이더리움 50일 ATR</button>
+          <button class="chart-tab" id="tab-bithumb" onclick="switchChartTab('bithumb')">이더리움 SuperTrend</button>
+        </div>
+      </div>
+
+      <div class="chart-meta-bar" id="chart-meta-bar">
+        <div class="chart-meta-item">
+          <span>차트 지표 로딩 중...</span>
+        </div>
+      </div>
+
+      <div class="chart-canvas-wrapper">
+        <canvas id="strategyChart"></canvas>
+      </div>
+    </div>
+
+    <!-- 역사적 백테스트 성과 요약 섹션 -->
+    <div class="section-title">
+      <svg class="icon icon-indigo" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>역사적 백테스트 검증 성과 (1,500일 시뮬레이션)</span>
+    </div>
+
+    <div class="stats-card">
+      <div class="backtest-tabs">
+        <button class="backtest-tab active" id="btn-bt-main" onclick="switchBacktestTab('main')">메인 전략 (BTC/ETH 50:50)</button>
+        <button class="backtest-tab" id="btn-bt-sub" onclick="switchBacktestTab('sub')">서브 전략 (이더리움 SuperTrend)</button>
+      </div>
+
+      <!-- 1. 메인 전략 백테스트 패널 -->
+      <div id="backtest-panel-main">
+        <div class="backtest-info-box">
+          <div><strong>📌 검증 모델</strong>: 업비트 BTC(220일 SMA 버퍼 ±2%) & ETH(50일 SMA ± 1.5 ATR) 50:50 듀얼 모멘텀 리밸런싱</div>
+          <div class="backtest-info-sub">⏱️ <strong>시뮬레이션 기간</strong>: 2022-04-26 ~ 2026-08-21 (약 4.3년, 1,500일) | 초기 1,000만원 ➔ <strong>최종 3,144만원 (3.14배 달성)</strong></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">전략 연평균 성장률 (CAGR)</div>
+            <div class="stat-val">+30.36%</div>
+            <div class="stat-sub">단순보유: +8.44%</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">최대 낙폭 방어 (MDD)</div>
+            <div class="stat-val stat-val-cyan">-28.07%</div>
+            <div class="stat-sub">단순보유: -59.09% (방어: -31.02%p)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">전략 누적 수익률</div>
+            <div class="stat-val stat-val-green">+214.42%</div>
+            <div class="stat-sub">초과 성과: +172.51%p</div>
+          </div>
+        </div>
+
+        <div class="backtest-img-wrapper">
+          <img src="./images/backtest_main.png" alt="메인 전략 4.3년 백테스트 누적 자산 성장 곡선" class="backtest-img" loading="eager">
+        </div>
+      </div>
+
+      <!-- 2. 서브 전략 백테스트 패널 -->
+      <div id="backtest-panel-sub" class="hidden">
+        <div class="backtest-info-box" style="border-left-color: var(--accent-green);">
+          <div><strong>📌 검증 모델</strong>: 이더리움 단독 SuperTrend(7, 3.5) + 50일 SMA 복합 대세 추세 추종 (100% 집중 매수 / 100% 현금화)</div>
+          <div class="backtest-info-sub">⏱️ <strong>시뮬레이션 기간</strong>: 2022-07-19 ~ 2026-08-26 (약 4.1년, 1,500일) | 초기 1,000만원 ➔ <strong>최종 4,388만원 (4.39배 달성)</strong></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">전략 연평균 성장률 (CAGR)</div>
+            <div class="stat-val stat-val-green">+43.38%</div>
+            <div class="stat-sub">단순보유: +13.50%</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">최대 낙폭 방어 (MDD)</div>
+            <div class="stat-val stat-val-cyan">-31.28%</div>
+            <div class="stat-sub">단순보유: -64.30% (방어: -33.02%p)</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">전략 누적 수익률</div>
+            <div class="stat-val stat-val-green">+338.76%</div>
+            <div class="stat-sub">초과 성과: +270.63%p</div>
+          </div>
+        </div>
+
+        <div class="backtest-img-wrapper">
+          <img src="./images/backtest_sub_eth.png" alt="서브 전략 4.1년 백테스트 누적 자산 성장 곡선" class="backtest-img" loading="eager">
+        </div>
+      </div>
+    </div>
+
+    <!-- 전략 섹션 6: 거래 내역 및 자산 현황 -->
+    <div class="section-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg class="icon icon-cyan" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span>거래 내역 및 자산 현황</span>
+      </div>
+      <div id="security-controls" style="display: flex; align-items: center; gap: 8px;">
+        <button id="btn-privacy-toggle" class="privacy-toggle-btn" onclick="togglePrivacyMask()" style="display: none;" title="자산 금액 가리기/보기">
+          <span id="privacy-icon">👁️</span>
+          <span id="privacy-text">자산 숨기기</span>
+        </button>
+        <button id="btn-relock" class="privacy-toggle-btn" onclick="lockPortfolio()" style="display: none;" title="자산 정보 다시 잠그기">
+          <span>🔒</span>
+          <span>잠그기</span>
+        </button>
+      </div>
+    </div>
+    <div class="section-desc">
+      업비트, 빗썸, 바이낸스 3대 거래소의 일자별 총자산 추이 그래프와 봇이 실제 집행한 매매 체결 장부(trade_history.csv)를 실시간으로 제공합니다.
+    </div>
+
+    <div class="trade-card portfolio-locked" id="trade-history-container">
+      <!-- 0. 보안 잠금 해제 패널 -->
+      <div id="security-lock-panel" class="security-lock-panel">
+        <div class="security-lock-title">
+          <svg class="icon icon-sm icon-cyan" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>개인 자산 정보 보안 잠금</span>
+        </div>
+        <div class="security-lock-desc">
+          자산 평가액 및 코인 보유 수량, 상세 체결 장부는 프라이버시 보호를 위해 암호화 잠금되어 있습니다.
+        </div>
+        <form class="security-pin-form" onsubmit="event.preventDefault(); verifyPin();">
+          <input type="password" id="security-pin-input" class="security-pin-input" maxlength="4" placeholder="••••" autocomplete="off" inputmode="numeric" pattern="[0-9]*">
+          <button type="submit" class="security-btn">
+            <svg class="icon icon-sm" viewBox="0 0 24 24" style="stroke: #fff;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg>
+            <span>잠금 해제</span>
+          </button>
+        </form>
+        <div id="security-error-msg" class="security-error-msg">⚠️ PIN 번호가 일치하지 않습니다. 다시 입력해주세요.</div>
+        <label class="security-remember-wrap">
+          <input type="checkbox" id="security-remember-check" checked>
+          <span>이 기기에서 자동 기억 (다음 방문 시 자동 해제)</span>
+        </label>
+      </div>
+
+      <!-- 민감 자산 정보 래퍼 (잠금 시 블러/마스킹) -->
+      <div id="portfolio-sensitive-wrap" class="sensitive-data">
+        <!-- 1. 3대 거래소 자산 현황 요약 그리드 -->
+      <div class="asset-summary-grid">
+        <div class="asset-summary-item grand">
+          <div class="asset-item-label">
+            <span>💰 통합 총자산 (원화 환산)</span>
+          </div>
+          <div id="asset-grand-total" class="asset-item-val">17,865,492 원</div>
+          <div id="asset-grand-sub" class="asset-item-sub">전일 대비 +193,356 원 (+1.09%)</div>
+        </div>
+
+        <div class="asset-summary-item">
+          <div class="asset-item-label">
+            <span>🔵 업비트 메인 (KRW)</span>
+            <span id="asset-upbit-weight" class="coin-badge">33.8%</span>
+          </div>
+          <div id="asset-upbit-total" class="asset-item-val">6,039,812 원</div>
+          <div id="asset-upbit-sub" class="asset-item-sub">BTC 50% · KRW 현금 50%</div>
+        </div>
+
+        <div class="asset-summary-item binance">
+          <div class="asset-item-label">
+            <span>🟡 바이낸스 글로벌 (USDT)</span>
+            <span id="asset-binance-weight" class="coin-badge">55.9%</span>
+          </div>
+          <div id="asset-binance-total" class="asset-item-val">$7,438.15</div>
+          <div id="asset-binance-sub" class="asset-item-sub">약 9,987,510 원 | BTC 50% · USDT 50%</div>
+        </div>
+
+        <div class="asset-summary-item bithumb">
+          <div class="asset-item-label">
+            <span>🟢 빗썸 서브 (KRW)</span>
+            <span id="asset-bithumb-weight" class="coin-badge">10.3%</span>
+          </div>
+          <div id="asset-bithumb-total" class="asset-item-val">1,838,170 원</div>
+          <div id="asset-bithumb-sub" class="asset-item-sub">100% 원화 현금 관망</div>
+        </div>
+      </div>
+
+      <!-- 1-2. 통합 코인 보유량 요약 그리드 (BTC / ETH / 현금) -->
+      <div class="holdings-summary-grid">
+        <div class="holding-card btc">
+          <div class="holding-header">
+            <div class="holding-coin-info">
+              <span class="coin-symbol-badge btc">BTC</span>
+              <span class="holding-coin-name">비트코인 총 보유량</span>
+            </div>
+            <span id="holding-btc-weight" class="coin-badge">--%</span>
+          </div>
+          <div id="holding-btc-qty" class="holding-qty-val sensitive-val">--.-------- BTC</div>
+          <div id="holding-btc-val" class="holding-krw-val sensitive-val">약 -- 원</div>
+          <div id="holding-btc-detail" class="holding-detail-sub sensitive-val">업비트 -- BTC · 바이낸스 -- BTC</div>
+        </div>
+
+        <div class="holding-card eth">
+          <div class="holding-header">
+            <div class="holding-coin-info">
+              <span class="coin-symbol-badge eth">ETH</span>
+              <span class="holding-coin-name">이더리움 총 보유량</span>
+            </div>
+            <span id="holding-eth-weight" class="coin-badge">0.0%</span>
+          </div>
+          <div id="holding-eth-qty" class="holding-qty-val sensitive-val">0.000000 ETH</div>
+          <div id="holding-eth-val" class="holding-krw-val sensitive-val">0 원</div>
+          <div id="holding-eth-detail" class="holding-detail-sub sensitive-val">전량 현금화 관망 중 (100% 현금 보존)</div>
+        </div>
+
+        <div class="holding-card cash">
+          <div class="holding-header">
+            <div class="holding-coin-info">
+              <span class="coin-symbol-badge cash">CASH</span>
+              <span class="holding-coin-name">총 보유 현금 (KRW+USDT)</span>
+            </div>
+            <span id="holding-cash-weight" class="coin-badge">--%</span>
+          </div>
+          <div id="holding-cash-total" class="holding-qty-val sensitive-val">약 -- 원</div>
+          <div id="holding-cash-sub" class="holding-krw-val sensitive-val">원화 + $-- USDT</div>
+          <div id="holding-cash-detail" class="holding-detail-sub sensitive-val">업비트 + 빗썸 + 바이낸스 가용 잔고</div>
+        </div>
+      </div>
+
+      <!-- 2. 일자별 총자산 추이 그래프 -->
+      <div class="asset-sub-header" style="border-top: none; padding-top: 0;">
+        <div class="asset-sub-title">
+          <svg class="icon icon-sm icon-cyan" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span>일자별 총자산 추이</span>
+        </div>
+        <div class="asset-tabs">
+          <button class="asset-tab active" id="tab-asset-total" onclick="switchAssetChartTab('total')">통합 총자산 추이</button>
+          <button class="asset-tab" id="tab-asset-exchange" onclick="switchAssetChartTab('exchange')">거래소별 자산 비교</button>
+        </div>
+      </div>
+
+      <div class="asset-chart-wrapper">
+        <canvas id="assetTrendChart"></canvas>
+      </div>
+
+      <!-- 3. 최근 실거래 체결 내역 테이블 -->
+      <div class="asset-sub-header">
+        <div class="asset-sub-title">
+          <svg class="icon icon-sm icon-cyan" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>최근 실거래 체결 내역 (최근 20건 장부)</span>
+        </div>
+      </div>
+
+      <div class="trade-table-wrapper">
+        <table class="trade-table">
+          <thead>
+            <tr>
+              <th>체결 일시</th>
+              <th>거래소</th>
+              <th>자산</th>
+              <th>구분</th>
+              <th>체결 사유</th>
+              <th style="text-align: right;">체결 단가</th>
+              <th style="text-align: right;">수량</th>
+              <th style="text-align: right;">체결 금액</th>
+            </tr>
+          </thead>
+          <tbody id="trade-history-tbody">
+            <tr>
+              <td colspan="8" class="trade-empty">체결 이력을 불러오는 중...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      </div> <!-- end portfolio-sensitive-wrap -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div>Crypto Quantitative Trading Bot • PWA Dashboard</div>
+      <div class="footer-data-source">
+        지표 및 캔들 시세는 <strong>업비트(Upbit)</strong> 및 <strong>바이낸스(Binance)</strong> 공개 시세를 기반으로 매일 09:00 KST 확정 기준으로 동기화됩니다.
+      </div>
+      <div>매일 09:00 KST 확정 일봉 기준 100% 독립형 PWA 대시보드</div>
+      <div class="footer-links">
+        <a href="https://github.com/haksoo0918/quant-bitcoin" target="_blank" rel="noopener">
+          <span>GitHub 저장소 바로가기</span>
+          <svg class="icon icon-sm icon-external" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // 전역 상태 및 차트 인스턴스 변수 선언 (TDZ 방지)
+    let currentChartInstance = null;
+    let assetChartInstance = null;
+    let globalStrategyData = null;
+    let activeChartTab = 'btc';
+    let activeAssetChartTab = 'total';
+
+    // ==========================================================================
+    // 1. 테마 전환 로직
+    // ==========================================================================
+    const currentTheme = localStorage.getItem('quant_theme') || 'light';
+    applyTheme(currentTheme);
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('quant_theme', theme);
+
+      const metaTheme = document.getElementById('meta-theme-color');
+      const sunIcon = document.getElementById('theme-icon-sun');
+      const moonIcon = document.getElementById('theme-icon-moon');
+      const themeText = document.getElementById('theme-text');
+
+      if (theme === 'dark') {
+        if (metaTheme) metaTheme.setAttribute('content', '#0a0e27');
+        if (sunIcon) sunIcon.classList.remove('hidden');
+        if (moonIcon) moonIcon.classList.add('hidden');
+        if (themeText) themeText.textContent = '라이트모드';
+      } else {
+        if (metaTheme) metaTheme.setAttribute('content', '#ffffff');
+        if (sunIcon) sunIcon.classList.add('hidden');
+        if (moonIcon) moonIcon.classList.remove('hidden');
+        if (themeText) themeText.textContent = '다크모드';
+      }
+
+      if (currentChartInstance) {
+        updateChartTheme();
+      }
+    }
+
+    const btnTheme = document.getElementById('btn-theme');
+    if (btnTheme) {
+      btnTheme.addEventListener('click', () => {
+        const activeTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+      });
+    }
+
+    function formatKRW(val) {
+      if (val === undefined || val === null || isNaN(val)) return '-';
+      return Math.round(val).toLocaleString('ko-KR') + ' 원';
+    }
+
+    function formatUSDT(val) {
+      if (val === undefined || val === null || isNaN(val)) return '-';
+      return '$' + Number(val).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function formatTradeReason(reason) {
+      const map = {
+        'TREND_BUY': '추세 진입',
+        'TREND_SELL': '추세 이탈',
+        'REBALANCE_SELL': '비중 축소(이익실현)',
+        'REBALANCE_BUY': '비중 확대',
+        'PORTFOLIO_PREP': '자산 정비'
+      };
+      return map[reason] || reason;
+    }
+
+    // ==========================================================================
+    // 2. Pure JS 기술적 지표 연산 엔진
+    // ==========================================================================
+    function calculateSMA(closes, period) {
+      const result = [];
+      for (let i = 0; i < closes.length; i++) {
+        if (i < period - 1) {
+          result.push(null);
+        } else {
+          let sum = 0;
+          for (let j = 0; j < period; j++) {
+            sum += closes[i - j];
+          }
+          result.push(sum / period);
+        }
+      }
+      return result;
+    }
+
+    function calculateATR(candles, period = 14) {
+      const tr = [];
+      for (let i = 0; i < candles.length; i++) {
+        const high = candles[i].high_price;
+        const low = candles[i].low_price;
+        if (i === 0) {
+          tr.push(high - low);
+        } else {
+          const prevClose = candles[i - 1].trade_price;
+          const tr1 = high - low;
+          const tr2 = Math.abs(high - prevClose);
+          const tr3 = Math.abs(low - prevClose);
+          tr.push(Math.max(tr1, tr2, tr3));
+        }
+      }
+      return calculateSMA(tr, period);
+    }
+
+    function calculateSuperTrend(candles, period = 7, multiplier = 3.5) {
+      const atr = calculateATR(candles, period);
+      const n = candles.length;
+      const basicUpper = [];
+      const basicLower = [];
+      const finalUpper = [];
+      const finalLower = [];
+      const supertrend = [];
+      const direction = [];
+
+      for (let i = 0; i < n; i++) {
+        const hl2 = (candles[i].high_price + candles[i].low_price) / 2.0;
+        const currAtr = atr[i];
+        if (currAtr === null) {
+          basicUpper.push(null);
+          basicLower.push(null);
+          finalUpper.push(null);
+          finalLower.push(null);
+          supertrend.push(null);
+          direction.push(null);
+          continue;
+        }
+
+        const bUpper = hl2 + (multiplier * currAtr);
+        const bLower = hl2 - (multiplier * currAtr);
+        basicUpper.push(bUpper);
+        basicLower.push(bLower);
+
+        const close = candles[i].trade_price;
+        const prevClose = i > 0 ? candles[i - 1].trade_price : close;
+        const prevFinalUpper = i > 0 ? finalUpper[i - 1] : bUpper;
+        const prevFinalLower = i > 0 ? finalLower[i - 1] : bLower;
+
+        let fUpper = bUpper;
+        if (prevFinalUpper !== null && (bUpper < prevFinalUpper || prevClose > prevFinalUpper)) {
+          fUpper = bUpper;
+        } else if (prevFinalUpper !== null) {
+          fUpper = prevFinalUpper;
+        }
+        finalUpper.push(fUpper);
+
+        let fLower = bLower;
+        if (prevFinalLower !== null && (bLower > prevFinalLower || prevClose < prevFinalLower)) {
+          fLower = bLower;
+        } else if (prevFinalLower !== null) {
+          fLower = prevFinalLower;
+        }
+        finalLower.push(fLower);
+
+        let dir = 1;
+        if (i === period) {
+          dir = close > fUpper ? 1 : -1;
+        } else if (i > period) {
+          const prevDir = direction[i - 1];
+          if (prevDir === 1) {
+            dir = close < fLower ? -1 : 1;
+          } else {
+            dir = close > fUpper ? 1 : -1;
+          }
+        }
+        direction.push(dir);
+        supertrend.push(dir === 1 ? fLower : fUpper);
+      }
+
+      return { supertrend, direction, finalUpper, finalLower };
+    }
+
+    // ==========================================================================
+    // 3. 업비트 일봉 데이터 수신 및 스마트 9AM 로컬 캐싱
+    // ==========================================================================
+    function get9AmCycleKey() {
+      const now = new Date();
+      const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+      const kst = new Date(utc + (9 * 3600000));
+      
+      const refDate = new Date(kst);
+      if (kst.getHours() < 9) {
+        refDate.setDate(refDate.getDate() - 1);
+      }
+      const yyyy = refDate.getFullYear();
+      const mm = String(refDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(refDate.getDate()).padStart(2, '0');
+      return `quant_chart_v6_${yyyy}-${mm}-${dd}`;
+    }
+
+    async function fetchJsonSafe(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    }
+
+    async function fetchUpbitCandles(market, totalCount) {
+      try {
+        const first = await fetchJsonSafe(`https://api.upbit.com/v1/candles/days?market=${market}&count=${Math.min(totalCount, 200)}`);
+        if (!Array.isArray(first) || first.length === 0) return null;
+        let result = first;
+        if (totalCount > 200 && first.length === 200) {
+          const lastTime = first[first.length - 1].candle_date_time_utc;
+          const toParam = encodeURIComponent(lastTime + 'Z');
+          const second = await fetchJsonSafe(`https://api.upbit.com/v1/candles/days?market=${market}&count=${totalCount - 200}&to=${toParam}`);
+          if (Array.isArray(second)) {
+            result = result.concat(second);
+          }
+        }
+        return result.reverse();
+      } catch (e) {
+        console.warn(`Fetch candles failed for ${market}:`, e);
+        return null;
+      }
+    }
+
+    async function fetchBinanceCandles(symbol, limit) {
+      try {
+        const res = await fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=1d&limit=${limit}`);
+        if (!res.ok) return null;
+        const klines = await res.json();
+        return klines.map(k => ({
+          time: k[0],
+          open_price: parseFloat(k[1]),
+          high_price: parseFloat(k[2]),
+          low_price: parseFloat(k[3]),
+          trade_price: parseFloat(k[4]),
+          volume: parseFloat(k[5])
+        }));
+      } catch (e) {
+        console.warn(`Binance candles fetch failed for ${symbol}:`, e);
+        return null;
+      }
+    }
+
+    async function fetchUsdKrwRate() {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/USD');
+        if (res.ok) {
+          const json = await res.json();
+          if (json && json.rates && json.rates.KRW) {
+            return parseFloat(json.rates.KRW);
+          }
+        }
+      } catch (e) {
+        console.warn('FX rate fetch failed:', e);
+      }
+      return 1342.7;
+    }
+
+    async function loadOrComputeStrategyData() {
+      const cacheKey = get9AmCycleKey();
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          if (parsed && parsed.chart && parsed.chart.btc && parsed.chart.btc.closes) {
+            globalStrategyData = parsed;
+            document.getElementById('cache-status-badge').textContent = `⚡ 스마트 로컬 캐싱 활성 (${cacheKey.replace('quant_chart_v6_', '')})`;
+            return parsed;
+          }
+        } catch (e) {
+          console.warn('Cache parsing failed:', e);
+        }
+      }
+
+      document.getElementById('cache-status-badge').textContent = `🔄 09:00 일봉 지표 실시간 연산 중...`;
+
+      try {
+        const [btcCandles, ethCandles, binBtcCandles, binEthCandles, fxRate] = await Promise.all([
+          fetchUpbitCandles('KRW-BTC', 230),
+          fetchUpbitCandles('KRW-ETH', 80),
+          fetchBinanceCandles('BTCUSDT', 220),
+          fetchBinanceCandles('ETHUSDT', 65),
+          fetchUsdKrwRate()
+        ]);
+
+        if (!btcCandles || !ethCandles) {
+          throw new Error('Upbit candle fetch returned null');
+        }
+
+        const btcClosedIdx = btcCandles.length - 2;
+        const ethClosedIdx = ethCandles.length - 2;
+
+        // 1. 업비트 BTC 지표 계산 (220일 SMA ±2%)
+        const btcCloses = btcCandles.map(c => c.trade_price);
+        const btcSmaSeries = calculateSMA(btcCloses, 220);
+        const btcSma = btcSmaSeries[btcClosedIdx];
+        const btcUpper = btcSma * 1.02;
+        const btcLower = btcSma * 0.98;
+        const btcClosedPrice = btcCloses[btcClosedIdx];
+
+        let btcStatus = "buffer";
+        let btcMarketFilter = "Bear";
+        if (btcClosedPrice >= btcUpper) {
+          btcStatus = "bull";
+          btcMarketFilter = "Bull";
+        } else if (btcClosedPrice < btcLower) {
+          btcStatus = "bear";
+          btcMarketFilter = "Bear";
+        } else {
+          btcStatus = "buffer";
+          for (let t = btcClosedIdx - 1; t >= 220; t--) {
+            const c_t = btcCloses[t];
+            const sma_t = btcSmaSeries[t];
+            if (c_t >= sma_t * 1.02) {
+              btcMarketFilter = "Bull";
+              break;
+            } else if (c_t < sma_t * 0.98) {
+              btcMarketFilter = "Bear";
+              break;
+            }
+          }
+        }
+
+        // 2. 업비트 ETH 메인 지표 계산 (50일 SMA ± 1.5 ATR)
+        const ethCloses = ethCandles.map(c => c.trade_price);
+        const ethSmaSeries = calculateSMA(ethCloses, 50);
+        const ethAtrSeries = calculateATR(ethCandles, 14);
+        const ethSma = ethSmaSeries[ethClosedIdx];
+        const ethAtr = ethAtrSeries[ethClosedIdx];
+        const ethUpper = ethSma + (ethAtr * 1.5);
+        const ethLower = ethSma - (ethAtr * 1.5);
+        const ethClosedPrice = ethCloses[ethClosedIdx];
+
+        let ethStatus = "neutral";
+        if (ethClosedPrice >= ethUpper) {
+          ethStatus = "bull";
+        } else if (ethClosedPrice < ethLower) {
+          ethStatus = "bear";
+        } else {
+          ethStatus = "neutral";
+        }
+
+        // 3. 빗썸 서브 전략 지표 계산 (SuperTrend 7, 3.5 & 50일 SMA)
+        const stResult = calculateSuperTrend(ethCandles, 7, 3.5);
+        const stVal = stResult.supertrend[ethClosedIdx];
+        const stDir = stResult.direction[ethClosedIdx];
+        const isAboveSma = ethClosedPrice >= ethSma;
+        const bithumbAction = (isAboveSma && stDir === 1) ? "BUY" : "SELL";
+
+        // 4. 바이낸스 글로벌 전략 지표 계산 (BTC 200일 SMA ±2%, ETH 40일 SMA ± 1.2 ATR)
+        let binanceComputed = null;
+        if (binBtcCandles && binBtcCandles.length >= 202 && binEthCandles && binEthCandles.length >= 42) {
+          const binBtcClosedIdx = binBtcCandles.length - 2;
+          const binEthClosedIdx = binEthCandles.length - 2;
+
+          const binBtcCloses = binBtcCandles.map(c => c.trade_price);
+          const binBtcSmaSeries = calculateSMA(binBtcCloses, 200);
+          const binBtcSma = binBtcSmaSeries[binBtcClosedIdx];
+          const binBtcUpper = binBtcSma * 1.02;
+          const binBtcLower = binBtcSma * 0.98;
+          const binBtcCurrentPrice = binBtcCandles[binBtcCandles.length - 1].trade_price;
+          const isBinBtcBull = binBtcCurrentPrice >= binBtcUpper;
+          const isBinBtcBear = binBtcCurrentPrice < binBtcLower;
+          const binBtcStatus = isBinBtcBull ? "bull" : (isBinBtcBear ? "bear" : "buffer");
+          const binBtcTarget = isBinBtcBull ? "hold" : (isBinBtcBear ? "cash" : "hold");
+
+          const binEthCloses = binEthCandles.map(c => c.trade_price);
+          const binEthSmaSeries = calculateSMA(binEthCloses, 40);
+          const binEthAtrSeries = calculateATR(binEthCandles, 14);
+          const binEthSma = binEthSmaSeries[binEthClosedIdx];
+          const binEthAtr = binEthAtrSeries[binEthClosedIdx];
+          const binEthUpper = binEthSma + (binEthAtr * 1.2);
+          const binEthLower = binEthSma - (binEthAtr * 1.2);
+          const binEthCurrentPrice = binEthCandles[binEthCandles.length - 1].trade_price;
+          const isBinEthBull = binEthCurrentPrice >= binEthUpper;
+          const isBinEthBear = binEthCurrentPrice < binEthLower;
+          const binEthStatus = isBinEthBull ? "bull" : (isBinEthBear ? "bear" : "neutral");
+          const binEthTarget = isBinEthBull ? "hold" : (isBinEthBear ? "cash" : "cash");
+
+          binanceComputed = {
+            enabled: true,
+            strategy_name: "바이낸스 BTC/ETH 50:50 동적 리밸런싱",
+            usd_krw_rate: fxRate || 1342.7,
+            btc: {
+              current_price: binBtcCurrentPrice,
+              sma: binBtcSma,
+              upper_buffer: binBtcUpper,
+              lower_buffer: binBtcLower,
+              status: binBtcStatus,
+              status_label: isBinBtcBull ? "상승 추세 돌파" : (isBinBtcBear ? "하락 추세 이탈" : "버퍼 구간 대기"),
+              target_state: binBtcTarget
+            },
+            eth: {
+              current_price: binEthCurrentPrice,
+              sma: binEthSma,
+              upper_band: binEthUpper,
+              lower_band: binEthLower,
+              status: binEthStatus,
+              status_label: isBinEthBull ? "상승 채널 돌파" : (isBinEthBear ? "하락 밴드 이탈" : "밴드 내 중립"),
+              target_state: binEthTarget
+            },
+            guide: `${binBtcTarget === 'hold' ? 'BTC 50% 매수/보유' : 'BTC 현금화(USDT)'} / ${binEthTarget === 'hold' ? 'ETH 50% 매수/보유' : 'ETH 현금화(USDT)'}`
+          };
+        }
+
+        // 최근 60일 차트 시각화 데이터 생성
+        const chartCount = 60;
+        const btcChartStart = btcCandles.length - chartCount;
+        const ethChartStart = ethCandles.length - chartCount;
+
+        const chartDates = [];
+        const btcChartCloses = [];
+        const btcChartSma = [];
+        const btcChartUpper = [];
+        const btcChartLower = [];
+
+        for (let i = btcChartStart; i < btcCandles.length; i++) {
+          const d = btcCandles[i].candle_date_time_kst.substring(5, 10);
+          chartDates.push(d);
+          btcChartCloses.push(btcCandles[i].trade_price);
+          btcChartSma.push(btcSmaSeries[i]);
+          btcChartUpper.push(btcSmaSeries[i] ? btcSmaSeries[i] * 1.02 : null);
+          btcChartLower.push(btcSmaSeries[i] ? btcSmaSeries[i] * 0.98 : null);
+        }
+
+        const ethChartCloses = [];
+        const ethChartSma = [];
+        const ethChartUpper = [];
+        const ethChartLower = [];
+        const stChartVal = [];
+        const stChartDir = [];
+
+        for (let i = ethChartStart; i < ethCandles.length; i++) {
+          ethChartCloses.push(ethCandles[i].trade_price);
+          ethChartSma.push(ethSmaSeries[i]);
+          const a = ethAtrSeries[i];
+          const s = ethSmaSeries[i];
+          ethChartUpper.push((s && a) ? s + (a * 1.5) : null);
+          ethChartLower.push((s && a) ? s - (a * 1.5) : null);
+          stChartVal.push(stResult.supertrend[i]);
+          stChartDir.push(stResult.direction[i]);
+        }
+
+        const refKstTime = btcCandles[btcClosedIdx].candle_date_time_kst.replace('T', ' ').substring(0, 16);
+
+        const computedData = {
+          updated_at: refKstTime + ' KST (09:00 확정)',
+          btc: {
+            closed_price: btcClosedPrice,
+            current_price: btcCandles[btcCandles.length - 1].trade_price,
+            sma: btcSma,
+            upper_buffer: btcUpper,
+            lower_buffer: btcLower,
+            status: btcStatus,
+            market_filter: btcMarketFilter,
+            guide: btcMarketFilter === "Bull" ? "매수 포지션 유지 (상승장)" : "현금화 관망 (하락 방어)"
+          },
+          eth: {
+            closed_price: ethClosedPrice,
+            current_price: ethCandles[ethCandles.length - 1].trade_price,
+            sma: ethSma,
+            atr_14: ethAtr,
+            upper_band: ethUpper,
+            lower_band: ethLower,
+            status: ethStatus,
+            guide: ethStatus === "bull" ? "매수 포지션 유지 (상승 돌파)" : (ethStatus === "bear" ? "현금화 관망 (하락 이탈)" : "기존 포지션 유지 (중립 밴드)")
+          },
+          bithumb: {
+            closed_price: ethClosedPrice,
+            current_price: ethCandles[ethCandles.length - 1].trade_price,
+            sma50: ethSma,
+            supertrend_val: stVal,
+            supertrend_trend: stDir === 1 ? "BULL" : "BEAR",
+            is_above_sma: isAboveSma,
+            action: bithumbAction
+          },
+          binance: binanceComputed || (globalStrategyData && globalStrategyData.binance),
+          chart: {
+            dates: chartDates,
+            btc: { closes: btcChartCloses, sma: btcChartSma, upper: btcChartUpper, lower: btcChartLower },
+            eth: { closes: ethChartCloses, sma: ethChartSma, upper: ethChartUpper, lower: ethChartLower },
+            bithumb: { closes: ethChartCloses, sma: ethChartSma, supertrend: stChartVal, direction: stChartDir }
+          }
+        };
+
+        if (globalStrategyData) {
+          if (!computedData.binance && globalStrategyData.binance) computedData.binance = globalStrategyData.binance;
+          if (globalStrategyData.trade_history) computedData.trade_history = globalStrategyData.trade_history;
+          if (globalStrategyData.asset_history) computedData.asset_history = globalStrategyData.asset_history;
+          if (globalStrategyData.portfolio) computedData.portfolio = globalStrategyData.portfolio;
+          if (globalStrategyData.guides) computedData.guides = globalStrategyData.guides;
+        }
+
+        try {
+          localStorage.setItem(cacheKey, JSON.stringify(computedData));
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith('quant_chart_') && k !== cacheKey) {
+              localStorage.removeItem(k);
+            }
+          }
+        } catch (e) {
+          console.warn('LocalStorage save failed:', e);
+        }
+
+        globalStrategyData = computedData;
+        document.getElementById('cache-status-badge').textContent = `⚡ 스마트 로컬 캐싱 활성 (${cacheKey.replace('quant_chart_v6_', '')})`;
+        return computedData;
+      } catch (err) {
+        console.warn('Compute failed, using fallback status:', err);
+        document.getElementById('cache-status-badge').textContent = `⚡ 일일 상태 데이터 활성`;
+        return null;
+      }
+    }
+
+    // ==========================================================================
+    // 3.5 포트폴리오 보안 잠금 & 프라이버시 마스킹
+    // ==========================================================================
+    const PORTFOLIO_PIN_HASH = '6b32c01a019bd349ff3c659b6206000b1f29e39bda71e3ac47c0006a033d93cc';
+    let isPortfolioUnlocked = false;
+    let isPrivacyMasked = false;
+
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function verifyPin() {
+      const inputEl = document.getElementById('security-pin-input');
+      const errorEl = document.getElementById('security-error-msg');
+      const rememberEl = document.getElementById('security-remember-check');
+      const pin = (inputEl.value || '').trim();
+
+      const hashed = await sha256(pin);
+      if (hashed === PORTFOLIO_PIN_HASH) {
+        if (errorEl) errorEl.style.display = 'none';
+        unlockPortfolio(rememberEl && rememberEl.checked);
+      } else {
+        if (errorEl) {
+          errorEl.style.display = 'block';
+          errorEl.textContent = '⚠️ PIN 번호가 일치하지 않습니다. (4자리)';
+        }
+        inputEl.value = '';
+        inputEl.focus();
+      }
+    }
+
+    function unlockPortfolio(remember = false) {
+      isPortfolioUnlocked = true;
+      const container = document.getElementById('trade-history-container');
+      const lockPanel = document.getElementById('security-lock-panel');
+      const privacyBtn = document.getElementById('btn-privacy-toggle');
+      const relockBtn = document.getElementById('btn-relock');
+
+      if (container) container.classList.remove('portfolio-locked');
+      if (lockPanel) lockPanel.style.display = 'none';
+      if (privacyBtn) privacyBtn.style.display = 'inline-flex';
+      if (relockBtn) relockBtn.style.display = 'inline-flex';
+
+      if (remember) {
+        try { localStorage.setItem('quant_auth_unlocked_v1', 'true'); } catch (e) {}
+      }
+
+      if (globalStrategyData) {
+        renderStrategyView(globalStrategyData);
+      }
+    }
+
+    function lockPortfolio() {
+      isPortfolioUnlocked = false;
+      try { localStorage.removeItem('quant_auth_unlocked_v1'); } catch (e) {}
+      const container = document.getElementById('trade-history-container');
+      const lockPanel = document.getElementById('security-lock-panel');
+      const privacyBtn = document.getElementById('btn-privacy-toggle');
+      const relockBtn = document.getElementById('btn-relock');
+      const inputEl = document.getElementById('security-pin-input');
+      const errorEl = document.getElementById('security-error-msg');
+
+      if (container) container.classList.add('portfolio-locked');
+      if (lockPanel) lockPanel.style.display = 'block';
+      if (privacyBtn) privacyBtn.style.display = 'none';
+      if (relockBtn) relockBtn.style.display = 'none';
+      if (inputEl) inputEl.value = '';
+      if (errorEl) errorEl.style.display = 'none';
+
+      if (globalStrategyData) {
+        renderStrategyView(globalStrategyData);
+      }
+    }
+
+    function togglePrivacyMask() {
+      isPrivacyMasked = !isPrivacyMasked;
+      const container = document.getElementById('trade-history-container');
+      const privacyIcon = document.getElementById('privacy-icon');
+      const privacyText = document.getElementById('privacy-text');
+
+      if (container) {
+        if (isPrivacyMasked) {
+          container.classList.add('privacy-masked');
+          if (privacyIcon) privacyIcon.textContent = '🔒';
+          if (privacyText) privacyText.textContent = '자산 보기';
+        } else {
+          container.classList.remove('privacy-masked');
+          if (privacyIcon) privacyIcon.textContent = '👁️';
+          if (privacyText) privacyText.textContent = '자산 숨기기';
+        }
+      }
+      if (globalStrategyData) {
+        renderStrategyView(globalStrategyData);
+      }
+    }
+
+    function maskText(val) {
+      if (!isPortfolioUnlocked || isPrivacyMasked) {
+        return '••••••••';
+      }
+      return val;
+    }
+
+    function renderHoldingsSummary(data, grandTotal) {
+      let btcQty = 0, btcVal = 0, upbitBtc = 0, binanceBtc = 0;
+      let ethQty = 0, ethVal = 0, upbitEth = 0, bithumbEth = 0, binanceEth = 0;
+      let cashTotal = 0, upbitCash = 0, bithumbCash = 0, binanceUsdt = 0, binanceCashKrw = 0;
+
+      if (data.holdings) {
+        btcQty = Number(data.holdings.btc.total_quantity || 0);
+        btcVal = Number(data.holdings.btc.total_val_krw || 0);
+        upbitBtc = Number(data.holdings.btc.upbit_quantity || 0);
+        binanceBtc = Number(data.holdings.btc.binance_quantity || 0);
+
+        ethQty = Number(data.holdings.eth.total_quantity || 0);
+        ethVal = Number(data.holdings.eth.total_val_krw || 0);
+        upbitEth = Number(data.holdings.eth.upbit_quantity || 0);
+        bithumbEth = Number(data.holdings.eth.bithumb_quantity || 0);
+        binanceEth = Number(data.holdings.eth.binance_quantity || 0);
+
+        cashTotal = Number(data.holdings.cash.total_krw || 0);
+        upbitCash = Number(data.holdings.cash.upbit_krw || 0);
+        bithumbCash = Number(data.holdings.cash.bithumb_krw || 0);
+        binanceUsdt = Number(data.holdings.cash.binance_usdt || 0);
+        binanceCashKrw = Number(data.holdings.cash.binance_krw || 0);
+      } else {
+        const btcPrice = Number((data.upbit && data.upbit.btc && data.upbit.btc.current_price) || 110000000);
+        const binBtcPrice = Number((data.binance && data.binance.btc && data.binance.btc.current_price) || 81500);
+        const assetHist = data.asset_history || [];
+        const latest = assetHist.length > 0 ? assetHist[assetHist.length - 1] : null;
+        if (latest) {
+          const upbitTot = Number(latest.upbit_total_krw || 0);
+          const binTotUsdt = Number(latest.binance_total_usdt || 0);
+          const binTotKrw = Number(latest.binance_total_krw || 0);
+          const bitTot = Number(latest.bithumb_total_krw || 0);
+
+          upbitBtc = (upbitTot * 0.5) / btcPrice;
+          const binBtcUsdt = (binTotUsdt * 0.5);
+          binanceBtc = binBtcPrice > 0 ? (binBtcUsdt / binBtcPrice) : 0;
+          btcQty = upbitBtc + binanceBtc;
+          btcVal = (upbitTot * 0.5) + (binTotKrw * 0.5);
+
+          ethQty = 0.0;
+          ethVal = 0.0;
+
+          upbitCash = upbitTot * 0.5;
+          binanceUsdt = binTotUsdt * 0.5;
+          binanceCashKrw = binTotKrw * 0.5;
+          bithumbCash = bitTot;
+          cashTotal = upbitCash + binanceCashKrw + bithumbCash;
+        }
+      }
+
+      const btcWeight = grandTotal > 0 ? ((btcVal / grandTotal) * 100).toFixed(1) : '0.0';
+      const ethWeight = grandTotal > 0 ? ((ethVal / grandTotal) * 100).toFixed(1) : '0.0';
+      const cashWeight = grandTotal > 0 ? ((cashTotal / grandTotal) * 100).toFixed(1) : '0.0';
+
+      const btcWeightEl = document.getElementById('holding-btc-weight');
+      if (btcWeightEl) btcWeightEl.textContent = maskText(`${btcWeight}%`);
+
+      const btcQtyEl = document.getElementById('holding-btc-qty');
+      if (btcQtyEl) btcQtyEl.textContent = maskText(`${btcQty.toFixed(6)} BTC`);
+
+      const btcValEl = document.getElementById('holding-btc-val');
+      if (btcValEl) btcValEl.textContent = maskText(`약 ${formatKRW(btcVal)}`);
+
+      const btcDetailEl = document.getElementById('holding-btc-detail');
+      if (btcDetailEl) btcDetailEl.textContent = maskText(`업비트 ${upbitBtc.toFixed(6)} BTC · 바이낸스 ${binanceBtc.toFixed(6)} BTC`);
+
+      const ethWeightEl = document.getElementById('holding-eth-weight');
+      if (ethWeightEl) ethWeightEl.textContent = maskText(`${ethWeight}%`);
+
+      const ethQtyEl = document.getElementById('holding-eth-qty');
+      if (ethQtyEl) ethQtyEl.textContent = maskText(`${ethQty.toFixed(6)} ETH`);
+
+      const ethValEl = document.getElementById('holding-eth-val');
+      if (ethValEl) ethValEl.textContent = maskText(ethVal > 0 ? `약 ${formatKRW(ethVal)}` : '0 원');
+
+      const ethDetailEl = document.getElementById('holding-eth-detail');
+      if (ethDetailEl) ethDetailEl.textContent = maskText(ethQty > 0 ? `업비트 ${upbitEth.toFixed(4)} · 빗썸 ${bithumbEth.toFixed(4)}` : '전량 현금화 관망 중 (100% 현금 보존)');
+
+      const cashWeightEl = document.getElementById('holding-cash-weight');
+      if (cashWeightEl) cashWeightEl.textContent = maskText(`${cashWeight}%`);
+
+      const cashTotalEl = document.getElementById('holding-cash-total');
+      if (cashTotalEl) cashTotalEl.textContent = maskText(`약 ${formatKRW(cashTotal)}`);
+
+      const cashSubEl = document.getElementById('holding-cash-sub');
+      if (cashSubEl) cashSubEl.textContent = maskText(`원화 + $${binanceUsdt.toFixed(2)} USDT`);
+
+      const cashDetailEl = document.getElementById('holding-cash-detail');
+      if (cashDetailEl) cashDetailEl.textContent = maskText(`업비트 ${formatKRW(upbitCash)} · 빗썸 ${formatKRW(bithumbCash)}`);
+    }
+
+    // ==========================================================================
+    // 4. 대시보드 렌더링 및 실시간 시세 동기화
+    // ==========================================================================
+    const defaultAssetHistory = [
+      { date: "2026-10-15", grand_total_krw: 17672136, upbit_total_krw: 6002450, bithumb_total_krw: 1835978, binance_total_usdt: 7339.62, binance_total_krw: 9833708, usd_krw_rate: 1339.81 },
+      { date: "2026-10-16", grand_total_krw: 17865492, upbit_total_krw: 6039812, bithumb_total_krw: 1838170, binance_total_usdt: 7438.15, binance_total_krw: 9987510, usd_krw_rate: 1342.74 }
+    ];
+
+    function renderStrategyView(data) {
+      if (!data) return;
+
+      const updatedTimeStr = data.updated_at_formatted || data.updated_at || '최신';
+      document.getElementById('updated-time').innerHTML = `
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>기준 일시: ${updatedTimeStr}</span>
+      `;
+
+      const btc = data.btc || (data.upbit && data.upbit.btc);
+      const eth = data.eth || (data.upbit && data.upbit.eth);
+      const b = data.bithumb;
+
+      if (btc && eth) {
+        const btcIcon = (btc.market_filter === 'Bull' || btc.status === 'bull') ? '🟢' : (btc.status === 'bear' ? '🔴' : '🟡');
+        const btcAction = (btc.market_filter === 'Bull' || btc.status === 'bull') ? '매수 보유' : (btc.status === 'bear' ? '현금화' : '버퍼 대기');
+
+        const ethIcon = eth.status === 'bull' ? '🟢' : (eth.status === 'bear' ? '🔴' : '🟡');
+        const ethAction = eth.status === 'bull' ? '매수 보유' : (eth.status === 'bear' ? '현금화' : '중립 유지');
+
+        const upbitGuideText = `BTC: ${btcAction} ${btcIcon} | ETH: ${ethAction} ${ethIcon}`;
+        document.getElementById('guide-upbit').textContent = upbitGuideText;
+      }
+      if (b) {
+        const bithumbGuideText = b.action === 'BUY' ? '이더리움 100% 매수 집중 보유 🟢' : '100% 원화 현금화 안전 관망 🔴';
+        document.getElementById('guide-bithumb').textContent = bithumbGuideText;
+      }
+
+      if (btc) {
+        document.getElementById('btc-price').textContent = formatKRW(btc.current_price);
+        document.getElementById('btc-sma').textContent = formatKRW(btc.sma);
+        document.getElementById('btc-upper').textContent = formatKRW(btc.upper_buffer);
+        document.getElementById('btc-lower').textContent = formatKRW(btc.lower_buffer);
+        document.getElementById('btc-guide').textContent = `💡 행동 가이드: ${btc.guide || 'BTC 50% 비중 매수 또는 보유 유지'}`;
+
+        const btcBadge = document.getElementById('btc-status-badge');
+        btcBadge.className = 'status-pill';
+        if (btc.status === 'bull' || btc.market_filter === 'Bull') {
+          btcBadge.classList.add('status-bull');
+          btcBadge.textContent = '🟢 상승 돌파';
+        } else if (btc.status === 'bear') {
+          btcBadge.classList.add('status-bear');
+          btcBadge.textContent = '🔴 하락 이탈';
+        } else {
+          btcBadge.classList.add('status-buffer');
+          btcBadge.textContent = '🔍 버퍼 대기';
+        }
+
+        const btcDiffPct = ((btc.current_price - btc.sma) / btc.sma) * 100;
+        document.getElementById('btc-sma-diff').textContent = `기준 220일 SMA 대비 ${btcDiffPct >= 0 ? '+' : ''}${btcDiffPct.toFixed(2)}%`;
+      }
+
+      if (eth) {
+        document.getElementById('eth-price').textContent = formatKRW(eth.current_price);
+        document.getElementById('eth-sma').textContent = formatKRW(eth.sma);
+        document.getElementById('eth-upper').textContent = formatKRW(eth.upper_band);
+        document.getElementById('eth-lower').textContent = formatKRW(eth.lower_band);
+        document.getElementById('eth-guide').textContent = `💡 행동 가이드: ${eth.guide || 'ETH 50% 비중 매수 또는 보유 유지'}`;
+
+        const ethBadge = document.getElementById('eth-status-badge');
+        ethBadge.className = 'status-pill';
+        if (eth.status === 'bull') {
+          ethBadge.classList.add('status-bull');
+          ethBadge.textContent = '🟢 상승 채널 돌파';
+        } else if (eth.status === 'bear') {
+          ethBadge.classList.add('status-bear');
+          ethBadge.textContent = '🔴 하락 밴드 이탈';
+        } else {
+          ethBadge.classList.add('status-neutral');
+          ethBadge.textContent = '🔍 밴드 내 중립';
+        }
+
+        const ethDiffPct = ((eth.current_price - eth.sma) / eth.sma) * 100;
+        const atrStr = eth.atr_14 ? ` (ATR: ${Math.round(eth.atr_14).toLocaleString()})` : '';
+        document.getElementById('eth-sma-diff').textContent = `기준 50일 SMA 대비 ${ethDiffPct >= 0 ? '+' : ''}${ethDiffPct.toFixed(2)}%${atrStr}`;
+      }
+
+      if (b) {
+        const bBadge = document.getElementById('bithumb-signal-badge');
+        bBadge.className = 'status-pill';
+        if (b.action === 'BUY') {
+          bBadge.classList.add('status-bull');
+          bBadge.textContent = '🚀 ETH 100% 풀매수';
+        } else {
+          bBadge.classList.add('status-bear');
+          bBadge.textContent = '🔴 100% 원화 현금화';
+        }
+
+        const stVal = b.supertrend_val;
+        const sma50Val = b.sma50;
+        const isBull = (b.supertrend_trend === 'BULL');
+        document.getElementById('bithumb-st-val').textContent = `${formatKRW(stVal)} (${isBull ? '상승 🟢' : '하락 🔴'})`;
+        document.getElementById('bithumb-sma-val').textContent = `${formatKRW(sma50Val)} (${b.is_above_sma ? '상회 🟢' : '하회 🔴'})`;
+
+        const stBox = document.getElementById('bithumb-st-box');
+        const smaBox = document.getElementById('bithumb-sma-box');
+        stBox.style.borderLeftColor = isBull ? 'var(--accent-primary)' : 'var(--border-color)';
+        smaBox.style.borderLeftColor = b.is_above_sma ? 'var(--accent-primary)' : 'var(--border-color)';
+      }
+
+      // 3. 바이낸스 글로벌 전략 렌더링
+      const bin = data.binance;
+      if (bin) {
+        const binGuide = (data.guides && data.guides.binance) || bin.guide || 'BTC 50% 매수 / ETH 현금화';
+        const guideBinEl = document.getElementById('guide-binance');
+        if (guideBinEl) {
+          guideBinEl.textContent = binGuide;
+        }
+
+        const rate = bin.usd_krw_rate;
+        const rateBadge = document.getElementById('binance-usd-krw-badge');
+        if (rateBadge && rate) {
+          rateBadge.textContent = `환율: ${rate.toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} 원/$`;
+        }
+
+        const binBtc = bin.btc;
+        if (binBtc) {
+          const binBtcPriceEl = document.getElementById('bin-btc-price');
+          if (binBtcPriceEl) binBtcPriceEl.textContent = formatUSDT(binBtc.current_price);
+
+          const binBtcSmaEl = document.getElementById('bin-btc-sma');
+          if (binBtcSmaEl) binBtcSmaEl.textContent = formatUSDT(binBtc.sma);
+
+          const binBtcUpperEl = document.getElementById('bin-btc-upper');
+          if (binBtcUpperEl) binBtcUpperEl.textContent = formatUSDT(binBtc.upper_buffer);
+
+          const binBtcLowerEl = document.getElementById('bin-btc-lower');
+          if (binBtcLowerEl) binBtcLowerEl.textContent = formatUSDT(binBtc.lower_buffer);
+
+          const binBtcKrwEl = document.getElementById('bin-btc-krw-price');
+          if (binBtcKrwEl && rate && binBtc.current_price) {
+            binBtcKrwEl.textContent = formatKRW(binBtc.current_price * rate);
+          }
+
+          if (binBtc.sma && binBtc.current_price) {
+            const diffPct = ((binBtc.current_price - binBtc.sma) / binBtc.sma) * 100;
+            const diffEl = document.getElementById('bin-btc-sma-diff');
+            if (diffEl) diffEl.textContent = `기준 200일 SMA 대비 ${diffPct >= 0 ? '+' : ''}${diffPct.toFixed(2)}%`;
+          }
+
+          const btcBadge = document.getElementById('bin-btc-status-badge');
+          if (btcBadge) {
+            btcBadge.className = 'status-pill';
+            if (binBtc.status === 'bull') {
+              btcBadge.classList.add('status-bull');
+              btcBadge.textContent = '🟢 상승 돌파';
+            } else if (binBtc.status === 'bear') {
+              btcBadge.classList.add('status-bear');
+              btcBadge.textContent = '🔴 하락 이탈';
+            } else {
+              btcBadge.classList.add('status-buffer');
+              btcBadge.textContent = '🔍 버퍼 대기';
+            }
+          }
+
+          const btcGuideEl = document.getElementById('bin-btc-guide');
+          if (btcGuideEl) {
+            btcGuideEl.textContent = `💡 행동 가이드: ${binBtc.status === 'bull' ? 'BTC 50% 비중 매수 또는 보유 유지' : 'BTC 전량 매도 및 USDT 현금 확보'}`;
+          }
+        }
+
+        const binEth = bin.eth;
+        if (binEth) {
+          const binEthPriceEl = document.getElementById('bin-eth-price');
+          if (binEthPriceEl) binEthPriceEl.textContent = formatUSDT(binEth.current_price);
+
+          const binEthSmaEl = document.getElementById('bin-eth-sma');
+          if (binEthSmaEl) binEthSmaEl.textContent = formatUSDT(binEth.sma);
+
+          const binEthUpperEl = document.getElementById('bin-eth-upper');
+          if (binEthUpperEl) binEthUpperEl.textContent = formatUSDT(binEth.upper_band);
+
+          const binEthLowerEl = document.getElementById('bin-eth-lower');
+          if (binEthLowerEl) binEthLowerEl.textContent = formatUSDT(binEth.lower_band);
+
+          const binEthKrwEl = document.getElementById('bin-eth-krw-price');
+          if (binEthKrwEl && rate && binEth.current_price) {
+            binEthKrwEl.textContent = formatKRW(binEth.current_price * rate);
+          }
+
+          if (binEth.sma && binEth.current_price) {
+            const diffPct = ((binEth.current_price - binEth.sma) / binEth.sma) * 100;
+            const diffEl = document.getElementById('bin-eth-sma-diff');
+            if (diffEl) diffEl.textContent = `기준 40일 SMA 대비 ${diffPct >= 0 ? '+' : ''}${diffPct.toFixed(2)}%`;
+          }
+
+          const ethBadge = document.getElementById('bin-eth-status-badge');
+          if (ethBadge) {
+            ethBadge.className = 'status-pill';
+            if (binEth.status === 'bull') {
+              ethBadge.classList.add('status-bull');
+              ethBadge.textContent = '🟢 상승 채널 돌파';
+            } else if (binEth.status === 'bear') {
+              ethBadge.classList.add('status-bear');
+              ethBadge.textContent = '🔴 하락 밴드 이탈';
+            } else {
+              ethBadge.classList.add('status-neutral');
+              ethBadge.textContent = '🔍 밴드 내 중립';
+            }
+          }
+
+          const ethGuideEl = document.getElementById('bin-eth-guide');
+          if (ethGuideEl) {
+            ethGuideEl.textContent = `💡 행동 가이드: ${binEth.status === 'bull' ? 'ETH 50% 비중 매수 또는 보유 유지' : 'ETH 전량 매도 및 USDT 현금 확보'}`;
+          }
+        }
+      }
+
+      // 4. 자산 현황 카드 및 일자별 총자산 추이 차트 렌더링
+      const assetHistory = (Array.isArray(data.asset_history) && data.asset_history.length > 0)
+        ? data.asset_history
+        : defaultAssetHistory;
+
+      if (assetHistory.length > 0) {
+        const latestAsset = assetHistory[assetHistory.length - 1];
+        const prevAsset = assetHistory.length >= 2 ? assetHistory[assetHistory.length - 2] : latestAsset;
+
+        const grandTotal = Number(latestAsset.grand_total_krw || 0);
+        const upbitTotal = Number(latestAsset.upbit_total_krw || 0);
+        const bithumbTotal = Number(latestAsset.bithumb_total_krw || 0);
+        const binanceUsdt = Number(latestAsset.binance_total_usdt || 0);
+        const binanceKrw = Number(latestAsset.binance_total_krw || 0);
+
+        const diffKrw = grandTotal - Number(prevAsset.grand_total_krw || grandTotal);
+        const diffPct = prevAsset.grand_total_krw > 0 ? (diffKrw / prevAsset.grand_total_krw) * 100 : 0;
+
+        const grandEl = document.getElementById('asset-grand-total');
+        if (grandEl) grandEl.textContent = maskText(formatKRW(grandTotal));
+
+        const grandSubEl = document.getElementById('asset-grand-sub');
+        if (grandSubEl) {
+          const sign = diffKrw >= 0 ? '+' : '';
+          grandSubEl.textContent = maskText(`전일 대비 ${sign}${Math.round(diffKrw).toLocaleString('ko-KR')} 원 (${sign}${diffPct.toFixed(2)}%)`);
+          grandSubEl.style.color = diffKrw >= 0 ? 'var(--accent-green)' : '#ef4444';
+        }
+
+        const upbitEl = document.getElementById('asset-upbit-total');
+        if (upbitEl) upbitEl.textContent = maskText(formatKRW(upbitTotal));
+        const upbitWeightEl = document.getElementById('asset-upbit-weight');
+        if (upbitWeightEl && grandTotal > 0) upbitWeightEl.textContent = maskText(`${((upbitTotal / grandTotal) * 100).toFixed(1)}%`);
+
+        const binEl = document.getElementById('asset-binance-total');
+        if (binEl) binEl.textContent = maskText(formatUSDT(binanceUsdt));
+        const binSubEl = document.getElementById('asset-binance-sub');
+        if (binSubEl) binSubEl.textContent = maskText(`약 ${formatKRW(binanceKrw)} | BTC 50% · USDT 50%`);
+        const binWeightEl = document.getElementById('asset-binance-weight');
+        if (binWeightEl && grandTotal > 0) binWeightEl.textContent = maskText(`${((binanceKrw / grandTotal) * 100).toFixed(1)}%`);
+
+        const bitEl = document.getElementById('asset-bithumb-total');
+        if (bitEl) bitEl.textContent = maskText(formatKRW(bithumbTotal));
+        const bitWeightEl = document.getElementById('asset-bithumb-weight');
+        if (bitWeightEl && grandTotal > 0) bitWeightEl.textContent = maskText(`${((bithumbTotal / grandTotal) * 100).toFixed(1)}%`);
+
+        renderHoldingsSummary(data, grandTotal);
+      } else {
+        renderHoldingsSummary(data, 0);
+      }
+
+      renderAssetChart(assetHistory);
+
+      // 5. 최근 실거래 체결 내역 테이블 렌더링
+      const defaultRecentTrades = [
+        { timestamp: "2026-10-16 09:05:07", exchange: "BINANCE", symbol: "BTC", side: "BUY", reason: "TREND_BUY", price: "82100.00", quantity: "0.04443552", amount: "3648.16", currency: "USDT", total_asset: "7382.71" },
+        { timestamp: "2026-10-16 09:05:05", exchange: "BINANCE", symbol: "ETH", side: "SELL", reason: "TREND_SELL", price: "2378.60", quantity: "0.02120000", amount: "50.43", currency: "USDT", total_asset: "7382.71" },
+        { timestamp: "2026-10-16 09:05:02", exchange: "UPBIT", symbol: "BTC", side: "SELL", reason: "REBALANCE_SELL", price: "110913500", quantity: "0.02722750", amount: "3019898", currency: "KRW", total_asset: "6039796" },
+        { timestamp: "2026-10-15 18:10:35", exchange: "BINANCE", symbol: "XRP", side: "SELL", reason: "PORTFOLIO_PREP", price: "1.31940", quantity: "5563.0", amount: "7339.62", currency: "USDT", total_asset: "7339.62" }
+      ];
+
+      const historyData = (Array.isArray(data.trade_history) && data.trade_history.length > 0)
+        ? data.trade_history
+        : defaultRecentTrades;
+
+      const tbody = document.getElementById('trade-history-tbody');
+      if (tbody) {
+        if (historyData.length > 0) {
+          tbody.innerHTML = historyData.map(item => {
+            const exClass = (item.exchange || '').toLowerCase();
+            const sideClass = item.side === 'BUY' ? 'badge-side-buy' : 'badge-side-sell';
+            const sideText = item.side === 'BUY' ? '매수' : '매도';
+            const isUsdt = item.currency === 'USDT';
+            
+            const priceStr = isUsdt 
+              ? formatUSDT(item.price) 
+              : formatKRW(item.price);
+            
+            const amountStr = isUsdt
+              ? formatUSDT(item.amount)
+              : formatKRW(item.amount);
+
+            const qtyStr = Number(item.quantity).toLocaleString(undefined, { maximumFractionDigits: 6 });
+            const reasonStr = formatTradeReason(item.reason);
+            const timeStr = item.timestamp ? item.timestamp.substring(2, 16) : '-';
+
+            return `
+              <tr>
+                <td>${timeStr}</td>
+                <td><span class="badge-exchange ${exClass}">${item.exchange}</span></td>
+                <td><strong>${item.symbol}</strong></td>
+                <td><span class="badge-side ${sideClass}">${sideText}</span></td>
+                <td><span class="trade-reason-tag">${reasonStr}</span></td>
+                <td style="text-align: right;" class="sensitive-val">${maskText(priceStr)}</td>
+                <td style="text-align: right;" class="sensitive-val">${maskText(qtyStr)}</td>
+                <td style="text-align: right; font-weight: 700;" class="sensitive-val">${maskText(amountStr)}</td>
+              </tr>
+            `;
+          }).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="8" class="trade-empty">체결 이력이 없습니다.</td></tr>';
+        }
+      }
+
+      if (data.chart) {
+        renderCurrentChart();
+      }
+    }
+
+    async function syncLivePrices() {
+      // 1. 업비트 실시간 시세 동기화
+      try {
+        const res = await fetch('https://api.upbit.com/v1/ticker?markets=KRW-BTC,KRW-ETH');
+        if (res.ok) {
+          const tickers = await res.json();
+          tickers.forEach(t => {
+            if (t.market === 'KRW-BTC' && globalStrategyData) {
+              const btc = globalStrategyData.btc || (globalStrategyData.upbit && globalStrategyData.upbit.btc);
+              if (btc) {
+                btc.current_price = t.trade_price;
+                document.getElementById('btc-price').textContent = formatKRW(t.trade_price);
+                const btcDiffPct = ((t.trade_price - btc.sma) / btc.sma) * 100;
+                document.getElementById('btc-sma-diff').textContent = `기준 220일 SMA 대비 ${btcDiffPct >= 0 ? '+' : ''}${btcDiffPct.toFixed(2)}%`;
+              }
+              if (globalStrategyData.chart && globalStrategyData.chart.btc) {
+                const closes = globalStrategyData.chart.btc.closes;
+                closes[closes.length - 1] = t.trade_price;
+              }
+            } else if (t.market === 'KRW-ETH' && globalStrategyData) {
+              const eth = globalStrategyData.eth || (globalStrategyData.upbit && globalStrategyData.upbit.eth);
+              const b = globalStrategyData.bithumb;
+              if (eth) {
+                eth.current_price = t.trade_price;
+                document.getElementById('eth-price').textContent = formatKRW(t.trade_price);
+                const ethDiffPct = ((t.trade_price - eth.sma) / eth.sma) * 100;
+                const atrStr = eth.atr_14 ? ` (ATR: ${Math.round(eth.atr_14).toLocaleString()})` : '';
+                document.getElementById('eth-sma-diff').textContent = `기준 50일 SMA 대비 ${ethDiffPct >= 0 ? '+' : ''}${ethDiffPct.toFixed(2)}%${atrStr}`;
+              }
+              if (b) {
+                b.current_price = t.trade_price;
+              }
+              if (globalStrategyData.chart && globalStrategyData.chart.eth) {
+                globalStrategyData.chart.eth.closes[globalStrategyData.chart.eth.closes.length - 1] = t.trade_price;
+                if (globalStrategyData.chart.bithumb) {
+                  globalStrategyData.chart.bithumb.closes[globalStrategyData.chart.bithumb.closes.length - 1] = t.trade_price;
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Upbit ticker sync failed:', e);
+      }
+
+      // 2. 바이낸스 실시간 시세 및 환율 동기화
+      try {
+        const [binTickerRes, fxRes] = await Promise.all([
+          fetch('https://api.binance.com/api/v3/ticker/price?symbols=["BTCUSDT","ETHUSDT"]'),
+          fetch('https://open.er-api.com/v6/latest/USD')
+        ]);
+
+        let fxRate = 1342.7;
+        if (fxRes && fxRes.ok) {
+          const fxJson = await fxRes.json();
+          if (fxJson && fxJson.rates && fxJson.rates.KRW) {
+            fxRate = parseFloat(fxJson.rates.KRW);
+            const rateBadge = document.getElementById('binance-usd-krw-badge');
+            if (rateBadge) {
+              rateBadge.textContent = `환율: ${fxRate.toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} 원/$`;
+            }
+          }
+        }
+
+        if (binTickerRes && binTickerRes.ok) {
+          const binTickers = await binTickerRes.json();
+          binTickers.forEach(t => {
+            const price = parseFloat(t.price);
+            if (t.symbol === 'BTCUSDT') {
+              const el = document.getElementById('bin-btc-price');
+              if (el) el.textContent = formatUSDT(price);
+              const krwEl = document.getElementById('bin-btc-krw-price');
+              if (krwEl) krwEl.textContent = formatKRW(price * fxRate);
+              if (globalStrategyData && globalStrategyData.binance && globalStrategyData.binance.btc) {
+                globalStrategyData.binance.btc.current_price = price;
+                const sma = globalStrategyData.binance.btc.sma;
+                if (sma) {
+                  const diff = ((price - sma) / sma) * 100;
+                  const diffEl = document.getElementById('bin-btc-sma-diff');
+                  if (diffEl) diffEl.textContent = `기준 200일 SMA 대비 ${diff >= 0 ? '+' : ''}${diff.toFixed(2)}%`;
+                }
+              }
+            } else if (t.symbol === 'ETHUSDT') {
+              const el = document.getElementById('bin-eth-price');
+              if (el) el.textContent = formatUSDT(price);
+              const krwEl = document.getElementById('bin-eth-krw-price');
+              if (krwEl) krwEl.textContent = formatKRW(price * fxRate);
+              if (globalStrategyData && globalStrategyData.binance && globalStrategyData.binance.eth) {
+                globalStrategyData.binance.eth.current_price = price;
+                const sma = globalStrategyData.binance.eth.sma;
+                if (sma) {
+                  const diff = ((price - sma) / sma) * 100;
+                  const diffEl = document.getElementById('bin-eth-sma-diff');
+                  if (diffEl) diffEl.textContent = `기준 40일 SMA 대비 ${diff >= 0 ? '+' : ''}${diff.toFixed(2)}%`;
+                }
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Binance/FX ticker sync failed:', e);
+      }
+
+      if (currentChartInstance) {
+        currentChartInstance.update('none');
+      }
+    }
+
+    // ==========================================================================
+    // 5. Chart.js 인터랙티브 차트 시각화 모듈
+    // ==========================================================================
+    function switchChartTab(tabName) {
+      activeChartTab = tabName;
+      document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-${tabName}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      renderCurrentChart();
+    }
+
+    function switchAssetChartTab(tabName) {
+      activeAssetChartTab = tabName;
+      document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-asset-${tabName}`);
+      if (activeBtn) activeBtn.classList.add('active');
+      const assetHistory = (globalStrategyData && Array.isArray(globalStrategyData.asset_history) && globalStrategyData.asset_history.length > 0)
+        ? globalStrategyData.asset_history
+        : defaultAssetHistory;
+      renderAssetChart(assetHistory);
+    }
+
+    function renderAssetChart(assetHistoryData) {
+      const canvasEl = document.getElementById('assetTrendChart');
+      if (!canvasEl) return;
+      if (typeof Chart === 'undefined') {
+        setTimeout(() => renderAssetChart(assetHistoryData), 200);
+        return;
+      }
+
+      const history = (Array.isArray(assetHistoryData) && assetHistoryData.length > 0)
+        ? assetHistoryData
+        : defaultAssetHistory;
+
+      const ctx = canvasEl.getContext('2d');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)';
+      const tickColor = isDark ? '#8b92a9' : '#6b7280';
+      const mainTeal = isDark ? '#2dd4bf' : '#0d9488';
+
+      if (assetChartInstance) {
+        assetChartInstance.destroy();
+      }
+
+      const labels = history.map(item => (item.date || '').substring(5));
+      let datasets = [];
+
+      if (activeAssetChartTab === 'total') {
+        const totals = history.map(item => Number(item.grand_total_krw || 0));
+        datasets = [
+          {
+            label: '3대 거래소 통합 총자산 (원화 환산)',
+            data: totals,
+            borderColor: mainTeal,
+            backgroundColor: isDark ? 'rgba(45, 212, 191, 0.16)' : 'rgba(13, 148, 136, 0.12)',
+            borderWidth: 2.5,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            pointBackgroundColor: mainTeal,
+            fill: true,
+            tension: 0.25
+          }
+        ];
+      } else {
+        datasets = [
+          {
+            label: '바이낸스 (원화 환산)',
+            data: history.map(item => Number(item.binance_total_krw || 0)),
+            borderColor: '#f59e0b',
+            backgroundColor: '#f59e0b',
+            borderWidth: 2.2,
+            pointRadius: 3.5,
+            pointHoverRadius: 5,
+            fill: false,
+            tension: 0.25
+          },
+          {
+            label: '업비트 (KRW)',
+            data: history.map(item => Number(item.upbit_total_krw || 0)),
+            borderColor: mainTeal,
+            backgroundColor: mainTeal,
+            borderWidth: 2.2,
+            pointRadius: 3.5,
+            pointHoverRadius: 5,
+            fill: false,
+            tension: 0.25
+          },
+          {
+            label: '빗썸 (KRW)',
+            data: history.map(item => Number(item.bithumb_total_krw || 0)),
+            borderColor: '#10b981',
+            backgroundColor: '#10b981',
+            borderWidth: 2.2,
+            pointRadius: 3.5,
+            pointHoverRadius: 5,
+            fill: false,
+            tension: 0.25
+          }
+        ];
+      }
+
+      assetChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                boxWidth: 12,
+                boxHeight: 2,
+                color: tickColor,
+                font: { size: 11, family: 'Pretendard' }
+              }
+            },
+            tooltip: {
+              backgroundColor: isDark ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+              titleColor: isDark ? '#f0f4f8' : '#1a1d2e',
+              bodyColor: isDark ? '#f0f4f8' : '#1a1d2e',
+              borderColor: isDark ? '#2d3548' : '#e5e7eb',
+              borderWidth: 1,
+              padding: 10,
+              boxPadding: 4,
+              callbacks: {
+                label: (context) => {
+                  const label = context.dataset.label || '';
+                  const val = context.parsed.y;
+                  return `${label}: ${val !== null && val !== undefined ? Math.round(val).toLocaleString('ko-KR') : '-'} 원`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: tickColor, font: { size: 11 } }
+            },
+            y: {
+              grid: { color: gridColor },
+              ticks: {
+                color: tickColor,
+                font: { size: 10 },
+                callback: (v) => {
+                  if (v >= 1000000) return (v / 1000000).toFixed(1) + 'M';
+                  if (v >= 1000) return (v / 1000).toFixed(0) + 'K';
+                  return v;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function switchBacktestTab(tabName) {
+      document.querySelectorAll('.backtest-tab').forEach(t => t.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn-bt-${tabName}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const panelMain = document.getElementById('backtest-panel-main');
+      const panelSub = document.getElementById('backtest-panel-sub');
+      if (tabName === 'main') {
+        if (panelMain) panelMain.classList.remove('hidden');
+        if (panelSub) panelSub.classList.add('hidden');
+      } else {
+        if (panelMain) panelMain.classList.add('hidden');
+        if (panelSub) panelSub.classList.remove('hidden');
+      }
+    }
+
+    function renderCurrentChart() {
+      if (!globalStrategyData || !globalStrategyData.chart) return;
+      if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded yet, retrying in 200ms...');
+        setTimeout(renderCurrentChart, 200);
+        return;
+      }
+
+      const chartData = globalStrategyData.chart;
+      const ctx = document.getElementById('strategyChart').getContext('2d');
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.05)';
+      const tickColor = isDark ? '#8b92a9' : '#6b7280';
+      const mainTeal = isDark ? '#2dd4bf' : '#0d9488';
+
+      if (currentChartInstance) {
+        currentChartInstance.destroy();
+      }
+
+      let datasets = [];
+      const metaBar = document.getElementById('chart-meta-bar');
+
+      const btc = globalStrategyData.btc || (globalStrategyData.upbit && globalStrategyData.upbit.btc);
+      const eth = globalStrategyData.eth || (globalStrategyData.upbit && globalStrategyData.upbit.eth);
+      const b = globalStrategyData.bithumb;
+
+      if (activeChartTab === 'btc' && btc && chartData.btc) {
+        metaBar.innerHTML = `
+          <div class="chart-meta-item"><span>현재가:</span> <span class="val">${formatKRW(btc.current_price)}</span></div>
+          <div class="chart-meta-item"><span>220 SMA:</span> <span class="val">${formatKRW(btc.sma)}</span></div>
+          <div class="chart-meta-item"><span>상한(+2%):</span> <span class="val">${formatKRW(btc.upper_buffer)}</span></div>
+          <div class="chart-meta-item"><span>하한(-2%):</span> <span class="val">${formatKRW(btc.lower_buffer)}</span></div>
+        `;
+
+        datasets = [
+          {
+            label: '비트코인 종가',
+            data: chartData.btc.closes,
+            borderColor: mainTeal,
+            backgroundColor: mainTeal,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            tension: 0.1
+          },
+          {
+            label: '기준 220일 SMA',
+            data: chartData.btc.sma,
+            borderColor: '#f59e0b',
+            borderWidth: 1.75,
+            borderDash: [4, 4],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: '상한 버퍼 (+2%)',
+            data: chartData.btc.upper,
+            borderColor: 'rgba(245, 158, 11, 0.4)',
+            borderWidth: 1,
+            pointRadius: 0,
+            fill: '+1',
+            backgroundColor: isDark ? 'rgba(245, 158, 11, 0.12)' : 'rgba(245, 158, 11, 0.08)'
+          },
+          {
+            label: '하한 버퍼 (-2%)',
+            data: chartData.btc.lower,
+            borderColor: 'rgba(245, 158, 11, 0.4)',
+            borderWidth: 1,
+            pointRadius: 0,
+            fill: false
+          }
+        ];
+      } else if (activeChartTab === 'eth' && eth && chartData.eth) {
+        metaBar.innerHTML = `
+          <div class="chart-meta-item"><span>현재가:</span> <span class="val">${formatKRW(eth.current_price)}</span></div>
+          <div class="chart-meta-item"><span>50 SMA:</span> <span class="val">${formatKRW(eth.sma)}</span></div>
+          <div class="chart-meta-item"><span>상한(+1.5 ATR):</span> <span class="val">${formatKRW(eth.upper_band)}</span></div>
+          <div class="chart-meta-item"><span>하한(-1.5 ATR):</span> <span class="val">${formatKRW(eth.lower_band)}</span></div>
+        `;
+
+        datasets = [
+          {
+            label: '이더리움 종가',
+            data: chartData.eth.closes,
+            borderColor: mainTeal,
+            backgroundColor: mainTeal,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            tension: 0.1
+          },
+          {
+            label: '기준 50일 SMA',
+            data: chartData.eth.sma,
+            borderColor: '#8b5cf6',
+            borderWidth: 1.75,
+            borderDash: [4, 4],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: '상한 밴드 (+1.5 ATR)',
+            data: chartData.eth.upper,
+            borderColor: 'rgba(13, 148, 136, 0.4)',
+            borderWidth: 1,
+            pointRadius: 0,
+            fill: '+1',
+            backgroundColor: isDark ? 'rgba(45, 212, 191, 0.12)' : 'rgba(13, 148, 136, 0.08)'
+          },
+          {
+            label: '하한 밴드 (-1.5 ATR)',
+            data: chartData.eth.lower,
+            borderColor: 'rgba(13, 148, 136, 0.4)',
+            borderWidth: 1,
+            pointRadius: 0,
+            fill: false
+          }
+        ];
+      } else if (activeChartTab === 'bithumb' && b && chartData.bithumb) {
+        metaBar.innerHTML = `
+          <div class="chart-meta-item"><span>현재가:</span> <span class="val">${formatKRW(b.current_price)}</span></div>
+          <div class="chart-meta-item"><span>50 SMA:</span> <span class="val">${formatKRW(b.sma50)}</span></div>
+          <div class="chart-meta-item"><span>SuperTrend:</span> <span class="val">${formatKRW(b.supertrend_val)}</span></div>
+          <div class="chart-meta-item"><span>추세:</span> <span class="val" style="color:${b.supertrend_trend === 'BULL' ? 'var(--accent-green)' : 'var(--accent-amber)'}">${b.supertrend_trend === 'BULL' ? '상승 🟢' : '하락 🔴'}</span></div>
+        `;
+
+        datasets = [
+          {
+            label: '이더리움 종가',
+            data: chartData.bithumb.closes,
+            borderColor: mainTeal,
+            backgroundColor: mainTeal,
+            borderWidth: 2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            tension: 0.1
+          },
+          {
+            label: '50일 SMA 추세선',
+            data: chartData.bithumb.sma,
+            borderColor: isDark ? '#94a3b8' : '#64748b',
+            borderWidth: 1.5,
+            borderDash: [3, 3],
+            pointRadius: 0,
+            fill: false
+          },
+          {
+            label: 'SuperTrend (7, 3.5)',
+            data: chartData.bithumb.supertrend,
+            borderColor: (ctx) => {
+              const idx = ctx.dataIndex;
+              const dir = chartData.bithumb.direction[idx];
+              return dir === 1 ? '#10b981' : '#ef4444';
+            },
+            segment: {
+              borderColor: (ctx) => {
+                const idx = ctx.p0DataIndex;
+                const dir = chartData.bithumb.direction[idx];
+                return dir === 1 ? '#10b981' : '#ef4444';
+              }
+            },
+            borderWidth: 2.2,
+            pointRadius: 0,
+            pointHoverRadius: 4,
+            fill: false
+          }
+        ];
+      }
+
+      currentChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: chartData.dates,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                boxWidth: 12,
+                boxHeight: 2,
+                color: tickColor,
+                font: { size: 11, family: 'Noto Sans KR' }
+              }
+            },
+            tooltip: {
+              backgroundColor: isDark ? 'rgba(26, 31, 58, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+              titleColor: isDark ? '#f0f4f8' : '#1a1d2e',
+              bodyColor: isDark ? '#8b92a9' : '#4b5563',
+              borderColor: isDark ? '#2d3548' : '#e5e7eb',
+              borderWidth: 1,
+              padding: 10,
+              boxPadding: 4,
+              bodyFont: { family: 'D2Coding' },
+              callbacks: {
+                label: (context) => {
+                  const label = context.dataset.label || '';
+                  const val = context.parsed.y;
+                  return `${label}: ${val ? val.toLocaleString('ko-KR') : '-'} 원`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: tickColor, font: { family: 'D2Coding', size: 10 }, maxTicksLimit: (window.innerWidth < 480 ? 5 : 8) }
+            },
+            y: {
+              grid: { color: gridColor },
+              ticks: {
+                color: tickColor,
+                font: { family: 'D2Coding', size: 10 },
+                callback: (v) => {
+                  if (v >= 1000000) return (v / 1000000).toFixed(1) + 'M';
+                  if (v >= 1000) return (v / 1000).toFixed(0) + 'K';
+                  return v;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateChartTheme() {
+      if (currentChartInstance) renderCurrentChart();
+      const assetHistory = (globalStrategyData && Array.isArray(globalStrategyData.asset_history) && globalStrategyData.asset_history.length > 0)
+        ? globalStrategyData.asset_history
+        : defaultAssetHistory;
+      renderAssetChart(assetHistory);
+    }
+
+    // ==========================================================================
+    // 6. 실행 및 이벤트 핸들러 (Fast Initial Paint + Background Compute)
+    // ==========================================================================
+    async function initializeApp() {
+      // 보안 잠금 자동 기억 확인
+      try {
+        if (localStorage.getItem('quant_auth_unlocked_v1') === 'true') {
+          isPortfolioUnlocked = true;
+          const container = document.getElementById('trade-history-container');
+          const lockPanel = document.getElementById('security-lock-panel');
+          const privacyBtn = document.getElementById('btn-privacy-toggle');
+          const relockBtn = document.getElementById('btn-relock');
+          if (container) container.classList.remove('portfolio-locked');
+          if (lockPanel) lockPanel.style.display = 'none';
+          if (privacyBtn) privacyBtn.style.display = 'inline-flex';
+          if (relockBtn) relockBtn.style.display = 'inline-flex';
+        }
+      } catch (e) {}
+
+      let statusData = null;
+      try {
+        const res = await fetch('./data/status.json?v=' + Date.now());
+        if (res.ok) {
+          statusData = await res.json();
+          globalStrategyData = statusData;
+          renderStrategyView(statusData);
+        }
+      } catch (e) {
+        console.warn('Initial status.json fetch failed:', e);
+      }
+
+      // 로컬 스토리지에 캐시된 차트 데이터가 있으면 먼저 표출
+      try {
+        const cacheKey = get9AmCycleKey();
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && parsed.chart) {
+            if (statusData) {
+              parsed.binance = statusData.binance;
+              parsed.trade_history = statusData.trade_history;
+              parsed.asset_history = statusData.asset_history;
+              parsed.portfolio = statusData.portfolio;
+              parsed.guides = statusData.guides;
+            }
+            globalStrategyData = parsed;
+            renderStrategyView(parsed);
+          }
+        }
+      } catch (e) {
+        console.warn('Initial chart cache fallback failed:', e);
+      }
+
+      // 2. 백그라운드 09:00 일봉 계산 및 차트 렌더링
+      const data = await loadOrComputeStrategyData();
+      if (data) {
+        if (statusData) {
+          data.binance = statusData.binance;
+          data.trade_history = statusData.trade_history;
+          data.asset_history = statusData.asset_history;
+          data.portfolio = statusData.portfolio;
+          data.guides = statusData.guides;
+        }
+        globalStrategyData = data;
+        renderStrategyView(data);
+      } else if (globalStrategyData) {
+        renderStrategyView(globalStrategyData);
+      }
+
+      // 3. 장중 현재가 실시간 동기화
+      await syncLivePrices();
+    }
+
+    const btnRefresh = document.getElementById('btn-refresh');
+    btnRefresh.addEventListener('click', async () => {
+      btnRefresh.disabled = true;
+      btnRefresh.innerHTML = '<span class="spinner"></span>';
+      await syncLivePrices();
+      setTimeout(() => {
+        btnRefresh.disabled = false;
+        btnRefresh.innerHTML = `
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+            <path d="M21 3v5h-5"/>
+            <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+            <path d="M8 16H3v5"/>
+          </svg>
+          <span class="btn-text">실시간 시세</span>
+        `;
+      }, 400);
+    });
+
+    if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => reg.update())
+          .catch(err => console.error('ServiceWorker error:', err));
+      });
+    }
+
+    let deferredPrompt;
+    const btnInstall = document.getElementById('btn-install');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      btnInstall.classList.remove('hidden');
+    });
+
+    btnInstall.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        btnInstall.classList.add('hidden');
+      }
+      deferredPrompt = null;
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') syncLivePrices();
+    });
+    window.addEventListener('pageshow', () => syncLivePrices());
+    window.addEventListener('focus', () => syncLivePrices());
+
+    initializeApp();
+  </script>
+</body>
+</html>
