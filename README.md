@@ -5,6 +5,7 @@
 ![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?logo=fastapi&logoColor=white)
 ![Supported Exchanges](https://img.shields.io/badge/Exchanges-Upbit%20%7C%20Bithumb%20%7C%20Binance-orange)
+![Docker](https://img.shields.io/badge/Docker-Supported-2496ED?logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey)
 
@@ -64,6 +65,12 @@ cd crypto-quant-wizard
 chmod +x start.sh
 ./start.sh
 ```
+
+#### 🐳 Docker 사용자
+`ash
+docker compose up -d
+`
+> 백그라운드로 24시간 실행되며, 브라우저에서 http://localhost:8080 (또는 서버IP:8080)으로 접속합니다.
 
 ### 3. 웹 화면에서 설정 마치기
 1. 브라우저가 열리면 **[⚙️ 설정 마법사]** 탭이 나타납니다.
