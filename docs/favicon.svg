@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+  <defs>
+    <linearGradient id="brand-logo-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0d9488"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <rect width="36" height="36" rx="9" fill="url(#brand-logo-grad)"/>
+  <!-- Quant Trend Line -->
+  <path d="M8 24L14 17L19 21L28 11" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="28" cy="11" r="2.5" fill="#ffffff"/>
+  <!-- Wizard Spark -->
+  <path d="M13 7L14.2 10.2L17.5 11.5L14.2 12.8L13 16L11.8 12.8L8.5 11.5L11.8 10.2Z" fill="#fbbf24"/>
+</svg>

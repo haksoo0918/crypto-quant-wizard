@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="dark">
+<html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>🧙 Crypto Quant Wizard</title>
+  <title>Crypto Quant Wizard - 오픈소스 암호화폐 퀀트 매니저</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- Pretendard Web Font CDN (Variable & Static) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -11,6 +12,9 @@
 
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Lucide Vector Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
@@ -925,34 +929,61 @@
       line-height: 1.5;
     }
 
-    /* Sticky Quick Jump Bar */
+    /* Lucide Icons Standard Styling */
+    i[data-lucide] {
+      width: 1.15rem;
+      height: 1.15rem;
+      stroke-width: 2;
+      display: inline-block;
+      vertical-align: -0.18em;
+      flex-shrink: 0;
+    }
+    .lucide-sm {
+      width: 0.95rem;
+      height: 0.95rem;
+      vertical-align: -0.15em;
+    }
+    .lucide-lg {
+      width: 1.35rem;
+      height: 1.35rem;
+      vertical-align: -0.22em;
+    }
+
+    /* Brand SVG Logo */
+    .brand-svg-logo {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+    }
+
+    /* Guide Navigation Grid */
     .guide-quick-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0.6rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem;
       box-shadow: var(--card-shadow);
-      position: sticky;
-      top: 4.25rem;
-      z-index: 30;
+      margin-bottom: 0.5rem;
     }
     .guide-pill {
       background: var(--bg-card-sub);
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
-      padding: 0.4rem 0.8rem;
+      padding: 0.55rem 0.75rem;
       border-radius: 6px;
       font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       text-decoration: none;
       transition: all 0.15s ease;
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: center;
+      gap: 0.45rem;
+      text-align: center;
     }
     .guide-pill:hover, .guide-pill:focus-visible {
       background: var(--accent-primary);
@@ -967,7 +998,7 @@
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: var(--card-shadow);
-      scroll-margin-top: 8rem;
+      scroll-margin-top: 5rem;
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .guide-card.highlight-target {
@@ -1062,12 +1093,14 @@
       border: 1px solid var(--border-color);
     }
 
-    /* Strategy & Backtest Table */
+    /* Strategy & Backtest Table with Sticky First Column */
     .guide-table-wrapper {
       overflow-x: auto;
       border: 1px solid var(--border-color);
       border-radius: 8px;
       margin: 1rem 0;
+      background: var(--bg-card);
+      position: relative;
     }
     .guide-table {
       width: 100%;
@@ -1075,18 +1108,29 @@
       font-size: 0.88rem;
       text-align: left;
     }
-    .guide-table th {
-      background: var(--bg-card-sub);
-      color: var(--text-primary);
-      font-weight: 700;
+    .guide-table th, .guide-table td {
       padding: 0.75rem 1rem;
       border-bottom: 1px solid var(--border-color);
       white-space: nowrap;
     }
-    .guide-table td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-secondary);
+    .guide-table th:first-child,
+    .guide-table td:first-child {
+      position: sticky;
+      left: 0;
+      background: var(--bg-card);
+      z-index: 2;
+      border-right: 2px solid var(--border-color);
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .guide-table th:first-child {
+      background: var(--bg-card-sub);
+      z-index: 3;
+    }
+    .guide-table td:last-child {
+      white-space: normal;
+      min-width: 260px;
+      max-width: 380px;
       line-height: 1.5;
     }
     .guide-table tr:last-child td {
@@ -1160,6 +1204,221 @@
       line-height: 1.65;
     }
 
+    /* Utility & Layout Classes (replaces inline styles) */
+    .card-mb {
+      margin-bottom: 1.25rem;
+    }
+    .card-mb-lg {
+      margin-bottom: 1.5rem;
+    }
+    .wizard-container {
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .wizard-header {
+      margin-bottom: 1.5rem;
+    }
+    .wizard-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .wizard-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    .exchange-config-block {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .exchange-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .exchange-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .exchange-brand-label {
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .form-row-sm {
+      margin-bottom: 0.5rem;
+    }
+    .form-col {
+      flex: 1;
+    }
+    .section-subtext {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .strategy-form-group {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+    .strategy-form-group-last {
+      margin-bottom: 0;
+    }
+    .callout-subtle {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      background: var(--bg-card-sub);
+      padding: 0.95rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    .card-title-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .schedule-toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.88rem;
+      cursor: pointer;
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+    .schedule-checkbox {
+      width: 1.15rem;
+      height: 1.15rem;
+      cursor: pointer;
+    }
+    .schedule-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .wizard-submit-wrap {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    .btn-submit-wizard {
+      width: 100%;
+      max-width: 320px;
+      font-size: 1.05rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .logs-control-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .logs-refresh-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .empty-cell {
+      text-align: center;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+    .trade-side-buy {
+      color: var(--accent-success);
+      font-weight: 700;
+    }
+    .trade-side-sell {
+      color: var(--accent-danger);
+      font-weight: 700;
+    }
+    .modal-guide-list {
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+    .modal-guide-list strong {
+      color: var(--text-primary);
+    }
+    .modal-guide-list code {
+      background: var(--bg-card-sub);
+      color: var(--accent-primary);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.84rem;
+      border: 1px solid var(--border-color);
+    }
+    .modal-callout {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 0.85rem;
+      background: var(--bg-card-sub);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+    .modal-callout strong {
+      color: var(--text-primary);
+    }
+    .modal-code {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      font-size: 0.84rem;
+      color: var(--code-text);
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .modal-code.alt-color {
+      color: var(--code-text-alt);
+    }
+    .modal-guide-footer {
+      margin-top: 1rem;
+      text-align: right;
+    }
+    .modal-alert {
+      margin-top: 1.25rem;
+    }
+    .log-timestamp {
+      color: var(--text-secondary);
+    }
+    .modal-confirm-btn {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.9rem;
+    }
+    .modal-body-inner {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+    .callout-mt {
+      margin-top: 1rem;
+    }
+    .strategy-disabled-text {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
   </style>
 </head>
 <body>
@@ -1167,7 +1426,18 @@
   <!-- Top Header Navigation -->
   <header>
     <div class="brand-wrap">
-      <span class="brand-logo">🧙</span>
+      <svg class="brand-svg-logo" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Crypto Quant Wizard 로고">
+        <rect width="36" height="36" rx="9" fill="url(#brand-logo-grad)"/>
+        <defs>
+          <linearGradient id="brand-logo-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0d9488"/>
+            <stop offset="1" stop-color="#059669"/>
+          </linearGradient>
+        </defs>
+        <path d="M8 24L14 17L19 21L28 11" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="28" cy="11" r="2.5" fill="#ffffff"/>
+        <path d="M13 7L14.2 10.2L17.5 11.5L14.2 12.8L13 16L11.8 12.8L8.5 11.5L11.8 10.2Z" fill="#fbbf24"/>
+      </svg>
       <div>
         <div class="brand-title">Crypto Quant Wizard</div>
         <div class="brand-sub">오픈소스 3대 거래소 암호화폐 퀀트 매니저</div>
@@ -1176,22 +1446,36 @@
 
     <!-- Navigation Tabs -->
     <nav class="nav-tabs" role="tablist" aria-label="메인 네비게이션">
-      <button class="tab-btn active" id="tab-btn-dashboard" role="tab" aria-selected="true" aria-controls="tab-dashboard" onclick="switchTab('dashboard')">📊 대시보드</button>
-      <button class="tab-btn" id="tab-btn-wizard" role="tab" aria-selected="false" aria-controls="tab-wizard" onclick="switchTab('wizard')">⚙️ 설정 마법사</button>
-      <button class="tab-btn" id="tab-btn-logs" role="tab" aria-selected="false" aria-controls="tab-logs" onclick="switchTab('logs')">📜 실행 로그</button>
-      <button class="tab-btn" id="tab-btn-guide" role="tab" aria-selected="false" aria-controls="tab-guide" onclick="switchTab('guide')">📖 도움말</button>
+      <button class="tab-btn active" id="tab-btn-dashboard" role="tab" aria-selected="true" aria-controls="tab-dashboard" onclick="switchTab('dashboard')">
+        <i data-lucide="layout-dashboard"></i>
+        <span>대시보드</span>
+      </button>
+      <button class="tab-btn" id="tab-btn-wizard" role="tab" aria-selected="false" aria-controls="tab-wizard" onclick="switchTab('wizard')">
+        <i data-lucide="sliders"></i>
+        <span>설정 마법사</span>
+      </button>
+      <button class="tab-btn" id="tab-btn-logs" role="tab" aria-selected="false" aria-controls="tab-logs" onclick="switchTab('logs')">
+        <i data-lucide="terminal"></i>
+        <span>실행 로그</span>
+      </button>
+      <button class="tab-btn" id="tab-btn-guide" role="tab" aria-selected="false" aria-controls="tab-guide" onclick="switchTab('guide')">
+        <i data-lucide="book-open"></i>
+        <span>도움말</span>
+      </button>
     </nav>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <button class="btn-cloud-guide" onclick="navigateToGuide('cloud')" data-tooltip="집 PC를 끄고도 24시간 365일 무중단으로 돌리는 오라클 클라우드 평생 무료 배포 가이드" data-tooltip-pos="bottom-left">
-        <span>☁️ 24시간 클라우드 가이드</span>
-      </button>
       <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다." data-tooltip-pos="bottom-left">
-        <span>⚡ 지금 1회 수동 실행</span>
+        <i data-lucide="zap"></i>
+        <span>지금 1회 수동 실행</span>
       </button>
-      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="자산 가치 마스킹 / 표시 전환" data-tooltip-pos="bottom-left">👁️</button>
-      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="다크 모드 / 라이트 모드 전환" data-tooltip-pos="bottom-left">🌓</button>
+      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="자산 가치 마스킹 / 표시 전환" data-tooltip-pos="bottom-left" aria-label="자산 가치 마스킹 전환">
+        <i data-lucide="eye" id="privacy-icon"></i>
+      </button>
+      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="다크 모드 / 라이트 모드 전환" data-tooltip-pos="bottom-left" aria-label="테마 전환">
+        <i data-lucide="sun-moon" id="theme-icon"></i>
+      </button>
     </div>
   </header>
 
@@ -1204,8 +1488,14 @@
       <!-- Status Banner -->
       <div class="status-banner">
         <div class="status-left">
-          <span id="badge-mode" class="badge badge-dry">🟢 모의매매 (Dry-Run)</span>
-          <button id="btn-toggle-schedule" class="badge badge-schedule" onclick="toggleSchedule()" data-tooltip="클릭하여 매일 09:05 정기 자동 스케줄을 활성화하거나 일시정지(삭제)합니다." data-tooltip-pos="bottom">⏰ 매일 09:05 KST 자동실행</button>
+          <span id="badge-mode" class="badge badge-dry">
+            <i data-lucide="play-circle" class="lucide-sm"></i>
+            <span>모의매매 (Dry-Run)</span>
+          </span>
+          <button id="btn-toggle-schedule" class="badge badge-schedule" onclick="toggleSchedule()" data-tooltip="클릭하여 매일 09:05 정기 자동 스케줄을 활성화하거나 일시정지(삭제)합니다." data-tooltip-pos="bottom">
+            <i data-lucide="clock" class="lucide-sm"></i>
+            <span>매일 09:05 KST 자동실행</span>
+          </button>
           <span class="status-meta" id="next-run-text">다음 실행: 계산 중...</span>
         </div>
         <div class="status-meta" id="last-update-text">
@@ -1215,8 +1505,14 @@
 
       <!-- Oracle Cloud 24h Notice Banner -->
       <div class="notice-banner">
-        <span class="notice-banner-text">☁️ <strong>24시간 무인 구동 팁</strong>: PC를 켜두지 않고도 오라클 클라우드 평생 무료 VM에서 365일 자동 운용할 수 있습니다.</span>
-        <button type="button" class="btn-link" onclick="navigateToGuide('cloud')">클라우드 배포 가이드 열기 ➔</button>
+        <span class="notice-banner-text">
+          <i data-lucide="cloud" class="lucide-sm"></i>
+          <strong>24시간 무인 구동 팁</strong>: PC를 켜두지 않고도 오라클 클라우드 평생 무료 VM에서 365일 자동 운용할 수 있습니다.
+        </span>
+        <button type="button" class="btn-link" onclick="navigateToGuide('cloud')">
+          <span>클라우드 배포 가이드 열기</span>
+          <i data-lucide="arrow-right" class="lucide-sm"></i>
+        </button>
       </div>
 
       <!-- Action Direction Guide Banner -->
@@ -1266,7 +1562,7 @@
         </div>
       </div>
 
-      <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card card-mb-lg">
         <div class="card-title">
           <span>해외 글로벌: 바이낸스 (Binance) 60일 지표</span>
           <span class="card-subtitle">BTCUSDT & ETHUSDT 동적 채널</span>
@@ -1277,7 +1573,7 @@
       </div>
 
       <!-- Asset Growth History -->
-      <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card card-mb-lg">
         <div class="card-title">
           <span>일자별 총 자산 성장 곡선</span>
           <span class="card-subtitle">최근 60일 추이</span>
@@ -1319,17 +1615,20 @@
 
     <!-- TAB 2: WIZARD / SETTINGS -->
     <section id="tab-wizard" class="tab-content" role="tabpanel" aria-labelledby="tab-btn-wizard">
-      <div style="max-width: 840px; margin: 0 auto;">
+      <div class="wizard-container">
 
-        <div style="margin-bottom: 1.5rem;">
-          <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem;">🧙 퀀트 봇 설정 마법사</h2>
-          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+        <div class="wizard-header">
+          <h2 class="wizard-title">
+            <i data-lucide="sparkles"></i>
+            <span>퀀트 봇 설정 마법사</span>
+          </h2>
+          <p class="wizard-desc">
             누구나 쉽게 시작하는 3대 거래소 암호화폐 퀀트 플랫폼입니다. 아래 4단계를 따라 설정을 완료해 보세요.
           </p>
 
           <div class="callout-box">
-            <strong>💡 [처음 시작하시는 분들을 위한 친절 가이드]</strong><br>
-            • <strong>모의투자 우선 권장</strong>: 처음이시라면 <strong>[1. 운용 모드]</strong>에서 <code>🟢 모의투자 (Dry-Run)</code>를 선택하세요. 실제 돈이 나가지 않고 가상 잔고로 전략의 정확한 동작을 먼저 확인할 수 있어 안전합니다.<br>
+            <strong><i data-lucide="lightbulb" class="lucide-sm"></i> [처음 시작하시는 분들을 위한 친절 가이드]</strong><br>
+            • <strong>모의투자 우선 권장</strong>: 처음이시라면 <strong>[1. 운용 모드]</strong>에서 <code>모의투자 (Dry-Run)</code>를 선택하세요. 실제 돈이 나가지 않고 가상 잔고로 전략의 정확한 동작을 먼저 확인할 수 있어 안전합니다.<br>
             • <strong>선택적 거래소 등록</strong>: 3개 거래소를 모두 등록할 필요가 없습니다. <strong>현재 사용하시는 거래소 1곳만</strong> 키를 입력하셔도 정상 가동됩니다.<br>
             • <strong>철저한 개인정보 보호</strong>: 입력하신 API Key는 여러분의 PC(로컬 파일)에만 안전하게 보관되며, 그 어떤 외부 서버로도 전송되지 않습니다.
           </div>
@@ -1338,19 +1637,19 @@
         <form id="wizard-form" onsubmit="handleSaveConfig(event)">
 
           <!-- 1. 운용 모드 선택 -->
-          <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card card-mb">
             <div class="card-title">1. 운용 모드 선택</div>
             <div class="mode-selector">
               <div class="mode-card selected" id="mode-dry" onclick="selectMode('dry_run')">
-                <div class="mode-title">🟢 모의투자 (Dry-Run)</div>
+                <div class="mode-title"><i data-lucide="play-circle" class="lucide-sm"></i> <span>모의투자 (Dry-Run)</span></div>
                 <div class="mode-desc">실제 자금 집행 없이 가상 잔고로 주문 체결 및 전략 검증 (권장)</div>
               </div>
               <div class="mode-card" id="mode-live" onclick="selectMode('live')">
-                <div class="mode-title">⚡ 실거래 (Live Trading)</div>
+                <div class="mode-title"><i data-lucide="zap" class="lucide-sm"></i> <span>실거래 (Live Trading)</span></div>
                 <div class="mode-desc">실제 거래소 잔고를 바탕으로 매일 아침 시장가 자동 주문 집행</div>
               </div>
               <div class="mode-card" id="mode-signal" onclick="selectMode('signal')">
-                <div class="mode-title">📢 시그널 브리핑 (Signal Only)</div>
+                <div class="mode-title"><i data-lucide="bell" class="lucide-sm"></i> <span>시그널 브리핑 (Signal Only)</span></div>
                 <div class="mode-desc">API Key 없이 공개 시세 지표 분석 결과만 디스코드로 수신</div>
               </div>
             </div>
@@ -1358,24 +1657,24 @@
           </div>
 
           <!-- 2. 거래소 및 API Key 설정 -->
-          <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card card-mb">
             <div class="card-title">2. 거래소 API Key 등록 및 연결 검증</div>
 
             <!-- Upbit -->
-            <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.25rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <span style="font-weight: 700;">🔹 업비트 (Upbit)</span>
-                  <span class="help-link" onclick="openKeyModal('upbit')">🔑 API Key 발급 방법</span>
+            <div class="exchange-config-block">
+              <div class="exchange-header-row">
+                <div class="exchange-title-group">
+                  <span class="exchange-brand-label"><i data-lucide="wallet" class="lucide-sm"></i> 업비트 (Upbit)</span>
+                  <span class="help-link" onclick="openKeyModal('upbit')"><i data-lucide="key" class="lucide-sm"></i> API Key 발급 방법</span>
                 </div>
                 <button type="button" class="btn-test" id="btn-test-upbit" onclick="testExchange('upbit')">연결 테스트</button>
               </div>
-              <div class="form-row" style="margin-bottom: 0.5rem;">
-                <div style="flex: 1;">
+              <div class="form-row form-row-sm">
+                <div class="form-col">
                   <label class="form-label">Access Key</label>
                   <input type="text" class="form-control" id="upbit-access-key" placeholder="업비트 Access Key">
                 </div>
-                <div style="flex: 1;">
+                <div class="form-col">
                   <label class="form-label">Secret Key</label>
                   <input type="password" class="form-control" id="upbit-secret-key" placeholder="업비트 Secret Key">
                 </div>
@@ -1384,20 +1683,20 @@
             </div>
 
             <!-- Bithumb -->
-            <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 1.25rem; margin-bottom: 1.25rem;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <span style="font-weight: 700;">🔹 빗썸 (Bithumb)</span>
-                  <span class="help-link" onclick="openKeyModal('bithumb')">🔑 API Key 발급 방법</span>
+            <div class="exchange-config-block">
+              <div class="exchange-header-row">
+                <div class="exchange-title-group">
+                  <span class="exchange-brand-label"><i data-lucide="wallet" class="lucide-sm"></i> 빗썸 (Bithumb)</span>
+                  <span class="help-link" onclick="openKeyModal('bithumb')"><i data-lucide="key" class="lucide-sm"></i> API Key 발급 방법</span>
                 </div>
                 <button type="button" class="btn-test" id="btn-test-bithumb" onclick="testExchange('bithumb')">연결 테스트</button>
               </div>
-              <div class="form-row" style="margin-bottom: 0.5rem;">
-                <div style="flex: 1;">
+              <div class="form-row form-row-sm">
+                <div class="form-col">
                   <label class="form-label">Access Key</label>
                   <input type="text" class="form-control" id="bithumb-access-key" placeholder="빗썸 Access Key">
                 </div>
-                <div style="flex: 1;">
+                <div class="form-col">
                   <label class="form-label">Secret Key</label>
                   <input type="password" class="form-control" id="bithumb-secret-key" placeholder="빗썸 Secret Key">
                 </div>
@@ -1407,19 +1706,19 @@
 
             <!-- Binance -->
             <div>
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem;">
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                  <span style="font-weight: 700;">🔹 바이낸스 (Binance)</span>
-                  <span class="help-link" onclick="openKeyModal('binance')">🔑 API Key 발급 방법</span>
+              <div class="exchange-header-row">
+                <div class="exchange-title-group">
+                  <span class="exchange-brand-label"><i data-lucide="wallet" class="lucide-sm"></i> 바이낸스 (Binance)</span>
+                  <span class="help-link" onclick="openKeyModal('binance')"><i data-lucide="key" class="lucide-sm"></i> API Key 발급 방법</span>
                 </div>
                 <button type="button" class="btn-test" id="btn-test-binance" onclick="testExchange('binance')">연결 테스트</button>
               </div>
-              <div class="form-row" style="margin-bottom: 0.5rem;">
-                <div style="flex: 1;">
+              <div class="form-row form-row-sm">
+                <div class="form-col">
                   <label class="form-label">API Key</label>
                   <input type="text" class="form-control" id="binance-access-key" placeholder="바이낸스 API Key">
                 </div>
-                <div style="flex: 1;">
+                <div class="form-col">
                   <label class="form-label">Secret Key</label>
                   <input type="password" class="form-control" id="binance-secret-key" placeholder="바이낸스 Secret Key">
                 </div>
@@ -1430,24 +1729,24 @@
           </div>
 
           <!-- 3. 거래소별 전략 분리 매핑 및 상세 설명 -->
-          <div class="card" style="margin-bottom: 1.25rem;">
+          <div class="card card-mb">
             <div class="card-title">
               <span>3. 거래소별 퀀트 전략 매핑 및 특징</span>
             </div>
-            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;">
+            <p class="section-subtext">
               각 거래소의 시장 특성(원화 마켓 vs 글로벌 테더 마켓, 단독 코인 집중 vs 분할 리밸런싱)에 맞추어 설계된 검증된 모델들입니다.
             </p>
 
             <!-- Upbit Strategy -->
-            <div class="form-group" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;">
-              <label class="form-label">🇰🇷 업비트(Upbit) 적용 전략</label>
+            <div class="form-group strategy-form-group">
+              <label class="form-label"><i data-lucide="arrow-right-circle" class="lucide-sm"></i> 업비트(Upbit) 적용 전략</label>
               <select class="form-control" id="upbit-strategy" onchange="updateStrategyDesc('upbit')">
                 <option value="dual_momentum_5050">BTC / ETH 50:50 동적 리밸런싱 (220일 SMA & ATR 채널) [기본 권장]</option>
                 <option value="eth_trend">이더리움 단독 추세 추종</option>
                 <option value="none">전략 미사용 (업비트 비활성화)</option>
               </select>
               <div class="strategy-card" id="desc-upbit">
-                <strong>📈 [BTC/ETH 50:50 동적 리밸런싱 전략의 특징]</strong><br>
+                <strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징]</strong><br>
                 • <strong>분할 리스크 관리</strong>: 총 평가액을 비트코인 50%, 이더리움 50%로 나누어 배분합니다.<br>
                 • <strong>이중 추세 필터</strong>: BTC는 220일 이동평균선(±2% 버퍼), ETH는 50일 이동평균선(1.5 ATR 채널)을 돌파하는 강력한 상승장일 때만 진입합니다.<br>
                 • <strong>수익 보존 리밸런싱</strong>: 한쪽 코인이 급등하여 자산 비중이 60%를 초과하면 초과분을 즉시 시장가 매도하여 원화(KRW) 50%를 확보, 수익을 확정합니다.
@@ -1455,15 +1754,15 @@
             </div>
 
             <!-- Bithumb Strategy -->
-            <div class="form-group" style="border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1rem;">
-              <label class="form-label">🔥 빗썸(Bithumb) 적용 전략</label>
+            <div class="form-group strategy-form-group">
+              <label class="form-label"><i data-lucide="arrow-right-circle" class="lucide-sm"></i> 빗썸(Bithumb) 적용 전략</label>
               <select class="form-control" id="bithumb-strategy" onchange="updateStrategyDesc('bithumb')">
                 <option value="eth_supertrend">이더리움 SuperTrend(7, 3.5) + 50일 SMA 100% 추세 추종 [기본 권장]</option>
                 <option value="dual_momentum_5050">BTC / ETH 50:50 동적 리밸런싱</option>
                 <option value="none">전략 미사용 (빗썸 비활성화)</option>
               </select>
               <div class="strategy-card" id="desc-bithumb">
-                <strong>🚀 [이더리움 SuperTrend 추세추종 전략의 특징]</strong><br>
+                <strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징]</strong><br>
                 • <strong>100% 집중 공격형</strong>: 높은 변동성을 가진 이더리움(ETH) 1종목에 자산 100%를 집중 운용합니다.<br>
                 • <strong>복합 지표 필터</strong>: 50일 SMA 대추세선 위에 있고 SuperTrend(7, 3.5)가 상승 밴드(Green)일 때 100% 풀매수 보유합니다.<br>
                 • <strong>철저한 하락장 회피</strong>: 하락 시그널 발생 즉시 100% 원화로 전량 현금화하여 최대 낙폭(MDD -25% 수준)을 완벽히 방어합니다.
@@ -1471,14 +1770,14 @@
             </div>
 
             <!-- Binance Strategy -->
-            <div class="form-group" style="margin-bottom: 0;">
-              <label class="form-label">🌐 바이낸스(Binance) 적용 전략</label>
+            <div class="form-group strategy-form-group-last">
+              <label class="form-label"><i data-lucide="arrow-right-circle" class="lucide-sm"></i> 바이낸스(Binance) 적용 전략</label>
               <select class="form-control" id="binance-strategy" onchange="updateStrategyDesc('binance')">
                 <option value="dual_momentum_5050">BTCUSDT / ETHUSDT 50:50 테더 글로벌 리밸런싱 [기본 권장]</option>
                 <option value="none">전략 미사용 (바이낸스 비활성화)</option>
               </select>
               <div class="strategy-card" id="desc-binance">
-                <strong>💵 [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징]</strong><br>
+                <strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징]</strong><br>
                 • <strong>김치프리미엄 배제</strong>: 순수 글로벌 달러 테더(USDT) 마켓에서 달러 자산을 안정적으로 증식합니다.<br>
                 • <strong>글로벌 최적 파라미터</strong>: 5.2년 실데이터 검증 최적치(BTC 200일 SMA, ETH 40일 SMA 1.2 ATR) 채널을 적용합니다.<br>
                 • <strong>환율 리스크 분산</strong>: 관망 시 안전한 달러(USDT)를 보유하여 원화 약세/환율 급등 리스크를 자연스럽게 헤지합니다.
@@ -1487,15 +1786,15 @@
           </div>
 
           <!-- 4. 알림 채널 연동 및 상세 설명 -->
-          <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="card card-mb-lg">
             <div class="card-title">
-              <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <div class="exchange-title-group">
                 <span>4. 디스코드(Discord) 모바일 알림 설정 (선택 사항)</span>
-                <span class="help-link" onclick="openKeyModal('discord')">🔔 웹훅 URL 발급 방법</span>
+                <span class="help-link" onclick="openKeyModal('discord')"><i data-lucide="bell" class="lucide-sm"></i> 웹훅 URL 발급 방법</span>
               </div>
             </div>
 
-            <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; background: var(--bg-card-sub); padding: 0.95rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div class="callout-subtle">
               • <strong>어떤 기능인가요?</strong>: 매일 아침 09:05 KST 정기 매매가 완료되면, <strong>당일 주문 체결 내역과 3대 거래소별 자산 잔고, 종합 수익률 리포트</strong>를 본인의 스마트폰 디스코드 앱으로 자동 푸시 전송해 줍니다.<br>
               • <strong>왜 쓰나요?</strong>: 매번 컴퓨터나 오라클 클라우드에 로그인하지 않아도, 아침 출근길이나 외출 중에 스마트폰 알림으로 매매 결과를 즉시 확인할 수 있습니다.<br>
               • <strong>선택 사항</strong>: 디스코드 알림을 받지 않으려면 빈칸으로 비워두셔도 자동 매매와 웹 대시보드는 100% 정상 작동합니다.
@@ -1513,39 +1812,41 @@
           </div>
 
           <!-- 5. 자동 매매 정기 스케줄 설정 -->
-          <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="card card-mb-lg">
             <div class="card-title">
-              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div class="card-title-flex">
                 <span>5. 정기 자동 매매 스케줄링 설정</span>
-                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; cursor: pointer; color: var(--accent-primary); font-weight: 600;">
-                  <input type="checkbox" id="schedule-enabled-check" checked style="width: 1.15rem; height: 1.15rem; cursor: pointer;">
+                <label class="schedule-toggle-label">
+                  <input type="checkbox" id="schedule-enabled-check" checked class="schedule-checkbox">
                   스케줄 자동 실행 활성화
                 </label>
               </div>
             </div>
-            <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
+            <div class="schedule-desc">
               • <strong>활성화(체크)</strong>: 매일 아침 09:05 KST(일봉 마감 직후)에 봇이 자동으로 시장 데이터를 분석하고 매매 사이클을 실행합니다.<br>
-              • <strong>비활성화(체크 해제/삭제)</strong>: 정기 스케줄이 중지되며, 상단 <strong>[⚡ 지금 1회 수동 실행]</strong> 버튼을 누를 때만 매매가 실행됩니다.
+              • <strong>비활성화(체크 해제/삭제)</strong>: 정기 스케줄이 중지되며, 상단 <strong>[지금 1회 수동 실행]</strong> 버튼을 누를 때만 매매가 실행됩니다.
             </div>
           </div>
 
           <!-- Submit Button -->
-          <div style="text-align: center; margin-top: 1.5rem;">
-            <button type="submit" id="btn-save-wizard" class="btn-primary" style="width: 100%; max-width: 320px; font-size: 1.05rem;">
-              💾 설정 저장하기
+          <div class="wizard-submit-wrap">
+            <button type="submit" id="btn-save-wizard" class="btn-primary btn-submit-wizard">
+              <i data-lucide="save"></i>
+              <span>설정 저장하기</span>
             </button>
           </div>
 
           <!-- Operating Guidance Card -->
           <div class="operating-guide-box">
             <div class="operating-guide-title">
-              <span>⏰ 봇 상시 운용 및 종료 안내</span>
+              <i data-lucide="clock" class="lucide-sm"></i>
+              <span>봇 상시 운용 및 종료 안내</span>
             </div>
             <div>
               • <strong>자동 스케줄 대기</strong>: [설정 저장]을 완료하시면 내장 스케줄러가 활성화되어 터미널 창을 켜두시는 동안 <strong>매일 아침 09:05 KST에 자동으로 분석 및 매매</strong>를 실행합니다. 매일 start.bat을 다시 실행하실 필요가 없습니다.<br>
               • <strong>컴퓨터를 껐다 켰을 때</strong>: PC를 재부팅했거나 터미널을 닫았다면, 다음 날 09:05 전에 <code>start.bat</code>을 한 번만 다시 실행해 두시면 됩니다.<br>
               • <strong>터미널 종료 방법</strong>: 실행 중인 검은색 터미널 창에서 <strong>Ctrl + C</strong> 를 누르고 <code>y</code>를 입력하시거나, 창 우측 상단의 <strong>X</strong> 버튼을 클릭하시면 안전하게 종료됩니다.<br>
-              • <strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다. <button type="button" class="btn-link" onclick="navigateToGuide('cloud')">[📖 1분 클라우드 가이드 열기]</button>
+              • <strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다. <button type="button" class="btn-link" onclick="navigateToGuide('cloud')"><span>[1분 클라우드 가이드 열기]</span> <i data-lucide="arrow-right" class="lucide-sm"></i></button>
             </div>
           </div>
 
@@ -1560,8 +1861,8 @@
       <div class="card">
         <div class="card-title">
           <span>실시간 콘솔 실행 로그</span>
-          <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <label style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; cursor: pointer;">
+          <div class="logs-control-group">
+            <label class="logs-refresh-label">
               <input type="checkbox" id="auto-refresh-logs" checked> 3초마다 자동 갱신
             </label>
             <button class="btn-test" onclick="fetchLogs()">지금 새로고침</button>
@@ -1579,48 +1880,72 @@
 
         <!-- Guide Header -->
         <div class="guide-header-block">
-          <h1 class="guide-main-title">📖 올인원 퀀트 가이드 & 도움말</h1>
+          <h1 class="guide-main-title"><i data-lucide="book-open"></i> 올인원 퀀트 가이드 & 도움말</h1>
           <p class="guide-main-desc">Crypto Quant Wizard의 시스템 아키텍처, 3대 퀀트 전략 및 5.2년 백테스트 검증 결과, 거래소 API Key 발급부터 24시간 오라클 클라우드 무인 배포까지 완벽하게 안내합니다.</p>
         </div>
 
-        <!-- Sticky Quick Navigation Bar -->
+        <!-- Quick Navigation Grid -->
         <nav class="guide-quick-nav" aria-label="도움말 목차 바로가기">
-          <button type="button" class="guide-pill" onclick="navigateToGuide('quickstart')">🚀 3분 퀵스타트</button>
-          <button type="button" class="guide-pill" onclick="navigateToGuide('strategies')">📈 퀀트 전략 & 백테스트</button>
-          <button type="button" class="guide-pill" onclick="navigateToGuide('keys')">🔑 API Key & 웹훅 발급</button>
-          <button type="button" class="guide-pill" onclick="navigateToGuide('cloud')">☁️ 24시간 클라우드 배포</button>
-          <button type="button" class="guide-pill" onclick="navigateToGuide('scheduler')">⏰ 상시 운용 & 스케줄 관리</button>
-          <button type="button" class="guide-pill" onclick="navigateToGuide('faq')">❓ 자주 묻는 질문 (FAQ)</button>
+          <button type="button" class="guide-pill" onclick="navigateToGuide('quickstart')">
+            <i data-lucide="rocket"></i>
+            <span>3분 퀵스타트</span>
+          </button>
+          <button type="button" class="guide-pill" onclick="navigateToGuide('strategies')">
+            <i data-lucide="trending-up"></i>
+            <span>전략 & 백테스트</span>
+          </button>
+          <button type="button" class="guide-pill" onclick="navigateToGuide('keys')">
+            <i data-lucide="key"></i>
+            <span>API Key & 알림</span>
+          </button>
+          <button type="button" class="guide-pill" onclick="navigateToGuide('cloud')">
+            <i data-lucide="cloud"></i>
+            <span>24시간 클라우드</span>
+          </button>
+          <button type="button" class="guide-pill" onclick="navigateToGuide('scheduler')">
+            <i data-lucide="clock"></i>
+            <span>스케줄 & 프로세스</span>
+          </button>
+          <button type="button" class="guide-pill" onclick="navigateToGuide('faq')">
+            <i data-lucide="help-circle"></i>
+            <span>FAQ & 트러블슈팅</span>
+          </button>
         </nav>
 
         <!-- 1. 3분 퀵스타트 & 런처 가이드 -->
         <article class="guide-card" id="guide-quickstart">
           <div class="guide-card-head">
-            <h2 class="guide-card-title">🚀 1. 3분 로컬 퀵스타트 & 런처 안내</h2>
+            <h2 class="guide-card-title">
+              <i data-lucide="rocket"></i>
+              <span>1. 3분 로컬 퀵스타트 & 런처 안내</span>
+            </h2>
             <span class="guide-tag">Zero Build Friction</span>
           </div>
           <p class="guide-text">
             별도의 복잡한 Node.js 빌드 과정 없이, Python 3.10+ 환경에서 원클릭 런처 스크립트만 실행하면 가상환경 구축, 필수 패키지 설치, 로컬 웹 서버 및 백그라운드 스케줄러가 한 번에 자동 기동됩니다.
           </p>
 
-          <h3 class="guide-sub-title">🖥️ 운영체제별 원클릭 실행 방법</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="terminal" class="lucide-sm"></i>
+            <span>운영체제별 원클릭 실행 방법</span>
+          </h3>
           <ul class="guide-step-list">
             <li>
-              <strong>Windows 사용자</strong>: 프로젝트 폴더 내 <code>start.bat</code> 파일을 더블 클릭합니다.
+              <strong><i data-lucide="monitor" class="lucide-sm"></i> Windows 사용자</strong>: 프로젝트 폴더 내 <code>start.bat</code> 파일을 더블 클릭합니다.
               <div class="guide-text">가상환경(`.venv`) 확인, 필수 라이브러리 자동 설치, 웹 서버 기동 후 기본 브라우저(`http://localhost:8080`)가 자동으로 열립니다.</div>
             </li>
             <li>
-              <strong>Linux / macOS / Cloud VM 사용자</strong>: 터미널에서 권한 부여 후 실행합니다.
+              <strong><i data-lucide="terminal" class="lucide-sm"></i> Linux / macOS / Cloud VM 사용자</strong>: 터미널에서 권한 부여 후 실행합니다.
               <div class="guide-code">chmod +x start.sh && ./start.sh</div>
             </li>
             <li>
-              <strong>Docker 컨테이너 환경</strong>: Docker Compose를 통해 1줄로 격리 실행할 수 있습니다.
+              <strong><i data-lucide="box" class="lucide-sm"></i> Docker 컨테이너 환경</strong>: Docker Compose를 통해 1줄로 격리 실행할 수 있습니다.
               <div class="guide-code alt-color">docker compose up -d</div>
             </li>
           </ul>
 
           <div class="callout-box">
-            <strong>💡 데이터 및 설정 보관 원칙</strong><br>
+            <strong><i data-lucide="shield-check" class="lucide-sm"></i> [데이터 및 설정 보관 원칙]</strong><br>
             • 본 플랫폼은 100% 로컬 구동 오픈소스 소프트웨어입니다. 입력하신 거래소 API Key 및 트레이딩 전략 설정은 여러분의 컴퓨터 내 <code>.env</code> 파일에만 저장되며, 외부 어떤 서버로도 전송되지 않습니다.
           </div>
         </article>
@@ -1628,14 +1953,20 @@
         <!-- 2. 제공 퀀트 전략 상세 & 백테스트 성과 분석 -->
         <article class="guide-card" id="guide-strategies">
           <div class="guide-card-head">
-            <h2 class="guide-card-title">📈 2. 퀀트 전략 상세 스펙 & 5.2년 실데이터 백테스트</h2>
+            <h2 class="guide-card-title">
+              <i data-lucide="trending-up"></i>
+              <span>2. 퀀트 전략 상세 스펙 & 5.2년 실데이터 백테스트</span>
+            </h2>
             <span class="guide-tag">5.2 Years Validated</span>
           </div>
           <p class="guide-text">
             감정에 휘둘리는 주관적 매매를 배제하고, 수년간의 과거 실데이터 시뮬레이션과 실거래로 수학적 우위가 입증된 3대 퀀트 모델을 기본 탑재하고 있습니다.
           </p>
 
-          <h3 class="guide-sub-title">📊 5.2년 과거 데이터 백테스트 종합 성과 비교표</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="bar-chart-3" class="lucide-sm"></i>
+            <span>5.2년 과거 데이터 백테스트 종합 성과 비교표</span>
+          </h3>
           <div class="guide-table-wrapper">
             <table class="guide-table">
               <caption class="sr-only">5.2년 과거 데이터 백테스트 종합 성과 비교표</caption>
@@ -1653,7 +1984,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>BTC/ETH 50:50 동적 리밸런싱</strong></td>
+                  <td>BTC/ETH 50:50 동적 리밸런싱</td>
                   <td>업비트, 바이낸스</td>
                   <td>BTC, ETH (50:50 분할)</td>
                   <td><span class="metric-badge green">+42.3% / 년</span></td>
@@ -1663,7 +1994,7 @@
                   <td>220일 SMA + 1.5 ATR 채널 이중 필터, 60% 비중 초과 시 초과분 익절 현금화</td>
                 </tr>
                 <tr>
-                  <td><strong>이더리움 SuperTrend 단독 추세추종</strong></td>
+                  <td>이더리움 SuperTrend 단독 추세추종</td>
                   <td>빗썸</td>
                   <td>ETH 단독 (100% 집중)</td>
                   <td><span class="metric-badge green">+58.7% / 년</span></td>
@@ -1673,7 +2004,7 @@
                   <td>50일 SMA 대추세선 + SuperTrend(7, 3.5) 상승 밴드 시 풀매수, 하락 시 100% 원화 방어</td>
                 </tr>
                 <tr>
-                  <td><strong>BTCUSDT/ETHUSDT 글로벌 테더</strong></td>
+                  <td>BTCUSDT/ETHUSDT 글로벌 테더</td>
                   <td>바이낸스</td>
                   <td>BTCUSDT, ETHUSDT</td>
                   <td><span class="metric-badge green">+38.6% / 년</span></td>
@@ -1683,7 +2014,7 @@
                   <td>글로벌 테더(USDT) 기반 김프 배제, BTC 200일 SMA & ETH 40일 SMA 1.2 ATR</td>
                 </tr>
                 <tr>
-                  <td><em>단순 보유 (Buy & Hold 벤치마크)</em></td>
+                  <td>단순 보유 (Buy & Hold 벤치마크)</td>
                   <td>전 거래소 공통</td>
                   <td>BTC, ETH</td>
                   <td><span class="metric-badge blue">+21.5% / 년</span></td>
@@ -1696,7 +2027,10 @@
             </table>
           </div>
 
-          <h3 class="guide-sub-title">💡 왜 백테스트 MDD(최대 낙폭)가 중요한가요?</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="info" class="lucide-sm"></i>
+            <span>왜 백테스트 MDD(최대 낙폭)가 중요한가요?</span>
+          </h3>
           <p class="guide-text">
             코인 시장에서 단순 보유(존버) 전략은 상승장에서는 돈을 벌지만, 하락장에서 <strong>-70%에서 -80% 수준의 폭락</strong>을 그대로 얻어맞아 계좌가 회복 불능 상태에 빠집니다. 본 봇의 전략들은 하락 추세 감지 시 <strong>원화(KRW) 또는 테더(USDT)로 전량 대피</strong>하여 계좌의 최대 낙폭을 -20%대로 철저히 묶어두고, 다시 안전한 상승 파동이 확인될 때만 재진입하여 복리 수익을 극대화합니다.
           </p>
@@ -1705,46 +2039,49 @@
         <!-- 3. API Key & 알림 연동 발급 매뉴얼 -->
         <article class="guide-card" id="guide-keys">
           <div class="guide-card-head">
-            <h2 class="guide-card-title">🔑 3. 거래소 API Key 및 디스코드 웹훅 발급 매뉴얼</h2>
+            <h2 class="guide-card-title">
+              <i data-lucide="key"></i>
+              <span>3. 거래소 API Key 및 디스코드 웹훅 발급 매뉴얼</span>
+            </h2>
             <span class="guide-tag">Security & Integration</span>
           </div>
 
           <div class="warning-box">
-            <strong>⚠️ 최우선 필수 보안 수칙 (모든 거래소 공통)</strong><br>
+            <strong><i data-lucide="shield-alert" class="lucide-sm"></i> [최우선 필수 보안 수칙] (모든 거래소 공통)</strong><br>
             • 어떤 경우에도 <strong>출금(Withdraw) 권한은 절대 체크하지 마세요!</strong> 봇은 <strong>'자산 조회'</strong>와 <strong>'주문(매수/매도)'</strong> 권한만 있으면 100% 정상 작동합니다. 출금 권한을 주지 않으면 설령 키가 유출되더라도 외부로 자산이 빠져나갈 위험이 없습니다.<br>
             • 발급받은 Secret Key는 창을 닫으면 두 번 다시 확인할 수 없으므로, 발급 직후 복사하여 마법사에 붙여넣으세요.
           </div>
 
-          <h3 class="guide-sub-title">🇰🇷 업비트 (Upbit) API Key 발급</h3>
+          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> 업비트 (Upbit) API Key 발급</h3>
           <ol class="guide-step-list">
-            <li>업비트 웹사이트 로그인 ➔ 우측 상단 <strong>[마이페이지]</strong> ➔ 좌측 <strong>[Open API 관리]</strong> 메뉴로 이동합니다.</li>
+            <li>업비트 웹사이트 로그인 &rarr; 우측 상단 <strong>[마이페이지]</strong> &rarr; 좌측 <strong>[Open API 관리]</strong> 메뉴로 이동합니다.</li>
             <li>Open API 주요 기능 중 <strong>[자산조회]</strong>, <strong>[주문조회]</strong>, <strong>[주문하기]</strong> 3개만 체크합니다. (출금 관련 항목 절대 체크 금지)</li>
             <li><strong>특정 IP 등록</strong>: 오라클 클라우드 고정 공인 IP 또는 로컬 PC IP를 입력합니다. (미등록 시 업비트 정책상 API 호출이 차단됩니다.)</li>
             <li>2채널 인증(카카오페이 / 네이버인증) 완료 후 발급된 <strong>Access Key</strong>와 <strong>Secret Key</strong>를 복사하여 마법사에 입력합니다.</li>
           </ol>
 
-          <h3 class="guide-sub-title">🔥 빗썸 (Bithumb) API Key 발급</h3>
+          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> 빗썸 (Bithumb) API Key 발급</h3>
           <ol class="guide-step-list">
-            <li>빗썸 로그인 ➔ 우측 상단 <strong>[고객센터]</strong> ➔ <strong>[API 관리]</strong> 메뉴로 이동합니다.</li>
+            <li>빗썸 로그인 &rarr; 우측 상단 <strong>[고객센터]</strong> &rarr; <strong>[API 관리]</strong> 메뉴로 이동합니다.</li>
             <li>권한 선택에서 <strong>[회원정보 및 거래내역 조회]</strong>, <strong>[주문(매수/매도)]</strong>만 활성화합니다. (출금 관련 비활성화 유지)</li>
             <li><strong>IP 주소 제한</strong>: 서버 또는 PC의 공인 IP를 등록합니다.</li>
             <li>SMS 또는 OTP 인증 후 생성된 키 쌍을 복사하여 마법사에 입력합니다.</li>
           </ol>
 
-          <h3 class="guide-sub-title">🌐 바이낸스 (Binance) API Key 발급</h3>
+          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> 바이낸스 (Binance) API Key 발급</h3>
           <ol class="guide-step-list">
-            <li>바이낸스 로그인 ➔ 우측 상단 프로필 ➔ <strong>[API Management]</strong> ➔ <strong>[Create API]</strong> 클릭합니다.</li>
+            <li>바이낸스 로그인 &rarr; 우측 상단 프로필 &rarr; <strong>[API Management]</strong> &rarr; <strong>[Create API]</strong> 클릭합니다.</li>
             <li>API 유형으로 <strong>[System generated]</strong>를 선택하고 식별용 라벨(예: <code>crypto-quant-wizard</code>)을 입력합니다.</li>
             <li>API 권한에서 <strong>[Enable Reading]</strong> 및 <strong>[Enable Spot & Margin Trading]</strong> 2개만 체크합니다.</li>
             <li><strong>IP Access Restriction</strong>: <code>[Restrict access to trusted IPs only]</code> 선택 후 서버 고정 IP를 등록합니다.</li>
             <li>발급된 <strong>API Key</strong>와 <strong>Secret Key</strong>를 마법사에 입력합니다.</li>
           </ol>
 
-          <h3 class="guide-sub-title">🔔 디스코드 (Discord) 스마트폰 알림 웹훅 발급</h3>
+          <h3 class="guide-sub-title"><i data-lucide="message-square" class="lucide-sm"></i> 디스코드 (Discord) 스마트폰 알림 웹훅 발급</h3>
           <ol class="guide-step-list">
             <li>디스코드 PC 프로그램 또는 웹에서 알림을 수신할 본인만의 <strong>개인 서버</strong>를 하나 생성합니다. (무료)</li>
-            <li>알림을 받을 채널(예: <code>#트레이딩-리포트</code>) 우측의 <strong>톱니바퀴 [채널 설정]</strong> 클릭 ➔ 좌측 <strong>[연동]</strong> 메뉴로 이동합니다.</li>
-            <li><strong>[웹후크(Webhook)]</strong> 클릭 ➔ <strong>[새 웹후크 만들기]</strong> 클릭 후 <strong>[웹후크 URL 복사]</strong> 버튼을 누릅니다.</li>
+            <li>알림을 받을 채널(예: <code>#트레이딩-리포트</code>) 우측의 <strong>톱니바퀴 [채널 설정]</strong> 클릭 &rarr; 좌측 <strong>[연동]</strong> 메뉴로 이동합니다.</li>
+            <li><strong>[웹후크(Webhook)]</strong> 클릭 &rarr; <strong>[새 웹후크 만들기]</strong> 클릭 후 <strong>[웹후크 URL 복사]</strong> 버튼을 누릅니다.</li>
             <li>복사한 주소(<code>https://discord.com/api/webhooks/...</code>)를 설정 마법사에 붙여넣고 <strong>[테스트 발송]</strong>을 눌러 스마트폰으로 알림이 오는지 확인합니다.</li>
           </ol>
         </article>
@@ -1752,39 +2089,45 @@
         <!-- 4. 오라클 클라우드 Always Free 24시간 무인 배포 가이드 -->
         <article class="guide-card" id="guide-cloud">
           <div class="guide-card-head">
-            <h2 class="guide-card-title">☁️ 4. 오라클 클라우드(OCI) Always Free 24시간 무인 배포 가이드</h2>
+            <h2 class="guide-card-title">
+              <i data-lucide="cloud"></i>
+              <span>4. 오라클 클라우드(OCI) Always Free 24시간 무인 배포 가이드</span>
+            </h2>
             <span class="guide-tag">365 Days Unattended</span>
           </div>
 
           <div class="callout-box">
-            <strong>💡 내 컴퓨터를 24시간 켜둘 필요가 없습니다!</strong><br>
+            <strong><i data-lucide="info" class="lucide-sm"></i> [내 컴퓨터를 24시간 켜둘 필요가 없습니다!]</strong><br>
             오라클 클라우드의 <strong>평생 무료 가상 컴퓨터(Always Free VM)</strong>에 본 봇을 올려두시면, 집 PC를 완전히 끄고 외출하거나 자는 동안에도 <strong>매일 아침 09:05 KST에 자동으로 시장을 분석하고 매매</strong>한 뒤 스마트폰 디스코드로 리포트를 보내줍니다.
           </div>
 
-          <h3 class="guide-sub-title">📌 6단계 완벽 배포 가이드</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="list-ordered" class="lucide-sm"></i>
+            <span>6단계 완벽 배포 가이드</span>
+          </h3>
           <ol class="guide-step-list">
             <li>
               <strong>1단계: 오라클 클라우드 회원가입 및 평생 무료 인스턴스 생성</strong>
               <div class="guide-text">
                 • <a href="https://cloud.oracle.com" target="_blank" class="btn-link">cloud.oracle.com</a> 에서 무료 계정 가입 후 콘솔로 로그인합니다.<br>
-                • OCI 콘솔 좌측 메뉴 ➔ [컴퓨트] ➔ [인스턴스] ➔ <strong>[인스턴스 생성]</strong> 클릭<br>
+                • OCI 콘솔 좌측 메뉴 &rarr; [컴퓨트] &rarr; [인스턴스] &rarr; <strong>[인스턴스 생성]</strong> 클릭<br>
                 • 모델(Shape): 반드시 <strong>`VM.Standard.E2.1.Micro` (AMD)</strong> 선택 <em>(Always Free 평생 무료 마크 확인)</em><br>
                 • 이미지(OS): <strong>Ubuntu 24.04 LTS</strong> 또는 22.04 LTS 선택<br>
-                • SSH 키: [자동으로 키 쌍 생성] ➔ <strong>[프라이빗 키 다운로드]</strong> 클릭 후 <code>.key</code> 파일을 PC에 보관
+                • SSH 키: [자동으로 키 쌍 생성] &rarr; <strong>[프라이빗 키 다운로드]</strong> 클릭 후 <code>.key</code> 파일을 PC에 보관
               </div>
             </li>
             <li>
               <strong>2단계: 영구 고정 공인 IP(예약된 공용 IP) 할당 (필수)</strong>
               <div class="guide-text">
-                • 인스턴스 상세 화면 ➔ [네트워킹] ➔ 기본 VNIC 클릭 ➔ [IP 관리] 클릭<br>
-                • 프라이빗 IP 행 우측 점 3개(<code>...</code>) ➔ [편집] ➔ <strong>`예약된 퍼블릭 IP`</strong> 선택 후 새 예약 IP 발급<br>
+                • 인스턴스 상세 화면 &rarr; [네트워킹] &rarr; 기본 VNIC 클릭 &rarr; [IP 관리] 클릭<br>
+                • 프라이빗 IP 행 우측 점 3개(<code>...</code>) &rarr; [편집] &rarr; <strong>`예약된 퍼블릭 IP`</strong> 선택 후 새 예약 IP 발급<br>
                 • <em>효과: 서버를 재부팅해도 IP가 절대 변경되지 않아 업비트/빗썸/바이낸스 화이트리스트에 평생 등록 가능합니다.</em>
               </div>
             </li>
             <li>
               <strong>3단계: 웹 대시보드 접속을 위한 8080 방화벽 포트 개방</strong>
               <div class="guide-text">
-                • OCI 콘솔 ➔ [가상 클라우드 네트워크(VCN)] ➔ 보안 목록(Security Lists) ➔ `Default Security List` 클릭<br>
+                • OCI 콘솔 &rarr; [가상 클라우드 네트워크(VCN)] &rarr; 보안 목록(Security Lists) &rarr; `Default Security List` 클릭<br>
                 • <strong>[수신 규칙 추가(Add Ingress Rules)]</strong> 클릭:<br>
                 • 소스 CIDR: <code>0.0.0.0/0</code>, 대상 포트: <code>8080</code>, 프로토콜: <code>TCP</code>, 설명: <code>Web UI</code>
               </div>
@@ -1816,21 +2159,33 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         <!-- 5. 봇 상시 운용 & 스케줄 관리 및 안전 종료 -->
         <article class="guide-card" id="guide-scheduler">
           <div class="guide-card-head">
-            <h2 class="guide-card-title">⏰ 5. 봇 상시 운용, 스케줄 관리 및 안전 종료 방법</h2>
+            <h2 class="guide-card-title">
+              <i data-lucide="clock"></i>
+              <span>5. 봇 상시 운용, 스케줄 관리 및 안전 종료 방법</span>
+            </h2>
             <span class="guide-tag">Process Control</span>
           </div>
 
-          <h3 class="guide-sub-title">⏰ 일체형 스케줄러 (매일 아침 09:05 KST) 동작 원리</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="clock" class="lucide-sm"></i>
+            <span>일체형 스케줄러 (매일 아침 09:05 KST) 동작 원리</span>
+          </h3>
           <p class="guide-text">
             <code>start.bat</code> 또는 <code>start.sh</code>를 실행하면 웹 서버 프로세스 내에 <strong>자동 스케줄러(APScheduler)</strong>가 함께 탑재되어 백그라운드에서 동작합니다. 매일 아침 <strong>09:05 KST(일봉 확정 직후)</strong>가 되면 자동으로 3대 거래소의 시장 데이터를 수집하여 지표를 산출하고, 진입/청산 조건 충족 시 주문을 실행한 뒤 체결 장부 갱신 및 디스코드 리포트를 전송합니다.
           </p>
 
-          <h3 class="guide-sub-title">🛑 스케줄 일시정지 및 끄기 (웹 화면 1초 제어)</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="pause-circle" class="lucide-sm"></i>
+            <span>스케줄 일시정지 및 끄기 (웹 화면 1초 제어)</span>
+          </h3>
           <p class="guide-text">
-            자동 매매를 잠시 쉬고 싶거나 수동 실행 모드로만 운용하고 싶을 때는, 대시보드 상단 배너의 <strong>`[⏰ 매일 09:05 KST 자동실행]`</strong> 버튼을 클릭하거나 설정 마법사의 <strong>`[스케줄 자동 실행 활성화]`</strong> 체크를 해제하시면 즉시 정기 스케줄이 중단됩니다.
+            자동 매매를 잠시 쉬고 싶거나 수동 실행 모드로만 운용하고 싶을 때는, 대시보드 상단 배너의 <strong>`[매일 09:05 KST 자동실행]`</strong> 버튼을 클릭하거나 설정 마법사의 <strong>`[스케줄 자동 실행 활성화]`</strong> 체크를 해제하시면 즉시 정기 스케줄이 중단됩니다.
           </p>
 
-          <h3 class="guide-sub-title">🪟 Windows 작업 스케줄러 원클릭 자동 실행 및 삭제 도구</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="calendar" class="lucide-sm"></i>
+            <span>Windows 작업 스케줄러 원클릭 자동 실행 및 삭제 도구</span>
+          </h3>
           <ul class="guide-step-list">
             <li>
               <strong>부팅 시 자동 실행 등록</strong>: 프로젝트 내 <code>scripts/register_windows_task.bat</code> 을 더블 클릭하면, Windows 로그인 시 자동으로 봇이 백그라운드 구동되도록 작업 스케줄러에 등록됩니다.
@@ -1840,7 +2195,10 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
             </li>
           </ul>
 
-          <h3 class="guide-sub-title">🚪 실행 중인 터미널 안전 종료 방법</h3>
+          <h3 class="guide-sub-title">
+            <i data-lucide="power" class="lucide-sm"></i>
+            <span>실행 중인 터미널 안전 종료 방법</span>
+          </h3>
           <p class="guide-text">
             로컬 PC에서 봇을 종료하고자 할 때는, 실행 중인 검은색 터미널 콘솔 창을 활성화한 후 키보드의 <strong>`Ctrl + C`</strong> 를 누르고 <code>y</code>를 입력하거나, 창 우측 상단의 <strong>`X` (닫기)</strong> 버튼을 클릭하시면 프로세스가 안전하게 종료됩니다.
           </p>
@@ -1849,12 +2207,17 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         <!-- 6. 자주 묻는 질문 (FAQ) & 트러블슈팅 -->
         <article class="guide-card" id="guide-faq">
           <div class="guide-card-head">
-            <h2 class="guide-card-title">❓ 6. 자주 묻는 질문 (FAQ) & 트러블슈팅</h2>
+            <h2 class="guide-card-title">
+              <i data-lucide="help-circle"></i>
+              <span>6. 자주 묻는 질문 (FAQ) & 트러블슈팅</span>
+            </h2>
             <span class="guide-tag">Troubleshooting</span>
           </div>
 
           <details class="guide-faq" open>
-            <summary>Q. API [연결 테스트] 시 연결 실패 오류가 발생합니다.</summary>
+            <summary>
+              <span>Q. API [연결 테스트] 시 연결 실패 오류가 발생합니다.</span>
+            </summary>
             <div class="guide-faq-answer">
               1. <strong>IP 화이트리스트 불일치</strong>: 거래소 API 설정에 등록한 IP와 현재 컴퓨터(또는 서버)의 공인 IP가 일치하는지 확인하세요.<br>
               2. <strong>키 복사 오류</strong>: 키 앞뒤에 공백(스페이스)이 들어가지 않았는지 확인하세요.<br>
@@ -1863,21 +2226,27 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
           </details>
 
           <details class="guide-faq">
-            <summary>Q. 컴퓨터를 끄면 봇이 동작하지 않나요?</summary>
+            <summary>
+              <span>Q. 컴퓨터를 끄면 봇이 동작하지 않나요?</span>
+            </summary>
             <div class="guide-faq-answer">
               로컬 PC에서 실행 중인 경우 컴퓨터 전원이 꺼지면 프로세스도 종료되므로 다음 날 09:05 스케줄이 실행되지 않습니다. 24시간 365일 무인 가동을 원하실 경우 위 <strong>[4. 오라클 클라우드 24시간 무인 배포 가이드]</strong>를 따라 평생 무료 VM에 올려두시는 것을 적극 권장합니다.
             </div>
           </details>
 
           <details class="guide-faq">
-            <summary>Q. 3개 거래소(업비트/빗썸/바이낸스)를 모두 등록해야 하나요?</summary>
+            <summary>
+              <span>Q. 3개 거래소(업비트/빗썸/바이낸스)를 모두 등록해야 하나요?</span>
+            </summary>
             <div class="guide-faq-answer">
               아닙니다. 본인이 현재 사용하시는 거래소 1곳의 API Key만 입력하셔도 완벽하게 단독 운용됩니다. 사용하지 않는 거래소는 키를 비워두시고 전략 매핑을 '사용 안 함'으로 설정하시면 됩니다.
             </div>
           </details>
 
           <details class="guide-faq">
-            <summary>Q. 모의투자(Dry-Run)와 실거래(Live Trading)의 차이는 무엇인가요?</summary>
+            <summary>
+              <span>Q. 모의투자(Dry-Run)와 실거래(Live Trading)의 차이는 무엇인가요?</span>
+            </summary>
             <div class="guide-faq-answer">
               모의투자는 실제 거래소로 주문을 넣지 않고, 가상 잔고 1,000만원을 기준으로 시장 체결가와 수수료(0.05%), 슬리피지(0.1%)를 반영하여 시뮬레이션 매매를 수행합니다. 실거래 전환 전 전략의 정확한 동작을 확인하는 데 가장 안전합니다.
             </div>
@@ -1909,6 +2278,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       document.documentElement.setAttribute('data-theme', next);
       localStorage.setItem('quant_theme', next);
       updateChartColors();
+      if (window.lucide) lucide.createIcons();
     }
 
     // Privacy Masking Toggle
@@ -1954,6 +2324,8 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       const target = document.getElementById(`tab-${tabId}`);
       if (target) target.classList.add('active');
 
+      if (window.lucide) lucide.createIcons();
+
       if (tabId === 'logs') {
         fetchLogs();
         if (!logPollTimer) {
@@ -1997,7 +2369,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
 
     // Initialize Page
     async function initPage() {
-      const savedTheme = localStorage.getItem('quant_theme') || 'dark';
+      const savedTheme = localStorage.getItem('quant_theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
 
       try {
@@ -2020,6 +2392,8 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         // Load dashboard data
         loadDashboardData();
 
+        if (window.lucide) lucide.createIcons();
+
       } catch (e) {
         console.error('Failed to init page:', e);
       }
@@ -2030,24 +2404,24 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       const mode = statusData.run_mode || 'dry_run';
       if (mode === 'live') {
         badge.className = 'badge badge-live';
-        badge.innerText = '⚡ 실거래 (Live Trading)';
+        badge.innerHTML = '<i data-lucide="zap" class="lucide-sm"></i> 실거래 (Live Trading)';
       } else if (mode === 'signal') {
         badge.className = 'badge badge-signal';
-        badge.innerText = '📢 시그널 브리핑 (Signal)';
+        badge.innerHTML = '<i data-lucide="bell" class="lucide-sm"></i> 시그널 브리핑 (Signal)';
       } else {
         badge.className = 'badge badge-dry';
-        badge.innerText = '🟢 모의매매 (Dry-Run)';
+        badge.innerHTML = '<i data-lucide="shield-check" class="lucide-sm"></i> 모의매매 (Dry-Run)';
       }
 
       const btnSchedule = document.getElementById('btn-toggle-schedule');
       if (btnSchedule) {
         if (statusData.schedule_enabled) {
           btnSchedule.className = 'badge badge-schedule';
-          btnSchedule.innerText = '⏰ 매일 09:05 KST 자동실행 (클릭 시 일시정지)';
+          btnSchedule.innerHTML = '<i data-lucide="clock" class="lucide-sm"></i> 매일 09:05 KST 자동실행 (클릭 시 일시정지)';
           btnSchedule.setAttribute('data-tooltip', '현재 정기 스케줄이 활성화되어 있습니다. 클릭하면 정기 스케줄을 일시정지(삭제)합니다.');
         } else {
           btnSchedule.className = 'badge badge-signal';
-          btnSchedule.innerText = '⏸️ 정기 스케줄 일시정지 (클릭 시 활성화)';
+          btnSchedule.innerHTML = '<i data-lucide="pause-circle" class="lucide-sm"></i> 정기 스케줄 일시정지 (클릭 시 활성화)';
           btnSchedule.setAttribute('data-tooltip', '현재 정기 스케줄이 중지되었습니다. 클릭하면 매일 09:05 자동 스케줄을 재등록합니다.');
         }
       }
@@ -2060,6 +2434,8 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       } else {
         nextRunEl.innerText = '스케줄러: 대기 중';
       }
+
+      if (window.lucide) lucide.createIcons();
     }
 
     // Toggle Schedule Active/Paused
@@ -2218,7 +2594,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         const data = await res.json();
 
         if (data.success) {
-          showToast('✅ 설정이 성공적으로 저장되었습니다! 대시보드로 이동합니다.');
+          showToast('설정이 성공적으로 저장되었습니다! 대시보드로 이동합니다.');
           setTimeout(() => {
             initPage();
             switchTab('dashboard');
@@ -2235,7 +2611,8 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
     async function triggerRunNow() {
       const btn = document.getElementById('btn-run-now');
       btn.disabled = true;
-      btn.innerText = '⏳ 매매 실행 중...';
+      btn.innerHTML = '<i data-lucide="loader" class="lucide-sm"></i> 매매 실행 중...';
+      if (window.lucide) lucide.createIcons();
 
       try {
         const res = await fetch('/api/run-now', {
@@ -2254,8 +2631,9 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
           if (!statusData.bot_state.is_running || checks > 30) {
             clearInterval(interval);
             btn.disabled = false;
-            btn.innerText = '⚡ 지금 즉시 실행';
-            showToast('🎉 매매 사이클 실행이 완료되었습니다.');
+            btn.innerHTML = '<i data-lucide="zap" class="lucide-sm"></i> 지금 1회 수동 실행';
+            showToast('매매 사이클 실행이 완료되었습니다.');
+            if (window.lucide) lucide.createIcons();
             loadDashboardData();
           }
         }, 2000);
@@ -2263,7 +2641,8 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       } catch (e) {
         alert(`실행 요청 실패: ${e.message}`);
         btn.disabled = false;
-        btn.innerText = '⚡ 지금 즉시 실행';
+        btn.innerHTML = '<i data-lucide="zap" class="lucide-sm"></i> 지금 1회 수동 실행';
+        if (window.lucide) lucide.createIcons();
       }
     }
 
@@ -2275,7 +2654,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         const term = document.getElementById('terminal-view');
         if (data.logs && data.logs.length > 0) {
           term.innerHTML = data.logs.map(l => {
-            return `<div class="log-line"><span style="color:#64748b;">${l.timestamp}</span> <span class="log-${l.level}">[${l.level}]</span> ${escapeHtml(l.message)}</div>`;
+            return `<div class="log-line"><span class="log-timestamp">${l.timestamp}</span> <span class="log-${l.level}">[${l.level}]</span> ${escapeHtml(l.message)}</div>`;
           }).join('');
           term.scrollTop = term.scrollHeight;
         } else {
@@ -2349,7 +2728,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
             <span>국내 메인 (업비트)</span>
             <span>BTC / ETH</span>
           </div>
-          <div class="guide-status">🟢 ${guides.upbit || '분석 대기 중'}</div>
+          <div class="guide-status"><i data-lucide="check-circle-2" class="lucide-sm"></i> ${guides.upbit || '분석 대기 중'}</div>
           <div class="guide-desc">220일 SMA ±2% 버퍼 및 50일 SMA 1.5 ATR 밴드</div>
         </div>
         <div class="guide-card">
@@ -2357,7 +2736,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
             <span>국내 서브 (빗썸)</span>
             <span>ETH 단독 추세추종</span>
           </div>
-          <div class="guide-status">🟢 ${guides.bithumb || '분석 대기 중'}</div>
+          <div class="guide-status"><i data-lucide="check-circle-2" class="lucide-sm"></i> ${guides.bithumb || '분석 대기 중'}</div>
           <div class="guide-desc">SuperTrend(7, 3.5) + 50일 SMA 100% 스위칭</div>
         </div>
         <div class="guide-card">
@@ -2365,10 +2744,11 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
             <span>해외 글로벌 (바이낸스)</span>
             <span>BTC / ETH 테더 50:50</span>
           </div>
-          <div class="guide-status">🟢 ${guides.binance || '분석 대기 중'}</div>
+          <div class="guide-status"><i data-lucide="check-circle-2" class="lucide-sm"></i> ${guides.binance || '분석 대기 중'}</div>
           <div class="guide-desc">BTC 200일 SMA ±2% & ETH 40일 SMA 1.2 ATR 채널</div>
         </div>
       `;
+      if (window.lucide) lucide.createIcons();
     }
 
     // Render Technical Indicator Charts
@@ -2468,19 +2848,19 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         const trades = data.trades || [];
 
         if (trades.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-secondary); font-weight: 500;">아직 체결된 거래 내역이 없습니다.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" class="empty-cell">아직 체결된 거래 내역이 없습니다.</td></tr>';
           return;
         }
 
         tbody.innerHTML = trades.map(t => {
-          const sideColor = t.side === 'BUY' ? '#10b981' : '#ef4444';
+          const sideClass = t.side === 'BUY' ? 'trade-side-buy' : 'trade-side-sell';
           const sideText = t.side === 'BUY' ? '매수' : '매도';
           return `
             <tr>
               <td>${t.timestamp || ''}</td>
               <td><span class="badge badge-schedule">${t.exchange || ''}</span></td>
               <td><strong>${t.symbol || ''}</strong></td>
-              <td style="color:${sideColor}; font-weight:700;">${sideText}</td>
+              <td class="${sideClass}">${sideText}</td>
               <td>${t.reason || ''}</td>
               <td>${(t.price || 0).toLocaleString()}</td>
               <td>${t.quantity || 0}</td>
@@ -2530,32 +2910,32 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
     // Modal Functions
     const keyGuides = {
       upbit: {
-        title: '🔹 업비트(Upbit) Open API Key 발급 방법',
+        title: '업비트 (Upbit) Open API Key 발급 방법',
         steps: `
-          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <ol class="modal-guide-list">
             <li><strong>업비트 웹사이트 로그인</strong>: PC 브라우저에서 업비트 공식 웹에 접속하여 로그인합니다.</li>
-            <li><strong>Open API 관리 이동</strong>: 우측 상단 <code>[고객센터]</code> ➔ <code>[Open API 관리]</code> 메뉴를 클릭합니다.</li>
+            <li><strong>Open API 관리 이동</strong>: 우측 상단 <code>[마이페이지]</code> &rarr; 좌측 <code>[Open API 관리]</code> 메뉴를 클릭합니다.</li>
             <li><strong>Open API 사용 신청</strong>:
-              <br>• 체크 항목: <strong>[자산조회]</strong>, <strong>[주문조회]</strong>, <strong>[주문하기]</strong> 권한에 체크합니다.
-              <br>• ⚠️ <strong>[출금하기]</strong>는 절대로 체크하지 마세요!
+              <br>&bull; 체크 항목: <strong>[자산조회]</strong>, <strong>[주문조회]</strong>, <strong>[주문하기]</strong> 권한에 체크합니다.
+              <br>&bull; <strong>[출금하기]</strong>는 절대로 체크하지 마세요!
             </li>
             <li><strong>허용 IP 주소 입력</strong>:
-              <br>• 로컬 PC에서 구동 시: 네이버에서 <code>'내 아이피'</code> 검색 후 나오는 공인 IP를 등록합니다.
-              <br>• 오라클 클라우드 구동 시: 발급받은 <code>예약된 고정 공인 IP</code>를 등록합니다.
+              <br>&bull; 로컬 PC에서 구동 시: 네이버에서 <code>'내 아이피'</code> 검색 후 나오는 공인 IP를 등록합니다.
+              <br>&bull; 오라클 클라우드 구동 시: 발급받은 <code>예약된 고정 공인 IP</code>를 등록합니다.
             </li>
             <li><strong>카카오페이 / 2채널 인증</strong> 후 <strong>Access Key</strong>와 <strong>Secret Key</strong>를 복사하여 마법사에 붙여넣습니다.</li>
           </ol>
         `
       },
       bithumb: {
-        title: '🔹 빗썸(Bithumb) API Key 발급 방법',
+        title: '빗썸 (Bithumb) API Key 발급 방법',
         steps: `
-          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <ol class="modal-guide-list">
             <li><strong>빗썸 웹사이트 로그인</strong>: PC 브라우저에서 빗썸에 접속하여 로그인합니다.</li>
-            <li><strong>API 관리 이동</strong>: 우측 상단 <code>[고객센터]</code> ➔ <code>[API 관리]</code> ➔ <code>[API Key 관리]</code>를 클릭합니다.</li>
+            <li><strong>API 관리 이동</strong>: 우측 상단 <code>[고객센터]</code> &rarr; <code>[API 관리]</code> &rarr; <code>[API Key 관리]</code>를 클릭합니다.</li>
             <li><strong>권한 설정</strong>:
-              <br>• 체크 항목: <strong>[회원정보(조회)]</strong>, <strong>[거래내역(조회)]</strong>, <strong>[주문(매수/매도)]</strong>에 체크합니다.
-              <br>• ⚠️ <strong>[출금(KRW/가상자산)]</strong>은 절대로 체크하지 마세요!
+              <br>&bull; 체크 항목: <strong>[회원정보(조회)]</strong>, <strong>[거래내역(조회)]</strong>, <strong>[주문(매수/매도)]</strong>에 체크합니다.
+              <br>&bull; <strong>[출금(KRW/가상자산)]</strong>은 절대로 체크하지 마세요!
             </li>
             <li><strong>IP 주소 등록</strong>: 매매 봇이 동작할 PC 또는 오라클 VM의 공인 IP를 입력합니다.</li>
             <li><strong>보안 인증 후 발급</strong>: 생성된 <strong>Connect Key(Access Key)</strong>와 <strong>Secret Key</strong>를 마법사에 입력합니다.</li>
@@ -2563,30 +2943,30 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         `
       },
       discord: {
-        title: '🔔 디스코드(Discord) 웹훅 URL 1분 발급 방법',
+        title: '디스코드 (Discord) 웹훅 URL 1분 발급 방법',
         steps: `
-          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <ol class="modal-guide-list">
             <li><strong>디스코드 실행</strong>: PC 앱 또는 웹 브라우저에서 Discord에 접속합니다.</li>
             <li><strong>알림을 받을 채널 선택</strong>: 본인의 개인 서버에서 알림을 받을 텍스트 채널(예: <code>#코인-알림</code>)을 선택합니다.<br>
               <em>(나만의 서버가 없다면 디스코드 좌측 사이드바 맨 아래 <code>[+]</code> 버튼을 눌러 5초 만에 무료로 만들 수 있습니다.)</em>
             </li>
             <li><strong>채널 설정 이동</strong>: 해당 텍스트 채널 이름 옆의 <strong>[톱니바퀴 (채널 설정)]</strong> 아이콘을 클릭합니다.</li>
-            <li><strong>연동 메뉴 이동</strong>: 좌측 메뉴에서 <strong>[연동 (Integrations)]</strong> ➔ <strong>[웹후크 (Webhooks)]</strong>를 클릭합니다.</li>
+            <li><strong>연동 메뉴 이동</strong>: 좌측 메뉴에서 <strong>[연동 (Integrations)]</strong> &rarr; <strong>[웹후크 (Webhooks)]</strong>를 클릭합니다.</li>
             <li><strong>새 웹후크 만들기</strong>: <strong>[새 웹후크]</strong> 버튼을 누르고 봇 이름(예: 퀀트위저드)을 지정한 뒤, <strong>[웹후크 URL 복사]</strong> 버튼을 클릭합니다.</li>
             <li><strong>마법사에 붙여넣기 및 검증</strong>: 복사된 주소(<code>https://discord.com/api/webhooks/...</code>)를 마법사에 붙여넣고 <strong>[테스트 발송]</strong>을 눌러 알림이 오는지 확인합니다.</li>
           </ol>
         `
       },
       binance: {
-        title: '🔹 바이낸스(Binance) API Key 발급 방법',
+        title: '바이낸스 (Binance) API Key 발급 방법',
         steps: `
-          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <ol class="modal-guide-list">
             <li><strong>바이낸스 웹사이트 로그인</strong>: PC 브라우저에서 바이낸스에 로그인합니다.</li>
-            <li><strong>API Management 이동</strong>: 우측 상단 <code>프로필 아이콘</code> ➔ <code>[API Management]</code>를 클릭합니다.</li>
+            <li><strong>API Management 이동</strong>: 우측 상단 <code>프로필 아이콘</code> &rarr; <code>[API Management]</code>를 클릭합니다.</li>
             <li><strong>Create API 클릭</strong>: <code>[System generated]</code>를 선택하고 레이블(예: quant-wizard)을 입력합니다.</li>
             <li><strong>권한 설정 (API Restrictions)</strong>:
-              <br>• 체크 항목: <strong>[Enable Reading]</strong>, <strong>[Enable Spot & Margin Trading]</strong> 체크.
-              <br>• ⚠️ <strong>[Enable Withdrawals]</strong>는 반드시 해제(미체크) 상태여야 합니다!
+              <br>&bull; 체크 항목: <strong>[Enable Reading]</strong>, <strong>[Enable Spot & Margin Trading]</strong> 체크.
+              <br>&bull; <strong>[Enable Withdrawals]</strong>는 반드시 해제(미체크) 상태여야 합니다!
             </li>
             <li><strong>IP 제약 설정</strong>: <code>[Restrict access to trusted IPs only]</code> 선택 후 서버/PC 고정 IP를 등록합니다.</li>
             <li>생성된 <strong>API Key</strong>와 <strong>Secret Key</strong>를 복사하여 마법사에 붙여넣습니다.</li>
@@ -2594,44 +2974,44 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
         `
       },
       oracle: {
-        title: '☁️ 오라클 클라우드(OCI) Always Free 24시간 무인 배포 가이드',
+        title: '오라클 클라우드 (OCI) Always Free 24시간 무인 배포 가이드',
         steps: `
-          <div style="font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.85rem; background: var(--bg-card-sub); padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
-            💡 <strong>내 컴퓨터를 24시간 켜둘 필요가 없습니다!</strong><br>
+          <div class="modal-callout">
+            <strong>[안내] 내 컴퓨터를 24시간 켜둘 필요가 없습니다!</strong><br>
             오라클 클라우드의 <strong>평생 무료 가상 컴퓨터(Always Free VM)</strong>에 본 봇을 올려두시면, 집 PC를 완전히 끄고 외출하거나 자는 동안에도 <strong>매일 아침 09:05 KST에 자동으로 시장을 분석하고 매매</strong>한 뒤 스마트폰 디스코드로 알림을 보내줍니다.
           </div>
-          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.88rem; line-height: 1.6;">
+          <ol class="modal-guide-list">
             <li><strong>오라클 클라우드 회원가입</strong>:
-              <br>• <a href="https://cloud.oracle.com" target="_blank" style="color: var(--accent-primary); font-weight: 600;">cloud.oracle.com</a> 에서 무료 계정을 생성합니다. (해외 결제 가능한 신용/체크카드 필요, $1 승인 후 즉시 취소)
+              <br>&bull; <a href="https://cloud.oracle.com" target="_blank" class="btn-link">cloud.oracle.com</a> 에서 무료 계정을 생성합니다. (해외 결제 가능한 신용/체크카드 필요, $1 승인 후 즉시 취소)
             </li>
             <li><strong>평생 무료 VM 인스턴스 생성</strong>:
-              <br>• OCI 콘솔 좌측 메뉴 ➔ [컴퓨트] ➔ [인스턴스] ➔ <strong>[인스턴스 생성]</strong> 클릭
-              <br>• 모델: 반드시 <strong>VM.Standard.E2.1.Micro (AMD)</strong> 선택 <em>(Always Free 평생 무료 마크 확인)</em>
-              <br>• 이미지(OS): <strong>Ubuntu 22.04 LTS</strong> 또는 24.04 선택
-              <br>• SSH 키 저장: [자동 생성된 전용 키 다운로드] 클릭 후 <code>.key</code> 비밀 열쇠 파일을 PC에 안전하게 보관합니다.
+              <br>&bull; OCI 콘솔 좌측 메뉴 &rarr; [컴퓨트] &rarr; [인스턴스] &rarr; <strong>[인스턴스 생성]</strong> 클릭
+              <br>&bull; 모델: 반드시 <strong>VM.Standard.E2.1.Micro (AMD)</strong> 선택 <em>(Always Free 평생 무료 마크 확인)</em>
+              <br>&bull; 이미지(OS): <strong>Ubuntu 24.04 LTS</strong> 또는 22.04 LTS 선택
+              <br>&bull; SSH 키 저장: [자동 생성된 전용 키 다운로드] 클릭 후 <code>.key</code> 비밀 열쇠 파일을 PC에 안전하게 보관합니다.
             </li>
             <li><strong>영구 고정 공인 IP 발급 및 연결 (필수)</strong>:
-              <br>• 인스턴스 상세 페이지 하단 ➔ [기본 VNIC] ➔ [IP 관리] 클릭
-              <br>• 편집 ➔ <code>예약된 퍼블릭 IP(Reserved Public IP)</code> 선택 후 발급/연결
-              <br>• <em>효과: 서버를 재부팅해도 IP가 절대 변경되지 않아 업비트/빗썸/바이낸스 API 화이트리스트에 평생 등록 가능합니다.</em>
+              <br>&bull; 인스턴스 상세 페이지 하단 &rarr; [기본 VNIC] &rarr; [IP 관리] 클릭
+              <br>&bull; 편집 &rarr; <code>예약된 퍼블릭 IP(Reserved Public IP)</code> 선택 후 발급/연결
+              <br>&bull; <em>효과: 서버를 재부팅해도 IP가 절대 변경되지 않아 업비트/빗썸/바이낸스 API 화이트리스트에 평생 등록 가능합니다.</em>
             </li>
             <li><strong>방화벽 8080 웹 포트 개방</strong>:
-              <br>• 인스턴스 속한 VCN 서브넷 ➔ [보안 목록(Security List)] ➔ [수신 규칙(Ingress Rules) 추가]
-              <br>• 소스 CIDR: <code>0.0.0.0/0</code>, 대상 포트: <code>8080</code>, 프로토콜: <code>TCP</code>
+              <br>&bull; 인스턴스 속한 VCN 서브넷 &rarr; [보안 목록(Security List)] &rarr; [수신 규칙(Ingress Rules) 추가]
+              <br>&bull; 소스 CIDR: <code>0.0.0.0/0</code>, 대상 포트: <code>8080</code>, 프로토콜: <code>TCP</code>
             </li>
             <li><strong>원클릭 런처 구동 (터미널 2줄)</strong>:
-              <br>• SSH 터미널 접속 후 아래 명령어를 복사/붙여넣기 합니다:
-              <pre style="background: #080c14; padding: 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.85rem; color: #38bdf8; border: 1px solid #1e293b; overflow-x: auto;">git clone https://github.com/haksoo0918/crypto-quant-wizard.git
+              <br>&bull; SSH 터미널 접속 후 아래 명령어를 복사/붙여넣기 합니다:
+              <pre class="modal-code">git clone https://github.com/haksoo0918/crypto-quant-wizard.git
 cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
-              • 터미널 창을 닫아도 24시간 계속 돌리는 백그라운드 명령어:
-              <pre style="background: #080c14; padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.85rem; color: #10b981; border: 1px solid #1e293b;">nohup ./start.sh > server.log 2>&1 &</pre>
+              &bull; 터미널 창을 닫아도 24시간 계속 돌리는 백그라운드 명령어:
+              <pre class="modal-code alt-color">nohup ./start.sh > server.log 2>&1 &</pre>
             </li>
             <li><strong>원격 웹 접속</strong>:
-              <br>• 스마트폰 또는 PC 브라우저 주소창에 <code>http://&lt;오라클_고정_공인_IP&gt;:8080</code> 을 입력하여 대시보드와 설정 마법사를 언제 어디서든 자유롭게 모니터링합니다.
+              <br>&bull; 스마트폰 또는 PC 브라우저 주소창에 <code>http://&lt;오라클_고정_공인_IP&gt;:8080</code> 을 입력하여 대시보드와 설정 마법사를 언제 어디서든 자유롭게 모니터링합니다.
             </li>
           </ol>
-          <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: var(--bg-card-sub); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.88rem;">
-            📖 <strong>단계별 상세 매뉴얼</strong>: 프로젝트 내 <code>docs/ORACLE_CLOUD_GUIDE.md</code> 에 모든 클릭 과정 스크린샷과 상세 설정이 안내되어 있습니다.
+          <div class="callout-box callout-mt">
+            <strong>[단계별 상세 매뉴얼]</strong> 프로젝트 내 <code>docs/ORACLE_CLOUD_GUIDE.md</code> 에 모든 클릭 과정 스크린샷과 상세 설정이 안내되어 있습니다.
           </div>
         `
       }
@@ -2644,24 +3024,25 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
       }
       const guide = keyGuides[exchange];
       if (!guide) return;
-      document.getElementById('modal-title').innerText = guide.title;
-      let html = `<div style="font-size: 0.88rem; line-height: 1.7; color: var(--text-primary);">${guide.steps}</div>`;
+      document.getElementById('modal-title').innerHTML = `<i data-lucide="key" class="lucide-sm"></i> <span>${guide.title}</span>`;
+      let html = `<div class="modal-body-inner">${guide.steps}</div>`;
       if (exchange !== 'discord' && exchange !== 'oracle') {
         html += `
-          <div class="warning-box" style="margin-top: 1.25rem;">
-            <strong>⚠️ 필수 보안 수칙</strong><br>
+          <div class="warning-box modal-alert">
+            <strong><i data-lucide="shield-alert" class="lucide-sm"></i> [필수 보안 수칙]</strong><br>
             • 절대로 <strong>출금(Withdraw) 권한은 부여하지 마세요!</strong> 자동매매에는 <strong>'조회'</strong>와 <strong>'주문(매수/매도)'</strong> 권한만 있으면 충분합니다.<br>
             • 발급받은 Secret Key는 창을 닫으면 다시 볼 수 없으므로 발급 직후 복사하여 마법사에 붙여넣으세요.
           </div>
         `;
       }
       html += `
-        <div style="margin-top: 1rem; text-align: right;">
-          <button type="button" class="btn-link" onclick="closeKeyModal(); navigateToGuide('keys')">📖 도움말 탭에서 전체 가이드 보기 ➔</button>
+        <div class="modal-guide-footer">
+          <button type="button" class="btn-link" onclick="closeKeyModal(); navigateToGuide('keys')"><span>도움말 탭에서 전체 가이드 보기</span> <i data-lucide="arrow-right" class="lucide-sm"></i></button>
         </div>
       `;
       document.getElementById('modal-body').innerHTML = html;
       document.getElementById('key-modal').classList.add('active');
+      if (window.lucide) lucide.createIcons();
     }
 
     function closeKeyModal(event) {
@@ -2673,17 +3054,18 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
       const descEl = document.getElementById(`desc-${exchange}`);
       if (!descEl) return;
       if (val === 'none') {
-        descEl.innerHTML = '<span style="color:var(--text-secondary); font-weight: 500;">이 거래소의 전략이 비활성화되었습니다. 매매 및 잔고 분석이 수행되지 않습니다.</span>';
+        descEl.innerHTML = '<span class="strategy-disabled-text">이 거래소의 전략이 비활성화되었습니다. 매매 및 잔고 분석이 수행되지 않습니다.</span>';
       } else {
         // reload default text
         if (exchange === 'upbit') {
-          descEl.innerHTML = '<strong>📈 [BTC/ETH 50:50 동적 리밸런싱 전략의 특징]</strong><br>• <strong>분할 리스크 관리</strong>: 총 평가액을 BTC 50%, ETH 50%로 나누어 배분합니다.<br>• <strong>이중 추세 필터</strong>: BTC 220일 SMA(±2%), ETH 50일 SMA(1.5 ATR) 돌파 시에만 진입합니다.<br>• <strong>수익 보존</strong>: 60% 비중 초과 시 즉시 초과분을 매도하여 원화 현금 50%를 회수합니다.';
+          descEl.innerHTML = '<strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징]</strong><br>• <strong>분할 리스크 관리</strong>: 총 평가액을 BTC 50%, ETH 50%로 나누어 배분합니다.<br>• <strong>이중 추세 필터</strong>: BTC 220일 SMA(±2%), ETH 50일 SMA(1.5 ATR) 돌파 시에만 진입합니다.<br>• <strong>수익 보존</strong>: 60% 비중 초과 시 즉시 초과분을 매도하여 원화 현금 50%를 회수합니다.';
         } else if (exchange === 'bithumb') {
-          descEl.innerHTML = '<strong>🚀 [이더리움 SuperTrend 추세추종 전략의 특징]</strong><br>• <strong>100% 집중 공격형</strong>: 높은 변동성의 ETH 1종목에 자산 100%를 집중 운용합니다.<br>• <strong>복합 지표 필터</strong>: 50일 SMA 위 + SuperTrend(7, 3.5) 상승 밴드 시 100% 풀매수.<br>• <strong>철저한 하락 회피</strong>: 하락 전환 시 즉시 100% 원화로 전량 현금화(MDD -25% 철저 통제).';
+          descEl.innerHTML = '<strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징]</strong><br>• <strong>100% 집중 공격형</strong>: 높은 변동성의 ETH 1종목에 자산 100%를 집중 운용합니다.<br>• <strong>복합 지표 필터</strong>: 50일 SMA 위 + SuperTrend(7, 3.5) 상승 밴드 시 100% 풀매수.<br>• <strong>철저한 하락 회피</strong>: 하락 전환 시 즉시 100% 원화로 전량 현금화(MDD -25% 철저 통제).';
         } else if (exchange === 'binance') {
-          descEl.innerHTML = '<strong>💵 [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징]</strong><br>• <strong>김치프리미엄 배제</strong>: 순수 글로벌 테더(USDT) 마켓에서 달러 자산을 안정적 증식.<br>• <strong>글로벌 최적 파라미터</strong>: BTC 200일 SMA, ETH 40일 SMA 1.2 ATR 채널 적용.<br>• <strong>환율 리스크 헤지</strong>: 관망 시 달러(USDT)를 보유하여 원화 약세 리스크를 자연 방어.';
+          descEl.innerHTML = '<strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징]</strong><br>• <strong>김치프리미엄 배제</strong>: 순수 글로벌 테더(USDT) 마켓에서 달러 자산을 안정적 증식.<br>• <strong>글로벌 최적 파라미터</strong>: BTC 200일 SMA, ETH 40일 SMA 1.2 ATR 채널 적용.<br>• <strong>환율 리스크 헤지</strong>: 관망 시 달러(USDT)를 보유하여 원화 약세 리스크를 자연 방어.';
         }
       }
+      if (window.lucide) lucide.createIcons();
     }
 
     // Startup
@@ -2694,8 +3076,8 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
   <div class="modal-overlay" id="key-modal" onclick="closeKeyModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-head">
-        <div class="modal-title" id="modal-title">🔑 안내 가이드</div>
-        <button class="btn-close" onclick="closeKeyModal()">&times;</button>
+        <div class="modal-title" id="modal-title"><i data-lucide="key" class="lucide-sm"></i> <span>안내 가이드</span></div>
+        <button class="btn-close" onclick="closeKeyModal()" aria-label="가이드 닫기"><i data-lucide="x"></i></button>
       </div>
 
       <div class="modal-body" id="modal-body">
@@ -2703,7 +3085,7 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
       </div>
 
       <div class="modal-footer">
-        <button class="btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.9rem;" onclick="closeKeyModal()">확인 완료</button>
+        <button class="btn-primary modal-confirm-btn" onclick="closeKeyModal()">확인 완료</button>
       </div>
     </div>
   </div>
