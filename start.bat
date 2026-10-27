@@ -67,7 +67,7 @@ echo (To stop the server, press Ctrl+C in this window)
 echo ========================================================
 echo.
 
-start http://localhost:8080
+start "" cmd /c "timeout /t 2 /nobreak >nul & start http://localhost:8080"
 
 python src\server.py
 if %ERRORLEVEL% neq 0 (

@@ -45,7 +45,7 @@ class MemoryLogHandler(logging.Handler):
         super().__init__()
         self.capacity = capacity
         self.records = []
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
 
     def emit(self, record):
         try:
@@ -70,18 +70,36 @@ logger = logging.getLogger("quant_wizard")
 logger.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
 
+
+class SafeStreamHandler(logging.StreamHandler):
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            stream = self.stream
+            try:
+                stream.write(msg + self.terminator)
+            except UnicodeEncodeError:
+                safe_msg = msg.encode("ascii", errors="backslashreplace").decode("ascii")
+                stream.write(safe_msg + self.terminator)
+            self.flush()
+        except Exception:
+            self.handleError(record)
+
 # 콘솔 스트림 핸들러
-stream_handler = logging.StreamHandler(sys.stdout)
+stream_handler = SafeStreamHandler(sys.stdout)
 stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
-# 메모리 핸들러 등록
+# 메모리 핸들러 등록 (RLock 적용 및 propagate 방지)
 mem_handler = MemoryLogHandler(capacity=500)
 mem_handler.setFormatter(formatter)
 logger.addHandler(mem_handler)
+logger.propagate = False
 
-# 루트 로거에도 등록
-logging.getLogger().addHandler(mem_handler)
+# 루트 로거에도 안전하게 등록 (중복 방지)
+root_logger = logging.getLogger()
+if mem_handler not in root_logger.handlers:
+    root_logger.addHandler(mem_handler)
 
 from contextlib import asynccontextmanager
 
@@ -99,7 +117,7 @@ bot_state = {
 async def lifespan(app: FastAPI):
     """서버 수명 주기(시작/종료) 비동기 컨텍스트 매니저"""
     logger.info("==================================================")
-    logger.info("🧙 Crypto Quant Wizard 올인원 서버 시작")
+    logger.info("[INFO] Crypto Quant Wizard 올인원 서버 시작")
     logger.info("==================================================")
     try:
         hour, minute = [int(x) for x in config.AUTO_SCHEDULE_TIME.strip().split(":")]
@@ -113,11 +131,11 @@ async def lifespan(app: FastAPI):
         replace_existing=True
     )
     scheduler.start()
-    logger.info(f"📅 백그라운드 정기 스케줄러 등록 완료: 매일 {hour:02d}:{minute:02d} KST")
+    logger.info(f"백그라운드 정기 스케줄러 등록 완료: 매일 {hour:02d}:{minute:02d} KST")
 
     yield
 
-    logger.info("🛑 Crypto Quant Wizard 서버 종료 중...")
+    logger.info("Crypto Quant Wizard 서버 종료 중...")
     if scheduler.running:
         scheduler.shutdown(wait=False)
 
@@ -183,7 +201,7 @@ class RunBotRequest(BaseModel):
 
 def scheduled_job():
     """매일 09:05 KST 정기 실행되는 스케줄러 작업"""
-    logger.info("⏰ 정기 스케줄 트리거: 퀀트 매매 사이클 시작")
+    logger.info("정기 스케줄 트리거: 퀀트 매매 사이클 시작")
     run_bot_task(mode=config.RUN_MODE)
 
 
@@ -477,5 +495,5 @@ def serve_index():
 
 if __name__ == "__main__":
     port = config.WEB_PORT
-    logger.info(f"🌐 웹 서비스 시작: http://localhost:{port}")
+    logger.info(f"웹 서비스 시작: http://localhost:{port}")
     uvicorn.run(app, host="0.0.0.0", port=port)
