@@ -655,21 +655,23 @@
     .modal-content {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      max-width: 640px;
+      border-radius: 16px;
+      max-width: 680px;
       width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 1.5rem;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
     .modal-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
+      padding: 1.25rem 1.5rem;
       border-bottom: 1px solid var(--border-color);
+      background: var(--bg-card);
+      flex-shrink: 0;
     }
     .modal-title {
       font-size: 1.15rem;
@@ -685,6 +687,38 @@
       line-height: 1;
     }
     .btn-close:hover { color: var(--text-primary); }
+
+    .modal-body {
+      padding: 1.25rem 1.5rem;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      flex: 1 1 auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+    }
+    .modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    .modal-body::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 8px 0;
+    }
+    .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 10px;
+    }
+    .modal-body::-webkit-scrollbar-thumb:hover {
+      background: rgba(148, 163, 184, 0.6);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.85rem 1.5rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-card);
+      flex-shrink: 0;
+    }
 
     .help-link {
       font-size: 0.78rem;
@@ -1861,7 +1895,17 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
       const guide = keyGuides[exchange];
       if (!guide) return;
       document.getElementById('modal-title').innerText = guide.title;
-      document.getElementById('modal-body').innerHTML = guide.steps;
+      let html = `<div style="font-size: 0.88rem; line-height: 1.7; color: var(--text-primary);">${guide.steps}</div>`;
+      if (exchange !== 'discord' && exchange !== 'oracle') {
+        html += `
+          <div class="warning-box" style="margin-top: 1.25rem;">
+            <strong>⚠️ 필수 보안 수칙</strong><br>
+            • 절대로 <strong>출금(Withdraw) 권한은 부여하지 마세요!</strong> 자동매매에는 <strong>'조회'</strong>와 <strong>'주문(매수/매도)'</strong> 권한만 있으면 충분합니다.<br>
+            • 발급받은 Secret Key는 창을 닫으면 다시 볼 수 없으므로 발급 직후 복사하여 마법사에 붙여넣으세요.
+          </div>
+        `;
+      }
+      document.getElementById('modal-body').innerHTML = html;
       document.getElementById('key-modal').classList.add('active');
     }
 
@@ -1891,25 +1935,19 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
     window.addEventListener('DOMContentLoaded', initPage);
   </script>
 
-  <!-- API Key 발급 방법 가이드 모달 -->
+  <!-- 안내 가이드 모달 -->
   <div class="modal-overlay" id="key-modal" onclick="closeKeyModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
       <div class="modal-head">
-        <div class="modal-title" id="modal-title">🔑 거래소 API Key 발급 가이드</div>
+        <div class="modal-title" id="modal-title">🔑 안내 가이드</div>
         <button class="btn-close" onclick="closeKeyModal()">&times;</button>
       </div>
 
-      <div id="modal-body" style="font-size: 0.88rem; line-height: 1.7; color: var(--text-primary);">
+      <div class="modal-body" id="modal-body">
         <!-- Rendered dynamically -->
       </div>
 
-      <div class="warning-box">
-        <strong>⚠️ 필수 보안 수칙</strong><br>
-        • 절대로 <strong>출금(Withdraw) 권한은 부여하지 마세요!</strong> 자동매매에는 <strong>'조회'</strong>와 <strong>'주문(매수/매도)'</strong> 권한만 있으면 충분합니다.<br>
-        • 발급받은 Secret Key는 창을 닫으면 다시 볼 수 없으므로 발급 직후 복사하여 마법사에 붙여넣으세요.
-      </div>
-
-      <div style="text-align: right; margin-top: 1.25rem;">
+      <div class="modal-footer">
         <button class="btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.9rem;" onclick="closeKeyModal()">확인 완료</button>
       </div>
     </div>
