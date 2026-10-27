@@ -626,11 +626,12 @@ def export_web_status_json(data_dict, file_path=None):
 
 def auto_push_status_json(target_file=None, skip_push=False):
     """
-    PWA 웹 대시보드 데이터(status.json) 및 trade_history.csv, asset_history.csv를 GitHub에 자동 커밋 & 푸시.
-    오류가 발생하더라도 매매 봇 프로세스가 중단되지 않도록 안전하게 예외 처리.
+    웹 대시보드 데이터(status.json) 및 trade_history.csv, asset_history.csv GitHub 자동 푸시 (기본 비활성화).
     """
-    if skip_push:
-        logging.info("status.json GitHub 자동 푸시 스킵")
+    import config
+    enable_push = getattr(config, 'ENABLE_GIT_AUTO_PUSH', False)
+    if skip_push or not enable_push:
+        logging.info("status.json GitHub 자동 푸시 스킵 (ENABLE_GIT_AUTO_PUSH=false)")
         return True
 
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -1824,3 +1825,36 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+
+def execute_bot(mode=None, use_upbit=None, use_bithumb=None, use_binance=None):
+    """
+    웹 서버 또는 스케줄러에서 프로그래밍 방식으로 봇을 트리거하는 통합 진입점.
+    """
+    import importlib
+    import config
+    importlib.reload(config)
+
+    kst_now = get_kst_now()
+    target_mode = mode or getattr(config, 'RUN_MODE', 'dry_run')
+    target_mode = target_mode.lower().replace('-', '_')
+
+    use_up = use_upbit if use_upbit is not None else getattr(config, 'USE_UPBIT_STRATEGY', True)
+    use_alt = use_bithumb if use_bithumb is not None else getattr(config, 'USE_BITHUMB_STRATEGY', True)
+    use_bin = use_binance if use_binance is not None else getattr(config, 'USE_BINANCE_STRATEGY', True)
+
+    logging.info(f"봇 수동/스케줄 실행 트리거: Mode=[{target_mode}] | Upbit=[{use_up}] | Bithumb=[{use_alt}] | Binance=[{use_bin}]")
+
+    try:
+        if target_mode == 'signal':
+            run_signal_briefing(kst_now, use_alt_strategy=use_alt, use_binance_strategy=use_bin)
+        elif target_mode in ['dry_run', 'dry-run']:
+            run_live_trading(kst_now, is_dry_run=True, use_alt_strategy=use_alt, use_binance_strategy=use_bin)
+        elif target_mode == 'live':
+            run_live_trading(kst_now, is_dry_run=False, use_alt_strategy=use_alt, use_binance_strategy=use_bin)
+        else:
+            raise ValueError(f"지원하지 않는 실행 모드입니다: {target_mode}")
+        return {"success": True, "message": f"{target_mode} 모드로 정상 실행되었습니다.", "time": kst_now.isoformat()}
+    except Exception as e:
+        logging.error(f"봇 실행 중 오류 발생: {e}", exc_info=True)
+        return {"success": False, "message": str(e), "time": kst_now.isoformat()}
