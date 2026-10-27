@@ -749,6 +749,9 @@
 
     <!-- Header Actions -->
     <div class="header-actions">
+      <button class="btn-test" onclick="openKeyModal('oracle')" data-tooltip="집 PC를 끄고도 24시간 365일 무중단으로 돌리는 오라클 클라우드 평생 무료 배포 가이드" data-tooltip-pos="bottom-left" style="padding: 0.45rem 0.75rem; font-size: 0.8rem; background: rgba(13, 148, 136, 0.12); border: 1px solid var(--accent-primary); color: var(--accent-primary); font-weight: 600; border-radius: 8px;">
+        <span>☁️ 24시간 클라우드 가이드</span>
+      </button>
       <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다." data-tooltip-pos="bottom-left">
         <span>⚡ 지금 1회 수동 실행</span>
       </button>
@@ -773,6 +776,12 @@
         <div style="font-size: 0.8rem; color: var(--text-muted);" id="last-update-text">
           최종 업데이트: 동기화 중...
         </div>
+      </div>
+
+      <!-- Oracle Cloud 24h Notice Banner -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: -0.25rem; margin-bottom: 1.25rem; padding: 0.65rem 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.82rem;">
+        <span style="color: var(--text-secondary);">☁️ <strong>24시간 무인 구동 팁</strong>: PC를 켜두지 않고도 오라클 클라우드 평생 무료 VM에서 365일 자동 운용할 수 있습니다.</span>
+        <button type="button" class="help-link" onclick="openKeyModal('oracle')" style="background: none; border: none; font-size: 0.82rem; cursor: pointer;">클라우드 배포 가이드 열기 ➔</button>
       </div>
 
       <!-- Action Direction Guide Banner -->
@@ -1084,7 +1093,7 @@
               • <strong>자동 스케줄 대기</strong>: [설정 저장]을 완료하시면 내장 스케줄러가 활성화되어 터미널 창을 켜두시는 동안 <strong>매일 아침 09:05 KST에 자동으로 분석 및 매매</strong>를 실행합니다. 매일 start.bat을 다시 실행하실 필요가 없습니다.<br>
               • <strong>컴퓨터를 껐다 켰을 때</strong>: PC를 재부팅했거나 터미널을 닫았다면, 다음 날 09:05 전에 <code>start.bat</code>을 한 번만 다시 실행해 두시면 됩니다.<br>
               • <strong>터미널 종료 방법</strong>: 실행 중인 검은색 터미널 창에서 <strong>Ctrl + C</strong> 를 누르고 <code>y</code>를 입력하시거나, 창 우측 상단의 <strong>X</strong> 버튼을 클릭하시면 안전하게 종료됩니다.<br>
-              • <strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다.
+              • <strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다. <button type="button" class="help-link" onclick="openKeyModal('oracle')" style="background: none; border: none; margin-left: 0.35rem; font-size: 0.82rem; cursor: pointer;">[📖 1분 클라우드 가이드 열기]</button>
             </div>
           </div>
 
@@ -1750,6 +1759,48 @@
             <li><strong>IP 제약 설정</strong>: <code>[Restrict access to trusted IPs only]</code> 선택 후 서버/PC 고정 IP를 등록합니다.</li>
             <li>생성된 <strong>API Key</strong>와 <strong>Secret Key</strong>를 복사하여 마법사에 붙여넣습니다.</li>
           </ol>
+        `
+      },
+      oracle: {
+        title: '☁️ 오라클 클라우드(OCI) Always Free 24시간 무인 배포 가이드',
+        steps: `
+          <div style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.85rem; background: var(--bg-card-sub); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            💡 <strong>내 컴퓨터를 24시간 켜둘 필요가 없습니다!</strong><br>
+            오라클 클라우드의 <strong>평생 무료 가상 컴퓨터(Always Free VM)</strong>에 본 봇을 올려두시면, 집 PC를 완전히 끄고 외출하거나 자는 동안에도 <strong>매일 아침 09:05 KST에 자동으로 시장을 분석하고 매매</strong>한 뒤 스마트폰 디스코드로 알림을 보내줍니다.
+          </div>
+          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem; line-height: 1.6;">
+            <li><strong>오라클 클라우드 회원가입</strong>:
+              <br>• <a href="https://cloud.oracle.com" target="_blank" style="color: var(--accent-primary); font-weight: 600;">cloud.oracle.com</a> 에서 무료 계정을 생성합니다. (해외 결제 가능한 신용/체크카드 필요, $1 승인 후 즉시 취소)
+            </li>
+            <li><strong>평생 무료 VM 인스턴스 생성</strong>:
+              <br>• OCI 콘솔 좌측 메뉴 ➔ [컴퓨트] ➔ [인스턴스] ➔ <strong>[인스턴스 생성]</strong> 클릭
+              <br>• 모델: 반드시 <strong>VM.Standard.E2.1.Micro (AMD)</strong> 선택 <em>(Always Free 평생 무료 마크 확인)</em>
+              <br>• 이미지(OS): <strong>Ubuntu 22.04 LTS</strong> 또는 24.04 선택
+              <br>• SSH 키 저장: [자동 생성된 전용 키 다운로드] 클릭 후 <code>.key</code> 비밀 열쇠 파일을 PC에 안전하게 보관합니다.
+            </li>
+            <li><strong>영구 고정 공인 IP 발급 및 연결 (필수)</strong>:
+              <br>• 인스턴스 상세 페이지 하단 ➔ [기본 VNIC] ➔ [IP 관리] 클릭
+              <br>• 편집 ➔ <code>예약된 퍼블릭 IP(Reserved Public IP)</code> 선택 후 발급/연결
+              <br>• <em>효과: 서버를 재부팅해도 IP가 절대 변경되지 않아 업비트/빗썸/바이낸스 API 화이트리스트에 평생 등록 가능합니다.</em>
+            </li>
+            <li><strong>방화벽 8080 웹 포트 개방</strong>:
+              <br>• 인스턴스 속한 VCN 서브넷 ➔ [보안 목록(Security List)] ➔ [수신 규칙(Ingress Rules) 추가]
+              <br>• 소스 CIDR: <code>0.0.0.0/0</code>, 대상 포트: <code>8080</code>, 프로토콜: <code>TCP</code>
+            </li>
+            <li><strong>원클릭 런처 구동 (터미널 2줄)</strong>:
+              <br>• SSH 터미널 접속 후 아래 명령어를 복사/붙여넣기 합니다:
+              <pre style="background: #080c14; padding: 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.8rem; color: #38bdf8; border: 1px solid #1e293b; overflow-x: auto;">git clone https://github.com/haksoo0918/crypto-quant-wizard.git
+cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
+              • 터미널 창을 닫아도 24시간 계속 돌리는 백그라운드 명령어:
+              <pre style="background: #080c14; padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.8rem; color: #10b981; border: 1px solid #1e293b;">nohup ./start.sh > server.log 2>&1 &</pre>
+            </li>
+            <li><strong>원격 웹 접속</strong>:
+              <br>• 스마트폰 또는 PC 브라우저 주소창에 <code>http://&lt;오라클_고정_공인_IP&gt;:8080</code> 을 입력하여 대시보드와 설정 마법사를 언제 어디서든 자유롭게 모니터링합니다.
+            </li>
+          </ol>
+          <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: var(--bg-card-sub); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.82rem;">
+            📖 <strong>단계별 상세 매뉴얼</strong>: 프로젝트 내 <code>docs/ORACLE_CLOUD_GUIDE.md</code> 에 모든 클릭 과정 스크린샷과 상세 설정이 안내되어 있습니다.
+          </div>
         `
       }
     };
