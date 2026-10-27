@@ -5,13 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>🧙 Crypto Quant Wizard</title>
 
-  <!-- Pretendard Font -->
-  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Pretendard Web Font CDN (Variable & Static) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
 
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
   <style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css");
+
+    *, *::before, *::after, html, body, button, input, select, textarea, pre, code, kbd, samp, table, th, td {
+      font-family: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
     :root, [data-theme="light"] {
       --bg-primary: #f8fafc;
       --bg-secondary: #ffffff;
@@ -27,7 +37,7 @@
       --accent-danger: #ef4444;
       --accent-warning: #f59e0b;
       --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-      --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      --font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
       --chart-grid: rgba(0, 0, 0, 0.05);
       --chart-tick: #64748b;
     }
@@ -47,7 +57,7 @@
       --accent-danger: #f87171;
       --accent-warning: #fbbf24;
       --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-      --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      --font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
       --chart-grid: rgba(255, 255, 255, 0.06);
       --chart-tick: #94a3b8;
     }
@@ -444,13 +454,14 @@
       border: 1px solid #1e293b;
       border-radius: 10px;
       padding: 1rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.82rem;
-      color: #94a3b8;
+      font-family: 'Pretendard Variable', 'Pretendard', sans-serif !important;
+      font-size: 0.85rem;
+      color: #cbd5e1;
       height: 520px;
       overflow-y: auto;
       white-space: pre-wrap;
       word-break: break-all;
+      letter-spacing: -0.01em;
     }
     .log-line {
       line-height: 1.6;
@@ -458,6 +469,120 @@
     .log-INFO { color: #38bdf8; }
     .log-WARNING { color: #fbbf24; }
     .log-ERROR { color: #f87171; }
+
+    /* ==========================================
+       Custom Tooltip System (Replaces Native Title)
+       ========================================== */
+    [data-tooltip] {
+      position: relative;
+    }
+
+    [data-tooltip]::before,
+    [data-tooltip]::after {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+    }
+
+    /* Tooltip Bubble */
+    [data-tooltip]::after {
+      content: attr(data-tooltip);
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: 'Pretendard Variable', 'Pretendard', sans-serif !important;
+      font-size: 0.76rem;
+      font-weight: 500;
+      line-height: 1.45;
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+      white-space: normal;
+      width: max-content;
+      max-width: 290px;
+      text-align: left;
+    }
+
+    /* Tooltip Arrow */
+    [data-tooltip]::before {
+      content: '';
+      border: 5px solid transparent;
+    }
+
+    /* Position: Bottom (Default) */
+    [data-tooltip]:not([data-tooltip-pos])::after,
+    [data-tooltip][data-tooltip-pos="bottom"]::after {
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+    }
+    [data-tooltip]:not([data-tooltip-pos])::before,
+    [data-tooltip][data-tooltip-pos="bottom"]::before {
+      top: calc(100% - 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-color: #0f172a;
+    }
+    [data-tooltip]:not([data-tooltip-pos]):hover::after,
+    [data-tooltip][data-tooltip-pos="bottom"]:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    [data-tooltip]:not([data-tooltip-pos]):hover::before,
+    [data-tooltip][data-tooltip-pos="bottom"]:hover::before {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Position: Bottom-Left (Aligned to right edge of trigger, prevents offscreen right) */
+    [data-tooltip][data-tooltip-pos="bottom-left"]::after {
+      top: calc(100% + 8px);
+      right: 0;
+      left: auto;
+      transform: translateY(-4px);
+    }
+    [data-tooltip][data-tooltip-pos="bottom-left"]::before {
+      top: calc(100% - 2px);
+      right: 14px;
+      left: auto;
+      transform: none;
+      border-bottom-color: #0f172a;
+    }
+    [data-tooltip][data-tooltip-pos="bottom-left"]:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    [data-tooltip][data-tooltip-pos="bottom-left"]:hover::before {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Position: Top */
+    [data-tooltip][data-tooltip-pos="top"]::after {
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+    }
+    [data-tooltip][data-tooltip-pos="top"]::before {
+      bottom: calc(100% - 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      border-top-color: #0f172a;
+    }
+    [data-tooltip][data-tooltip-pos="top"]:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+    [data-tooltip][data-tooltip-pos="top"]:hover::before {
+      opacity: 1;
+      visibility: visible;
+    }
 
     /* Tables */
     .table-wrap {
@@ -624,11 +749,11 @@
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" title="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다.">
+      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다." data-tooltip-pos="bottom-left">
         <span>⚡ 지금 1회 수동 실행</span>
       </button>
-      <button class="icon-btn" onclick="togglePrivacy()" title="자산 마스킹">👁️</button>
-      <button class="icon-btn" onclick="toggleTheme()" title="다크/라이트 테마">🌓</button>
+      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="자산 가치 마스킹 / 표시 전환" data-tooltip-pos="bottom-left">👁️</button>
+      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="다크 모드 / 라이트 모드 전환" data-tooltip-pos="bottom-left">🌓</button>
     </div>
   </header>
 
