@@ -1,5 +1,9 @@
 # 🧙 Crypto Quant Wizard
 
+> [!WARNING]
+> **🚨 현재 개발 및 내부 테스트 진행 중인 프로젝트입니다.**
+> 본 프로젝트는 현재 기능 개발 및 테스트가 진행 중인 상태로 아직 최종 마무리가 되지 않았습니다. 예기치 않은 오류가 발생할 수 있으므로 개발 및 안정성 검증이 완료될 때까지 실제 사용을 자제해 주시기 바랍니다.
+
 <div align="center">
 
 ![Python Version](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
