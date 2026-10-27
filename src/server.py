@@ -532,9 +532,33 @@ def get_assets(limit: int = 60):
     return {"assets": []}
 
 
-# 정적 파일 마운트 (docs 디렉토리)
+# 정적 파일 마운트 (docs 디렉토리 및 css 디렉토리)
 if DOCS_DIR.exists():
+    css_dir = DOCS_DIR / "css"
+    if css_dir.exists():
+        app.mount("/css", StaticFiles(directory=str(css_dir)), name="css")
     app.mount("/static", StaticFiles(directory=str(DOCS_DIR)), name="static")
+
+
+@app.get("/favicon.ico")
+@app.get("/favicon.svg")
+def serve_favicon():
+    """파비콘 서빙"""
+    fav = DOCS_DIR / "favicon.svg"
+    if fav.exists():
+        return FileResponse(fav, media_type="image/svg+xml")
+    raise HTTPException(status_code=404, detail="Favicon not found")
+
+
+@app.get("/guide")
+@app.get("/guide.html")
+def serve_guide():
+    """올인원 퀀트 가이드 페이지 서빙"""
+    guide_path = DOCS_DIR / "guide.html"
+    if guide_path.exists():
+        return FileResponse(guide_path)
+    raise HTTPException(status_code=404, detail="Guide not found")
+
 
 @app.get("/")
 def serve_index():

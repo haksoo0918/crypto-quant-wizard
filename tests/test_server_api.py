@@ -101,3 +101,18 @@ def test_serve_index_exists():
     assert "Crypto Quant Wizard" in content
     assert "설정 마법사" in content
     assert "대시보드" in content
+
+
+def test_serve_guide_exists():
+    guide_file = server.DOCS_DIR / "guide.html"
+    assert guide_file.exists()
+    content = guide_file.read_text(encoding="utf-8")
+    assert "올인원 퀀트 가이드" in content
+    assert "백테스트" in content
+
+
+def test_serve_favicon_exists():
+    fav_file = server.DOCS_DIR / "favicon.svg"
+    assert fav_file.exists()
+    content = fav_file.read_text(encoding="utf-8")
+    assert "<svg" in content
