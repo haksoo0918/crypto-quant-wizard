@@ -413,7 +413,7 @@
       showToast('지금 즉시 분석 및 매매를 1회 실행합니다...');
 
       try {
-        const res = await fetch('/api/run-bot', { method: 'POST' });
+        const res = await fetch('/api/run-now', { method: 'POST' });
         const data = await res.json();
         showToast(data.message || '매매 사이클 실행이 완료되었습니다!');
       } catch (e) {
@@ -470,17 +470,30 @@
         const cfg = await res.json();
 
         selectMode(cfg.run_mode || 'dry_run');
-        document.getElementById('upbit-access').value = cfg.upbit_access_key || '';
-        document.getElementById('upbit-secret').value = cfg.upbit_secret_key || '';
-        document.getElementById('bithumb-access').value = cfg.bithumb_access_key || '';
-        document.getElementById('bithumb-secret').value = cfg.bithumb_secret_key || '';
-        document.getElementById('binance-access').value = cfg.binance_api_key || '';
-        document.getElementById('binance-secret').value = cfg.binance_secret_key || '';
-        document.getElementById('discord-webhook').value = cfg.discord_webhook_url || '';
 
-        if (cfg.upbit_strategy) document.getElementById('upbit-strategy').value = cfg.upbit_strategy;
-        if (cfg.bithumb_strategy) document.getElementById('bithumb-strategy').value = cfg.bithumb_strategy;
-        if (cfg.binance_strategy) document.getElementById('binance-strategy').value = cfg.binance_strategy;
+        const upbitAccess = cfg.upbit_access_key || (cfg.upbit && cfg.upbit.access_key_masked) || '';
+        const upbitSecret = cfg.upbit_secret_key || (cfg.upbit && cfg.upbit.has_secret ? '••••••••' : '') || '';
+        const bithumbAccess = cfg.bithumb_access_key || (cfg.bithumb && cfg.bithumb.access_key_masked) || '';
+        const bithumbSecret = cfg.bithumb_secret_key || (cfg.bithumb && cfg.bithumb.has_secret ? '••••••••' : '') || '';
+        const binanceAccess = cfg.binance_access_key || cfg.binance_api_key || (cfg.binance && cfg.binance.access_key_masked) || '';
+        const binanceSecret = cfg.binance_secret_key || (cfg.binance && cfg.binance.has_secret ? '••••••••' : '') || '';
+        const discordUrl = cfg.discord_webhook_url || (cfg.discord && cfg.discord.webhook_masked) || '';
+
+        document.getElementById('upbit-access').value = upbitAccess;
+        document.getElementById('upbit-secret').value = upbitSecret;
+        document.getElementById('bithumb-access').value = bithumbAccess;
+        document.getElementById('bithumb-secret').value = bithumbSecret;
+        document.getElementById('binance-access').value = binanceAccess;
+        document.getElementById('binance-secret').value = binanceSecret;
+        document.getElementById('discord-webhook').value = discordUrl;
+
+        const upbitStrategy = cfg.upbit_strategy || (cfg.upbit && cfg.upbit.strategy);
+        const bithumbStrategy = cfg.bithumb_strategy || (cfg.bithumb && cfg.bithumb.strategy);
+        const binanceStrategy = cfg.binance_strategy || (cfg.binance && cfg.binance.strategy);
+
+        if (upbitStrategy) document.getElementById('upbit-strategy').value = upbitStrategy;
+        if (bithumbStrategy) document.getElementById('bithumb-strategy').value = bithumbStrategy;
+        if (binanceStrategy) document.getElementById('binance-strategy').value = binanceStrategy;
 
         document.getElementById('schedule-enabled').checked = (cfg.schedule_enabled !== false);
 
@@ -494,6 +507,7 @@
 
     async function handleSaveConfig(event) {
       event.preventDefault();
+      const binanceKey = document.getElementById('binance-access').value;
       const payload = {
         run_mode: document.getElementById('input-run-mode').value,
         upbit_strategy: document.getElementById('upbit-strategy').value,
@@ -503,7 +517,8 @@
         upbit_secret_key: document.getElementById('upbit-secret').value,
         bithumb_access_key: document.getElementById('bithumb-access').value,
         bithumb_secret_key: document.getElementById('bithumb-secret').value,
-        binance_api_key: document.getElementById('binance-access').value,
+        binance_access_key: binanceKey,
+        binance_api_key: binanceKey,
         binance_secret_key: document.getElementById('binance-secret').value,
         discord_webhook_url: document.getElementById('discord-webhook').value,
         schedule_enabled: document.getElementById('schedule-enabled').checked
@@ -558,7 +573,7 @@
           body: JSON.stringify(payload)
         });
         const data = await res.json();
-        if (data.status === 'ok') {
+        if (data.success || data.status === 'ok') {
           resEl.className = 'test-result success';
           resEl.innerText = `[연결 성공] ${data.message}`;
         } else {
@@ -597,7 +612,7 @@
           body: JSON.stringify({ webhook_url: url })
         });
         const data = await res.json();
-        if (data.status === 'ok') {
+        if (data.success || data.status === 'ok') {
           resEl.className = 'test-result success';
           resEl.innerText = `[발송 성공] ${data.message}`;
         } else {

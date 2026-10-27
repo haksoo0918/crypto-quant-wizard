@@ -116,9 +116,10 @@ def mask_key(key: str) -> str:
 
 
 def get_public_config() -> dict:
-    """웹 UI에 안전하게 전달할 수 있는 설정 딕셔너리를 반환합니다."""
+    """웹 UI에 안전하게 전달할 수 있는 설정 딕셔너리를 반환합니다 (계층형 및 평면형 동시 지원)."""
     return {
         "run_mode": RUN_MODE,
+        # 계층형 구조
         "upbit": {
             "enabled": bool(UPBIT_ACCESS_KEY and UPBIT_SECRET_KEY and USE_UPBIT_STRATEGY),
             "configured": bool(UPBIT_ACCESS_KEY and UPBIT_SECRET_KEY),
@@ -144,6 +145,18 @@ def get_public_config() -> dict:
             "configured": bool(DISCORD_WEBHOOK_URL),
             "webhook_masked": mask_key(DISCORD_WEBHOOK_URL)
         },
+        # 평면형 호환 필드 (마법사 폼 직접 바인딩 지원)
+        "upbit_access_key": mask_key(UPBIT_ACCESS_KEY),
+        "upbit_secret_key": "••••••••" if UPBIT_SECRET_KEY else "",
+        "bithumb_access_key": mask_key(BITHUMB_ACCESS_KEY),
+        "bithumb_secret_key": "••••••••" if BITHUMB_SECRET_KEY else "",
+        "binance_access_key": mask_key(BINANCE_ACCESS_KEY),
+        "binance_api_key": mask_key(BINANCE_ACCESS_KEY),
+        "binance_secret_key": "••••••••" if BINANCE_SECRET_KEY else "",
+        "upbit_strategy": UPBIT_STRATEGY,
+        "bithumb_strategy": BITHUMB_STRATEGY,
+        "binance_strategy": BINANCE_STRATEGY,
+        "discord_webhook_url": mask_key(DISCORD_WEBHOOK_URL),
         "web_port": WEB_PORT,
         "schedule_time": AUTO_SCHEDULE_TIME,
         "schedule_enabled": SCHEDULE_ENABLED
@@ -204,8 +217,10 @@ def save_config(new_config: dict) -> bool:
     if "bithumb_secret_key" in new_config:
         BITHUMB_SECRET_KEY = update_key("BITHUMB_SECRET_KEY", new_config["bithumb_secret_key"])
 
-    if "binance_access_key" in new_config:
-        BINANCE_ACCESS_KEY = update_key("BINANCE_ACCESS_KEY", new_config["binance_access_key"])
+    # 바이낸스 키 호환성 처리 (binance_api_key 또는 binance_access_key)
+    bin_access = new_config.get("binance_access_key") or new_config.get("binance_api_key")
+    if bin_access is not None:
+        BINANCE_ACCESS_KEY = update_key("BINANCE_ACCESS_KEY", bin_access)
     if "binance_secret_key" in new_config:
         BINANCE_SECRET_KEY = update_key("BINANCE_SECRET_KEY", new_config["binance_secret_key"])
 

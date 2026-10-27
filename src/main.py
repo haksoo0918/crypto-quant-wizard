@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """
 암호화폐 듀얼 모멘텀 퀀트 자동매매 봇
 - 메인 전략: 업비트 BTC/ETH 듀얼 모멘텀 및 50:50 분할 리밸런싱
@@ -37,6 +37,22 @@ from config import (
 from bithumb_api import BithumbClient
 from binance_api import BinanceClient
 import pyupbit
+try:
+    from indicators import (
+        calculate_btc_indicators,
+        calculate_eth_indicators,
+        calculate_supertrend,
+        calculate_bithumb_eth_indicators
+    )
+    from discord_bot import send_discord_message
+except ImportError:
+    from src.indicators import (
+        calculate_btc_indicators,
+        calculate_eth_indicators,
+        calculate_supertrend,
+        calculate_bithumb_eth_indicators
+    )
+    from src.discord_bot import send_discord_message
 
 # 로깅 설정
 logging.basicConfig(
@@ -72,198 +88,6 @@ def get_kst_now():
     utc_now = datetime.now(timezone.utc)
     return utc_now + timedelta(hours=9)
 
-
-def send_discord_message(content):
-    """디스코드 웹훅으로 알림 메시지 발송"""
-    webhook_url = getattr(config, 'DISCORD_WEBHOOK_URL', '') or DISCORD_WEBHOOK_URL
-    if not webhook_url:
-        logging.warning("디스코드 웹훅 URL이 설정되어 있지 않습니다. 알림 전송을 건너뜁니다.")
-        return
-
-    payload = {"content": content}
-    headers = {"Content-Type": "application/json"}
-
-    try:
-        response = requests.post(webhook_url, data=json.dumps(payload), headers=headers, timeout=10)
-        if response.status_code in [200, 204]:
-            logging.info("디스코드 알림 발송 성공")
-        else:
-            logging.error(f"디스코드 알림 발송 실패 (상태 코드: {response.status_code}): {response.text}")
-    except Exception as e:
-        logging.error(f"디스코드 알림 발송 중 예외 발생: {e}")
-
-
-def calculate_btc_indicators(df, sma_len=BTC_SMA_LEN, buffer_rate=BTC_BUFFER):
-    """
-    BTC 지표 및 공통 시장 필터 상태(히스테리시스 역순 탐색) 계산
-    """
-    df = df.copy()
-    df['sma'] = df['close'].rolling(window=sma_len).mean()
-    
-    current_price = df['close'].iloc[-1]
-    sma = df['sma'].iloc[-1]
-    upper_buffer = sma * (1 + buffer_rate)
-    lower_buffer = sma * (1 - buffer_rate)
-    
-    if current_price >= upper_buffer:
-        market_filter_state = "Bull"
-        status = "bull"
-        status_label = "상승 추세 돌파"
-    elif current_price < lower_buffer:
-        market_filter_state = "Bear"
-        status = "bear"
-        status_label = "하락 추세 이탈"
-    else:
-        status = "buffer"
-        status_label = "버퍼 구간 대기"
-        market_filter_state = "Bear"
-        for t in range(2, len(df)):
-            close_t = df['close'].iloc[-t]
-            sma_t = df['sma'].iloc[-t]
-            if pd.isna(sma_t):
-                break
-            if close_t >= sma_t * (1 + buffer_rate):
-                market_filter_state = "Bull"
-                break
-            elif close_t < sma_t * (1 - buffer_rate):
-                market_filter_state = "Bear"
-                break
-                
-    return {
-        "current_price": current_price,
-        "sma": sma,
-        "upper_buffer": upper_buffer,
-        "lower_buffer": lower_buffer,
-        "status": status,
-        "status_label": status_label,
-        "market_filter_state": market_filter_state
-    }
-
-
-def calculate_eth_indicators(df, sma_len=ETH_SMA_LEN, atr_len=14, atr_multiplier=ETH_ATR_MULTIPLIER):
-    """
-    ETH 지표 및 채널 밴드 돌파 상태 계산
-    """
-    df = df.copy()
-    df['sma'] = df['close'].rolling(window=sma_len).mean()
-    
-    prev_close = df['close'].shift(1)
-    tr1 = df['high'] - df['low']
-    tr2 = (df['high'] - prev_close).abs()
-    tr3 = (df['low'] - prev_close).abs()
-    df['tr'] = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
-    df['atr_14'] = df['tr'].rolling(window=atr_len).mean()
-    
-    current_price = df['close'].iloc[-1]
-    sma = df['sma'].iloc[-1]
-    atr_14 = df['atr_14'].iloc[-1]
-    upper_band = sma + (atr_14 * atr_multiplier)
-    lower_band = sma - (atr_14 * atr_multiplier)
-    
-    if current_price >= upper_band:
-        status = "bull"
-        status_label = "상승 채널 돌파"
-    elif current_price < lower_band:
-        status = "bear"
-        status_label = "하락 밴드 이탈"
-    else:
-        status = "neutral"
-        status_label = "밴드 내 중립"
-        
-    return {
-        "current_price": current_price,
-        "sma": sma,
-        "atr_14": atr_14,
-        "upper_band": upper_band,
-        "lower_band": lower_band,
-        "status": status,
-        "status_label": status_label
-    }
-
-
-def calculate_supertrend(df, period=7, multiplier=3.5):
-    """
-    SuperTrend(슈퍼트렌드) 지표 연산
-    """
-    df_calc = df.copy()
-    high = df_calc['high']
-    low = df_calc['low']
-    close = df_calc['close']
-    prev_close = close.shift(1)
-    
-    tr1 = high - low
-    tr2 = (high - prev_close).abs()
-    tr3 = (low - prev_close).abs()
-    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
-    atr = tr.rolling(window=period).mean()
-    
-    hl2 = (high + low) / 2.0
-    basic_upper = hl2 + (multiplier * atr)
-    basic_lower = hl2 - (multiplier * atr)
-    
-    final_upper = basic_upper.copy()
-    final_lower = basic_lower.copy()
-    direction = pd.Series(index=df_calc.index, dtype=int)
-    supertrend = pd.Series(index=df_calc.index, dtype=float)
-    
-    n = len(df_calc)
-    for i in range(period, n):
-        if basic_upper.iloc[i] < final_upper.iloc[i-1] or close.iloc[i-1] > final_upper.iloc[i-1]:
-            final_upper.iloc[i] = basic_upper.iloc[i]
-        else:
-            final_upper.iloc[i] = final_upper.iloc[i-1]
-            
-        if basic_lower.iloc[i] > final_lower.iloc[i-1] or close.iloc[i-1] < final_lower.iloc[i-1]:
-            final_lower.iloc[i] = basic_lower.iloc[i]
-        else:
-            final_lower.iloc[i] = final_lower.iloc[i-1]
-            
-        if i == period:
-            direction.iloc[i] = 1 if close.iloc[i] > final_upper.iloc[i] else -1
-        else:
-            if direction.iloc[i-1] == 1:
-                direction.iloc[i] = -1 if close.iloc[i] < final_lower.iloc[i] else 1
-            else:
-                direction.iloc[i] = 1 if close.iloc[i] > final_upper.iloc[i] else -1
-                
-        supertrend.iloc[i] = final_lower.iloc[i] if direction.iloc[i] == 1 else final_upper.iloc[i]
-        
-    df_calc['supertrend'] = supertrend
-    df_calc['supertrend_direction'] = direction
-    return df_calc
-
-
-def calculate_bithumb_eth_indicators(df, sma_len=50, st_period=7, st_multiplier=3.5):
-    """
-    빗썸 서브 전략 (이더리움 SuperTrend + 50일 SMA 추세 추종) 지표 및 방향성 연산
-    """
-    df_st = calculate_supertrend(df, period=st_period, multiplier=st_multiplier)
-    df_st['sma50'] = df_st['close'].rolling(window=sma_len).mean()
-    
-    sma50 = float(df_st['sma50'].iloc[-1])
-    supertrend_val = float(df_st['supertrend'].iloc[-1])
-    direction_val = int(df_st['supertrend_direction'].iloc[-1])
-    supertrend_trend = "BULL" if direction_val == 1 else "BEAR"
-    
-    current_price = float(df_st['close'].iloc[-1])
-    is_above_sma = current_price >= sma50
-    
-    if is_above_sma and supertrend_trend == "BULL":
-        action = "BUY"
-        status_label = "상승 추세 (ETH 100% 매수)"
-    else:
-        action = "SELL"
-        status_label = "하락/약세장 (100% 현금화)"
-        
-    return {
-        "current_price": current_price,
-        "sma50": sma50,
-        "supertrend_val": supertrend_val,
-        "supertrend_trend": supertrend_trend,
-        "is_above_sma": is_above_sma,
-        "action": action,
-        "status_label": status_label
-    }
 
 
 def fetch_upbit_candles(market, count=250):

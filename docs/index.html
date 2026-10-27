@@ -245,7 +245,7 @@
       showToast('지금 즉시 분석 및 매매를 1회 실행합니다...');
 
       try {
-        const res = await fetch('/api/run-bot', { method: 'POST' });
+        const res = await fetch('/api/run-now', { method: 'POST' });
         const data = await res.json();
         showToast(data.message || '매매 사이클 실행이 완료되었습니다!');
         loadDashboardData();
@@ -320,7 +320,7 @@
 
       const nextRunEl = document.getElementById('next-run-text');
       if (statusData.schedule_enabled) {
-        nextRunEl.innerText = statusData.next_run_time ? `다음 실행: ${statusData.next_run_time}` : '다음 실행: 내일 09:05 KST';
+        nextRunEl.innerText = statusData.next_run ? `다음 실행: ${statusData.next_run}` : '다음 실행: 내일 09:05 KST';
       } else {
         nextRunEl.innerText = '정기 스케줄 중지됨 (수동 실행 전용)';
       }
@@ -358,7 +358,7 @@
         loadAssetGrowthChart();
         loadRecentTrades();
 
-        document.getElementById('last-update-text').innerText = `최종 동기화: ${data.timestamp || new Date().toLocaleTimeString()}`;
+        document.getElementById('last-update-text').innerText = `최종 동기화: ${data.updated_at_formatted || data.updated_at || new Date().toLocaleTimeString()}`;
 
       } catch (e) {
         console.error('Failed to load dashboard data:', e);
@@ -406,54 +406,66 @@
       const gridColor = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(0, 0, 0, 0.05)';
       const textColor = isDark ? '#94a3b8' : '#64748b';
 
-      // Mock 60 days series if real array is absent
-      const labels = Array.from({length: 30}, (_, i) => `${i+1}일전`).reverse();
+      const chartData = data && data.chart && typeof data.chart === 'object' ? data.chart : null;
+      const hasRealDates = chartData && Array.isArray(chartData.dates) && chartData.dates.length > 0;
+      const labels = hasRealDates ? chartData.dates : Array.from({length: 30}, (_, i) => `${i+1}일전`).reverse();
 
-      // Chart 1: Upbit
+      // Chart 1: Upbit (BTC 220일선)
       if (document.getElementById('chart-upbit')) {
         if (upbitChartInstance) upbitChartInstance.destroy();
         const ctx = document.getElementById('chart-upbit').getContext('2d');
+        const btcCloses = (chartData && chartData.btc && chartData.btc.closes) || labels.map(() => 95000000);
+        const btcSma = (chartData && chartData.btc && (chartData.btc.sma || chartData.btc.smas)) || labels.map(() => 92000000);
+
         upbitChartInstance = new Chart(ctx, {
           type: 'line',
           data: {
             labels: labels,
             datasets: [
-              { label: 'BTC 현재가', data: labels.map(() => 95000000 + (Math.random()-0.5)*8000000), borderColor: '#0d9488', tension: 0.2 },
-              { label: 'BTC 220일선', data: labels.map(() => 92000000), borderColor: '#64748b', borderDash: [4, 4], pointRadius: 0 }
+              { label: 'BTC 현재가', data: btcCloses, borderColor: '#0d9488', tension: 0.2 },
+              { label: 'BTC 220일선', data: btcSma, borderColor: '#64748b', borderDash: [4, 4], pointRadius: 0 }
             ]
           },
           options: getChartOptions(gridColor, textColor)
         });
       }
 
-      // Chart 2: Bithumb
+      // Chart 2: Bithumb (ETH SuperTrend)
       if (document.getElementById('chart-bithumb')) {
         if (bithumbChartInstance) bithumbChartInstance.destroy();
         const ctx2 = document.getElementById('chart-bithumb').getContext('2d');
+        const ethCloses = (chartData && chartData.bithumb && (chartData.bithumb.closes || chartData.bithumb.eth_closes)) || (chartData && chartData.eth && chartData.eth.closes) || labels.map(() => 4200000);
+        const stLine = (chartData && chartData.bithumb && (chartData.bithumb.supertrend || chartData.bithumb.supertrends)) || labels.map(() => 4100000);
+        const sma50 = (chartData && chartData.bithumb && (chartData.bithumb.sma || chartData.bithumb.sma50s)) || (chartData && chartData.eth && chartData.eth.sma) || labels.map(() => 4000000);
+
         bithumbChartInstance = new Chart(ctx2, {
           type: 'line',
           data: {
             labels: labels,
             datasets: [
-              { label: 'ETH 현재가', data: labels.map(() => 4200000 + (Math.random()-0.5)*400000), borderColor: '#0284c7', tension: 0.2 },
-              { label: 'SuperTrend선', data: labels.map(() => 4100000), borderColor: '#10b981', tension: 0.2 }
+              { label: 'ETH 현재가', data: ethCloses, borderColor: '#0284c7', tension: 0.2 },
+              { label: 'SuperTrend선', data: stLine, borderColor: '#10b981', tension: 0.2 },
+              { label: '50일선', data: sma50, borderColor: '#94a3b8', borderDash: [4, 4], pointRadius: 0 }
             ]
           },
           options: getChartOptions(gridColor, textColor)
         });
       }
 
-      // Chart 3: Binance
+      // Chart 3: Binance (BTCUSDT 200일선)
       if (document.getElementById('chart-binance')) {
         if (binanceChartInstance) binanceChartInstance.destroy();
         const ctx3 = document.getElementById('chart-binance').getContext('2d');
+        const binBtcCloses = (chartData && chartData.binance && chartData.binance.btc_closes) || labels.map(() => 68000);
+        const binBtcSma = (chartData && chartData.binance && chartData.binance.btc_smas) || labels.map(() => 65000);
+
         binanceChartInstance = new Chart(ctx3, {
           type: 'line',
           data: {
             labels: labels,
             datasets: [
-              { label: 'BTCUSDT', data: labels.map(() => 68000 + (Math.random()-0.5)*4000), borderColor: '#f59e0b', tension: 0.2 },
-              { label: '200일 SMA', data: labels.map(() => 65000), borderColor: '#94a3b8', borderDash: [4, 4], pointRadius: 0 }
+              { label: 'BTCUSDT', data: binBtcCloses, borderColor: '#f59e0b', tension: 0.2 },
+              { label: '200일 SMA', data: binBtcSma, borderColor: '#94a3b8', borderDash: [4, 4], pointRadius: 0 }
             ]
           },
           options: getChartOptions(gridColor, textColor)

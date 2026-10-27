@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>실행 로그 - Crypto Quant Wizard</title>
+  <title>?�행 로그 - Crypto Quant Wizard</title>
   
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="alternate icon" href="favicon.ico">
@@ -29,40 +29,40 @@
       </svg>
       <div>
         <div class="brand-title">Crypto Quant Wizard</div>
-        <div class="brand-subtitle">오픈소스 3대 거래소 암호화폐 퀀트 매니저</div>
+        <div class="brand-subtitle">?�픈?�스 3?� 거래???�호?�폐 ?�??매니?�</div>
       </div>
     </div>
 
     <!-- Navigation Tabs (Multi-Page Coherence) -->
-    <nav class="nav-tabs" role="tablist" aria-label="메인 네비게이션">
+    <nav class="nav-tabs" role="tablist" aria-label="메인 ?�비게이??>
       <a href="index.html" class="tab-btn" id="tab-btn-dashboard">
         <i data-lucide="layout-dashboard"></i>
-        <span>대시보드</span>
+        <span>?�?�보??/span>
       </a>
       <a href="wizard.html" class="tab-btn" id="tab-btn-wizard">
         <i data-lucide="sliders"></i>
-        <span>설정 마법사</span>
+        <span>?�정 마법??/span>
       </a>
       <a href="logs.html" class="tab-btn active" id="tab-btn-logs">
         <i data-lucide="terminal"></i>
-        <span>실행 로그</span>
+        <span>?�행 로그</span>
       </a>
       <a href="guide.html" class="tab-btn" id="tab-btn-guide">
         <i data-lucide="book-open"></i>
-        <span>도움말</span>
+        <span>?��?�?/span>
       </a>
     </nav>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다." data-tooltip-pos="bottom-left">
+      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 ?�침 09:05 ?��?줄을 기다리�? ?�고, ?�재 ?�장 ?�이?�로 지�?즉시 분석 �?매매�?1???�동 ?�행?�니??" data-tooltip-pos="bottom-left">
         <i data-lucide="zap"></i>
-        <span>지금 1회 수동 실행</span>
+        <span>지�?1???�동 ?�행</span>
       </button>
-      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="자산 가치 마스킹 / 표시 전환" data-tooltip-pos="bottom-left" aria-label="자산 가치 마스킹 전환">
+      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="?�산 가�?마스??/ ?�시 ?�환" data-tooltip-pos="bottom-left" aria-label="?�산 가�?마스???�환">
         <i data-lucide="eye" id="privacy-icon"></i>
       </button>
-      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="다크 모드 / 라이트 모드 전환" data-tooltip-pos="bottom-left" aria-label="테마 전환">
+      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="?�크 모드 / ?�이??모드 ?�환" data-tooltip-pos="bottom-left" aria-label="?�마 ?�환">
         <i data-lucide="sun-moon" id="theme-icon"></i>
       </button>
     </div>
@@ -74,26 +74,26 @@
       <div class="wizard-header">
         <h1 class="wizard-title">
           <i data-lucide="terminal"></i>
-          <span>실시간 콘솔 실행 로그</span>
+          <span>?�시�?콘솔 ?�행 로그</span>
         </h1>
         <p class="wizard-desc">
-          백엔드 APScheduler 및 거래소 API 체결 내역이 실시간으로 스트리밍됩니다.
+          백엔??APScheduler �?거래??API 체결 ?�역???�시간으�??�트리밍?�니??
         </p>
       </div>
 
       <div class="card">
         <div class="card-title">
-          <span>엔진 동작 로그 콘솔</span>
+          <span>?�진 ?�작 로그 콘솔</span>
           <div class="logs-control-group">
             <label class="logs-refresh-label" for="auto-refresh-logs">
-              <input type="checkbox" id="auto-refresh-logs" checked> 3초마다 자동 갱신
+              <input type="checkbox" id="auto-refresh-logs" checked> 3초마???�동 갱신
             </label>
-            <button class="btn-test" onclick="fetchLogs()">지금 새로고침</button>
-            <button class="btn-test" onclick="clearLogs()">콘솔 비우기</button>
+            <button class="btn-test" onclick="fetchLogs()">지�??�로고침</button>
+            <button class="btn-test" onclick="clearLogs()">콘솔 비우�?/button>
           </div>
         </div>
         <div class="terminal" id="terminal-view">
-로그를 불러오는 중입니다...
+로그�?불러?�는 중입?�다...
         </div>
       </div>
 
@@ -116,7 +116,7 @@
 
     function togglePrivacy() {
       // Logs do not have private financial targets
-      showToast('실행 로그 페이지입니다.');
+      showToast('?�행 로그 ?�이지?�니??');
     }
 
     function showToast(msg, duration = 3000) {
@@ -129,20 +129,20 @@
     async function triggerRunNow() {
       const btn = document.getElementById('btn-run-now');
       btn.disabled = true;
-      btn.innerHTML = '<i data-lucide="loader-2"></i> <span>실행 중...</span>';
+      btn.innerHTML = '<i data-lucide="loader-2"></i> <span>?�행 �?..</span>';
       if (window.lucide) lucide.createIcons();
-      showToast('지금 즉시 분석 및 매매를 1회 실행합니다...');
+      showToast('지�?즉시 분석 �?매매�?1???�행?�니??..');
 
       try {
-        const res = await fetch('/api/run-bot', { method: 'POST' });
+        const res = await fetch('/api/run-now', { method: 'POST' });
         const data = await res.json();
-        showToast(data.message || '매매 사이클 실행이 완료되었습니다!');
+        showToast(data.message || '매매 ?�이???�행???�료?�었?�니??');
         fetchLogs();
       } catch (e) {
-        showToast('실행 요청 중 오류가 발생했습니다: ' + e);
+        showToast('?�행 ?�청 �??�류가 발생?�습?�다: ' + e);
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<i data-lucide="zap"></i> <span>지금 1회 수동 실행</span>';
+        btn.innerHTML = '<i data-lucide="zap"></i> <span>지�?1???�동 ?�행</span>';
         if (window.lucide) lucide.createIcons();
       }
     }
@@ -168,7 +168,7 @@
           }).join('');
           term.scrollTop = term.scrollHeight;
         } else {
-          term.innerText = '기록된 실행 로그가 아직 없습니다.';
+          term.innerText = '기록???�행 로그가 ?�직 ?�습?�다.';
         }
       } catch (e) {
         console.error('Failed to fetch logs:', e);
@@ -176,7 +176,7 @@
     }
 
     function clearLogs() {
-      document.getElementById('terminal-view').innerHTML = '<div class="log-line" style="color:var(--text-muted)">콘솔 화면을 비웠습니다. 다음 갱신 시 최신 로그를 다시 로드합니다.</div>';
+      document.getElementById('terminal-view').innerHTML = '<div class="log-line" style="color:var(--text-muted)">콘솔 ?�면??비웠?�니?? ?�음 갱신 ??최신 로그�??�시 로드?�니??</div>';
     }
 
     document.addEventListener('DOMContentLoaded', () => {

@@ -25,9 +25,11 @@ echo "========================================================" | tee -a "$LOG_F
 echo "  [$(date +'%Y-%m-%d %H:%M:%S')] Starting Quant Trading Bot" | tee -a "$LOG_FILE"
 echo "========================================================" | tee -a "$LOG_FILE"
 
-# Execute Python bot
+# Execute Python bot (safe default if no args given)
 if [ $# -eq 0 ]; then
-    python3 src/main.py --live 2>&1 | tee -a "$LOG_FILE"
+    echo "[안내] 인자가 지정되지 않아 안전 분석 모드(Dry-run)로 1회 실행합니다." | tee -a "$LOG_FILE"
+    echo "실거래 주문을 원하시면 './run_bot.sh --live' 로 실행하십시오." | tee -a "$LOG_FILE"
+    python3 src/main.py 2>&1 | tee -a "$LOG_FILE"
 else
     python3 src/main.py "$@" 2>&1 | tee -a "$LOG_FILE"
 fi

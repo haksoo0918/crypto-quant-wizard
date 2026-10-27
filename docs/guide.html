@@ -1,9 +1,9 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ë„ì›€ë§ - Crypto Quant Wizard</title>
+  <title>µµ¿ò¸» - Crypto Quant Wizard</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <link rel="alternate icon" href="favicon.ico">
@@ -21,7 +21,7 @@
   <!-- Top Header Navigation -->
   <header>
     <div class="brand-wrap">
-      <svg class="brand-svg-logo" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Crypto Quant Wizard ë¡œê³ ">
+      <svg class="brand-svg-logo" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Crypto Quant Wizard ·Î°í">
         <rect width="36" height="36" rx="9" fill="url(#brand-logo-grad)"/>
         <defs>
           <linearGradient id="brand-logo-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
@@ -35,40 +35,40 @@
       </svg>
       <div>
         <div class="brand-title">Crypto Quant Wizard</div>
-        <div class="brand-subtitle">ì˜¤í”ˆì†ŒìŠ¤ 3ëŒ€ ê±°ëž˜ì†Œ ì•”í˜¸í™”í í€€íŠ¸ ë§¤ë‹ˆì €</div>
+        <div class="brand-subtitle">¿ÀÇÂ¼Ò½º 3´ë °Å·¡¼Ò ¾ÏÈ£È­Æó ÄöÆ® ¸Å´ÏÀú</div>
       </div>
     </div>
 
     <!-- Navigation Tabs (Multi-Page Coherence) -->
-    <nav class="nav-tabs" role="tablist" aria-label="ë©”ì¸ ë„¤ë¹„ê²Œì´ì…˜">
+    <nav class="nav-tabs" role="tablist" aria-label="¸ÞÀÎ ³×ºñ°ÔÀÌ¼Ç">
       <a href="index.html" class="tab-btn" id="tab-btn-dashboard">
         <i data-lucide="layout-dashboard"></i>
-        <span>ëŒ€ì‹œë³´ë“œ</span>
+        <span>´ë½Ãº¸µå</span>
       </a>
       <a href="wizard.html" class="tab-btn" id="tab-btn-wizard">
         <i data-lucide="sliders"></i>
-        <span>ì„¤ì • ë§ˆë²•ì‚¬</span>
+        <span>¼³Á¤ ¸¶¹ý»ç</span>
       </a>
       <a href="logs.html" class="tab-btn" id="tab-btn-logs">
         <i data-lucide="terminal"></i>
-        <span>ì‹¤í–‰ ë¡œê·¸</span>
+        <span>½ÇÇà ·Î±×</span>
       </a>
       <a href="guide.html" class="tab-btn active" id="tab-btn-guide">
         <i data-lucide="book-open"></i>
-        <span>ë„ì›€ë§</span>
+        <span>µµ¿ò¸»</span>
       </a>
     </nav>
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="ë§¤ì¼ ì•„ì¹¨ 09:05 ìŠ¤ì¼€ì¤„ì„ ê¸°ë‹¤ë¦¬ì§€ ì•Šê³ , í˜„ìž¬ ì‹œìž¥ ë°ì´í„°ë¡œ ì§€ê¸ˆ ì¦‰ì‹œ ë¶„ì„ ë° ë§¤ë§¤ë¥¼ 1íšŒ ìˆ˜ë™ ì‹¤í–‰í•©ë‹ˆë‹¤." data-tooltip-pos="bottom-left">
+      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="¸ÅÀÏ ¾ÆÄ§ 09:05 ½ºÄÉÁÙÀ» ±â´Ù¸®Áö ¾Ê°í, ÇöÀç ½ÃÀå µ¥ÀÌÅÍ·Î Áö±Ý Áï½Ã ºÐ¼® ¹× ¸Å¸Å¸¦ 1È¸ ¼öµ¿ ½ÇÇàÇÕ´Ï´Ù." data-tooltip-pos="bottom-left">
         <i data-lucide="zap"></i>
-        <span>ì§€ê¸ˆ 1íšŒ ìˆ˜ë™ ì‹¤í–‰</span>
+        <span>Áö±Ý 1È¸ ¼öµ¿ ½ÇÇà</span>
       </button>
-      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="ìžì‚° ê°€ì¹˜ ë§ˆìŠ¤í‚¹ / í‘œì‹œ ì „í™˜" data-tooltip-pos="bottom-left" aria-label="ìžì‚° ê°€ì¹˜ ë§ˆìŠ¤í‚¹ ì „í™˜">
+      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="ÀÚ»ê °¡Ä¡ ¸¶½ºÅ· / Ç¥½Ã ÀüÈ¯" data-tooltip-pos="bottom-left" aria-label="ÀÚ»ê °¡Ä¡ ¸¶½ºÅ· ÀüÈ¯">
         <i data-lucide="eye" id="privacy-icon"></i>
       </button>
-      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="ë‹¤í¬ ëª¨ë“œ / ë¼ì´íŠ¸ ëª¨ë“œ ì „í™˜" data-tooltip-pos="bottom-left" aria-label="í…Œë§ˆ ì „í™˜">
+      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="´ÙÅ© ¸ðµå / ¶óÀÌÆ® ¸ðµå ÀüÈ¯" data-tooltip-pos="bottom-left" aria-label="Å×¸¶ ÀüÈ¯">
         <i data-lucide="sun-moon" id="theme-icon"></i>
       </button>
     </div>
@@ -80,174 +80,174 @@
 
         <!-- Guide Header -->
         <div class="guide-header-block">
-          <h1 class="guide-main-title"><i data-lucide="book-open"></i> ì˜¬ì¸ì› í€€íŠ¸ ê°€ì´ë“œ & ë„ì›€ë§</h1>
-          <p class="guide-main-desc">Crypto Quant Wizardì˜ ì‹œìŠ¤í…œ ì•„í‚¤í…ì²˜, 3ëŒ€ í€€íŠ¸ ì „ëžµ ë° 5.2ë…„ ë°±í…ŒìŠ¤íŠ¸ ê²€ì¦ ê²°ê³¼, ê±°ëž˜ì†Œ API Key ë°œê¸‰ë¶€í„° 24ì‹œê°„ ì˜¤ë¼í´ í´ë¼ìš°ë“œ ë¬´ì¸ ë°°í¬ê¹Œì§€ ì™„ë²½í•˜ê²Œ ì•ˆë‚´í•©ë‹ˆë‹¤.</p>
+          <h1 class="guide-main-title"><i data-lucide="book-open"></i> ¿ÃÀÎ¿ø ÄöÆ® °¡ÀÌµå & µµ¿ò¸»</h1>
+          <p class="guide-main-desc">Crypto Quant WizardÀÇ ½Ã½ºÅÛ ¾ÆÅ°ÅØÃ³, 3´ë ÄöÆ® Àü·« ¹× 5.2³â ¹éÅ×½ºÆ® °ËÁõ °á°ú, °Å·¡¼Ò API Key ¹ß±ÞºÎÅÍ 24½Ã°£ ¿À¶óÅ¬ Å¬¶ó¿ìµå ¹«ÀÎ ¹èÆ÷±îÁö ¿Ïº®ÇÏ°Ô ¾È³»ÇÕ´Ï´Ù.</p>
         </div>
 
         <!-- Quick Navigation Grid -->
-        <nav class="guide-quick-nav" aria-label="ë„ì›€ë§ ëª©ì°¨ ë°”ë¡œê°€ê¸°">
+        <nav class="guide-quick-nav" aria-label="µµ¿ò¸» ¸ñÂ÷ ¹Ù·Î°¡±â">
           <button type="button" class="guide-pill" onclick="navigateToGuide('quickstart')">
             <i data-lucide="rocket"></i>
-            <span>3ë¶„ í€µìŠ¤íƒ€íŠ¸</span>
+            <span>3ºÐ Äü½ºÅ¸Æ®</span>
           </button>
           <button type="button" class="guide-pill" onclick="navigateToGuide('strategies')">
             <i data-lucide="trending-up"></i>
-            <span>ì „ëžµ & ë°±í…ŒìŠ¤íŠ¸</span>
+            <span>Àü·« & ¹éÅ×½ºÆ®</span>
           </button>
           <button type="button" class="guide-pill" onclick="navigateToGuide('keys')">
             <i data-lucide="key"></i>
-            <span>API Key & ì•Œë¦¼</span>
+            <span>API Key & ¾Ë¸²</span>
           </button>
           <button type="button" class="guide-pill" onclick="navigateToGuide('cloud')">
             <i data-lucide="cloud"></i>
-            <span>24ì‹œê°„ í´ë¼ìš°ë“œ</span>
+            <span>24½Ã°£ Å¬¶ó¿ìµå</span>
           </button>
           <button type="button" class="guide-pill" onclick="navigateToGuide('scheduler')">
             <i data-lucide="clock"></i>
-            <span>ìŠ¤ì¼€ì¤„ & í”„ë¡œì„¸ìŠ¤</span>
+            <span>½ºÄÉÁÙ & ÇÁ·Î¼¼½º</span>
           </button>
           <button type="button" class="guide-pill" onclick="navigateToGuide('faq')">
             <i data-lucide="help-circle"></i>
-            <span>FAQ & íŠ¸ëŸ¬ë¸”ìŠˆíŒ…</span>
+            <span>FAQ & Æ®·¯ºí½´ÆÃ</span>
           </button>
         </nav>
 
-        <!-- 1. 3ë¶„ í€µìŠ¤íƒ€íŠ¸ & ëŸ°ì²˜ ê°€ì´ë“œ -->
+        <!-- 1. 3ºÐ Äü½ºÅ¸Æ® & ·±Ã³ °¡ÀÌµå -->
         <article class="guide-card" id="guide-quickstart">
           <div class="guide-card-head">
             <h2 class="guide-card-title">
               <i data-lucide="rocket"></i>
-              <span>1. 3ë¶„ ë¡œì»¬ í€µìŠ¤íƒ€íŠ¸ & ëŸ°ì²˜ ì•ˆë‚´</span>
+              <span>1. 3ºÐ ·ÎÄÃ Äü½ºÅ¸Æ® & ·±Ã³ ¾È³»</span>
             </h2>
             <span class="guide-tag">Zero Build Friction</span>
           </div>
           <p class="guide-text">
-            ë³„ë„ì˜ ë³µìž¡í•œ Node.js ë¹Œë“œ ê³¼ì • ì—†ì´, Python 3.10+ í™˜ê²½ì—ì„œ ì›í´ë¦­ ëŸ°ì²˜ ìŠ¤í¬ë¦½íŠ¸ë§Œ ì‹¤í–‰í•˜ë©´ ê°€ìƒí™˜ê²½ êµ¬ì¶•, í•„ìˆ˜ íŒ¨í‚¤ì§€ ì„¤ì¹˜, ë¡œì»¬ ì›¹ ì„œë²„ ë° ë°±ê·¸ë¼ìš´ë“œ ìŠ¤ì¼€ì¤„ëŸ¬ê°€ í•œ ë²ˆì— ìžë™ ê¸°ë™ë©ë‹ˆë‹¤.
+            º°µµÀÇ º¹ÀâÇÑ Node.js ºôµå °úÁ¤ ¾øÀÌ, Python 3.10+ È¯°æ¿¡¼­ ¿øÅ¬¸¯ ·±Ã³ ½ºÅ©¸³Æ®¸¸ ½ÇÇàÇÏ¸é °¡»óÈ¯°æ ±¸Ãà, ÇÊ¼ö ÆÐÅ°Áö ¼³Ä¡, ·ÎÄÃ À¥ ¼­¹ö ¹× ¹é±×¶ó¿îµå ½ºÄÉÁÙ·¯°¡ ÇÑ ¹ø¿¡ ÀÚµ¿ ±âµ¿µË´Ï´Ù.
           </p>
 
           <h3 class="guide-sub-title">
             <i data-lucide="terminal" class="lucide-sm"></i>
-            <span>ìš´ì˜ì²´ì œë³„ ì›í´ë¦­ ì‹¤í–‰ ë°©ë²•</span>
+            <span>¿î¿µÃ¼Á¦º° ¿øÅ¬¸¯ ½ÇÇà ¹æ¹ý</span>
           </h3>
           <ul class="guide-step-list">
             <li>
-              <strong><i data-lucide="monitor" class="lucide-sm"></i> Windows ì‚¬ìš©ìž</strong>: í”„ë¡œì íŠ¸ í´ë” ë‚´ <code>start.bat</code> íŒŒì¼ì„ ë”ë¸” í´ë¦­í•©ë‹ˆë‹¤.
-              <div class="guide-text">ê°€ìƒí™˜ê²½(`.venv`) í™•ì¸, í•„ìˆ˜ ë¼ì´ë¸ŒëŸ¬ë¦¬ ìžë™ ì„¤ì¹˜, ì›¹ ì„œë²„ ê¸°ë™ í›„ ê¸°ë³¸ ë¸Œë¼ìš°ì €(`http://localhost:8080`)ê°€ ìžë™ìœ¼ë¡œ ì—´ë¦½ë‹ˆë‹¤.</div>
+              <strong><i data-lucide="monitor" class="lucide-sm"></i> Windows »ç¿ëÀÚ</strong>: ÇÁ·ÎÁ§Æ® Æú´õ ³» <code>start.bat</code> ÆÄÀÏÀ» ´õºí Å¬¸¯ÇÕ´Ï´Ù.
+              <div class="guide-text">°¡»óÈ¯°æ(`.venv`) È®ÀÎ, ÇÊ¼ö ¶óÀÌºê·¯¸® ÀÚµ¿ ¼³Ä¡, À¥ ¼­¹ö ±âµ¿ ÈÄ ±âº» ºê¶ó¿ìÀú(`http://localhost:8080`)°¡ ÀÚµ¿À¸·Î ¿­¸³´Ï´Ù.</div>
             </li>
             <li>
-              <strong><i data-lucide="terminal" class="lucide-sm"></i> Linux / macOS / Cloud VM ì‚¬ìš©ìž</strong>: í„°ë¯¸ë„ì—ì„œ ê¶Œí•œ ë¶€ì—¬ í›„ ì‹¤í–‰í•©ë‹ˆë‹¤.
+              <strong><i data-lucide="terminal" class="lucide-sm"></i> Linux / macOS / Cloud VM »ç¿ëÀÚ</strong>: ÅÍ¹Ì³Î¿¡¼­ ±ÇÇÑ ºÎ¿© ÈÄ ½ÇÇàÇÕ´Ï´Ù.
               <div class="guide-code">chmod +x start.sh && ./start.sh</div>
             </li>
             <li>
-              <strong><i data-lucide="box" class="lucide-sm"></i> Docker ì»¨í…Œì´ë„ˆ í™˜ê²½</strong>: Docker Composeë¥¼ í†µí•´ 1ì¤„ë¡œ ê²©ë¦¬ ì‹¤í–‰í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
+              <strong><i data-lucide="box" class="lucide-sm"></i> Docker ÄÁÅ×ÀÌ³Ê È¯°æ</strong>: Docker Compose¸¦ ÅëÇØ 1ÁÙ·Î °Ý¸® ½ÇÇàÇÒ ¼ö ÀÖ½À´Ï´Ù.
               <div class="guide-code alt-color">docker compose up -d</div>
             </li>
           </ul>
 
           <div class="callout-box">
-            <strong><i data-lucide="shield-check" class="lucide-sm"></i> [ë°ì´í„° ë° ì„¤ì • ë³´ê´€ ì›ì¹™]</strong><br>
-            â€¢ ë³¸ í”Œëž«í¼ì€ 100% ë¡œì»¬ êµ¬ë™ ì˜¤í”ˆì†ŒìŠ¤ ì†Œí”„íŠ¸ì›¨ì–´ìž…ë‹ˆë‹¤. ìž…ë ¥í•˜ì‹  ê±°ëž˜ì†Œ API Key ë° íŠ¸ë ˆì´ë”© ì „ëžµ ì„¤ì •ì€ ì—¬ëŸ¬ë¶„ì˜ ì»´í“¨í„° ë‚´ <code>.env</code> íŒŒì¼ì—ë§Œ ì €ìž¥ë˜ë©°, ì™¸ë¶€ ì–´ë–¤ ì„œë²„ë¡œë„ ì „ì†¡ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+            <strong><i data-lucide="shield-check" class="lucide-sm"></i> [µ¥ÀÌÅÍ ¹× ¼³Á¤ º¸°ü ¿øÄ¢]</strong><br>
+            ? º» ÇÃ·§ÆûÀº 100% ·ÎÄÃ ±¸µ¿ ¿ÀÇÂ¼Ò½º ¼ÒÇÁÆ®¿þ¾îÀÔ´Ï´Ù. ÀÔ·ÂÇÏ½Å °Å·¡¼Ò API Key ¹× Æ®·¹ÀÌµù Àü·« ¼³Á¤Àº ¿©·¯ºÐÀÇ ÄÄÇ»ÅÍ ³» <code>.env</code> ÆÄÀÏ¿¡¸¸ ÀúÀåµÇ¸ç, ¿ÜºÎ ¾î¶² ¼­¹ö·Îµµ Àü¼ÛµÇÁö ¾Ê½À´Ï´Ù.
           </div>
         </article>
 
-        <!-- 2. ì œê³µ í€€íŠ¸ ì „ëžµ ìƒì„¸ & ë°±í…ŒìŠ¤íŠ¸ ì„±ê³¼ ë¶„ì„ -->
+        <!-- 2. Á¦°ø ÄöÆ® Àü·« »ó¼¼ & ¹éÅ×½ºÆ® ¼º°ú ºÐ¼® -->
         <article class="guide-card" id="guide-strategies">
           <div class="guide-card-head">
             <h2 class="guide-card-title">
               <i data-lucide="trending-up"></i>
-              <span>2. í€€íŠ¸ ì „ëžµ ìƒì„¸ ìŠ¤íŽ™ & 5.2ë…„ ì‹¤ë°ì´í„° ë°±í…ŒìŠ¤íŠ¸</span>
+              <span>2. ÄöÆ® Àü·« »ó¼¼ ½ºÆå & 5.2³â ½Çµ¥ÀÌÅÍ ¹éÅ×½ºÆ®</span>
             </h2>
             <span class="guide-tag">5.2 Years Validated</span>
           </div>
           <p class="guide-text">
-            ê°ì •ì— íœ˜ë‘˜ë¦¬ëŠ” ì£¼ê´€ì  ë§¤ë§¤ë¥¼ ë°°ì œí•˜ê³ , ìˆ˜ë…„ê°„ì˜ ê³¼ê±° ì‹¤ë°ì´í„° ì‹œë®¬ë ˆì´ì…˜ê³¼ ì‹¤ê±°ëž˜ë¡œ ìˆ˜í•™ì  ìš°ìœ„ê°€ ìž…ì¦ëœ 3ëŒ€ í€€íŠ¸ ëª¨ë¸ì„ ê¸°ë³¸ íƒ‘ìž¬í•˜ê³  ìžˆìŠµë‹ˆë‹¤.
+            °¨Á¤¿¡ ÈÖµÑ¸®´Â ÁÖ°üÀû ¸Å¸Å¸¦ ¹èÁ¦ÇÏ°í, ¼ö³â°£ÀÇ °ú°Å ½Çµ¥ÀÌÅÍ ½Ã¹Ä·¹ÀÌ¼Ç°ú ½Ç°Å·¡·Î ¼öÇÐÀû ¿ìÀ§°¡ ÀÔÁõµÈ 3´ë ÄöÆ® ¸ðµ¨À» ±âº» Å¾ÀçÇÏ°í ÀÖ½À´Ï´Ù.
           </p>
 
-          <!-- í•œêµ­ ê±°ëž˜ì†Œ vs ë°”ì´ë‚¸ìŠ¤ ê¸€ë¡œë²Œ í…Œë” ë°ì´í„° ì°¨ì´ ì•ˆë‚´ -->
+          <!-- ÇÑ±¹ °Å·¡¼Ò vs ¹ÙÀÌ³½½º ±Û·Î¹ú Å×´õ µ¥ÀÌÅÍ Â÷ÀÌ ¾È³» -->
           <div class="guide-callout info">
             <h3 class="guide-sub-title">
               <i data-lucide="info" class="lucide-sm"></i>
-              <span>í•œêµ­ ê±°ëž˜ì†Œ(KRW) vs ë°”ì´ë‚¸ìŠ¤ ê¸€ë¡œë²Œ í…Œë”(USDT) ë°ì´í„° ê¸°ë°˜ ì „ëžµì˜ í•µì‹¬ ì°¨ì´</span>
+              <span>ÇÑ±¹ °Å·¡¼Ò(KRW) vs ¹ÙÀÌ³½½º ±Û·Î¹ú Å×´õ(USDT) µ¥ÀÌÅÍ ±â¹Ý Àü·«ÀÇ ÇÙ½É Â÷ÀÌ</span>
             </h3>
             <p class="guide-text">
-              ë³¸ ì‹œìŠ¤í…œì˜ í€€íŠ¸ ì „ëžµì€ ê±°ëž˜ì†Œ í™˜ê²½ê³¼ í†µí™” ì‹œìž¥ íŠ¹ì„±ì— ë”°ë¼ <strong>ê²€ì¦ì— ì‚¬ìš©ëœ ê¸°ì¤€ ë°ì´í„°ì™€ ìµœì í™” ì•Œê³ ë¦¬ì¦˜ì´ ëª…í™•ížˆ êµ¬ë¶„</strong>ë˜ì–´ ìžˆìŠµë‹ˆë‹¤.
+              º» ½Ã½ºÅÛÀÇ ÄöÆ® Àü·«Àº °Å·¡¼Ò È¯°æ°ú ÅëÈ­ ½ÃÀå Æ¯¼º¿¡ µû¶ó <strong>°ËÁõ¿¡ »ç¿ëµÈ ±âÁØ µ¥ÀÌÅÍ¿Í ÃÖÀûÈ­ ¾Ë°í¸®ÁòÀÌ ¸íÈ®È÷ ±¸ºÐ</strong>µÇ¾î ÀÖ½À´Ï´Ù.
             </p>
             <ul class="guide-step-list">
               <li>
-                <strong>í•œêµ­ ê±°ëž˜ì†Œ ì „ëžµ (ì—…ë¹„íŠ¸ / ë¹—ì¸)</strong>:
-                êµ­ë‚´ ì›í™”(KRW) ë§ˆì¼“ì˜ ì‹¤ê±°ëž˜ ì¼ë´‰ ë°ì´í„°ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ë°±í…ŒìŠ¤íŠ¸í•˜ì—¬ ì„ íƒëœ ì „ëžµìž…ë‹ˆë‹¤. í•œêµ­ ì½”ì¸ ì‹œìž¥ íŠ¹ìœ ì˜ ê¹€ì¹˜í”„ë¦¬ë¯¸ì—„(Kimchi Premium) ë³€ë™ì„±ê³¼ êµ­ë‚´ ì›í™” ìˆ˜ê¸‰ í™˜ê²½ì„ ë°˜ì˜í•˜ë©°, í•˜ë½ìž¥ ê°ì§€ ì‹œ 100% ì›í™”(KRW) í˜„ê¸ˆí™”ë¥¼ í†µí•´ ìžì‚°ì„ ë°©ì–´í•©ë‹ˆë‹¤.
+                <strong>ÇÑ±¹ °Å·¡¼Ò Àü·« (¾÷ºñÆ® / ºø½æ)</strong>:
+                ±¹³» ¿øÈ­(KRW) ¸¶ÄÏÀÇ ½Ç°Å·¡ ÀÏºÀ µ¥ÀÌÅÍ¸¦ ±â¹ÝÀ¸·Î ¹éÅ×½ºÆ®ÇÏ¿© ¼±ÅÃµÈ Àü·«ÀÔ´Ï´Ù. ÇÑ±¹ ÄÚÀÎ ½ÃÀå Æ¯À¯ÀÇ ±èÄ¡ÇÁ¸®¹Ì¾ö(Kimchi Premium) º¯µ¿¼º°ú ±¹³» ¿øÈ­ ¼ö±Þ È¯°æÀ» ¹Ý¿µÇÏ¸ç, ÇÏ¶ôÀå °¨Áö ½Ã 100% ¿øÈ­(KRW) Çö±ÝÈ­¸¦ ÅëÇØ ÀÚ»êÀ» ¹æ¾îÇÕ´Ï´Ù.
               </li>
               <li>
-                <strong>ê¸€ë¡œë²Œ ê±°ëž˜ì†Œ ì „ëžµ (ë°”ì´ë‚¸ìŠ¤)</strong>:
-                ë°”ì´ë‚¸ìŠ¤ ê¸€ë¡œë²Œ í…Œë”(USDT) ë§ˆì¼“ì˜ ì‹¤ê±°ëž˜ ì¼ë´‰ ë°ì´í„°ë¥¼ ê¸°ë°˜ìœ¼ë¡œ ë°±í…ŒìŠ¤íŠ¸í•˜ì—¬ ì„ íƒëœ ì „ëžµìž…ë‹ˆë‹¤. ê¹€ì¹˜í”„ë¦¬ë¯¸ì—„ì´ ë°°ì œëœ ìˆœìˆ˜ ê¸€ë¡œë²Œ ìœ ë™ì„±ì„ ë°˜ì˜í•˜ë©°, í•˜ë½ ë° ê´€ë§ ì‹œ ë‹¬ëŸ¬(USDT)ë¥¼ ë³´ìœ í•¨ìœ¼ë¡œì¨ ì›í™” ì•½ì„¸(í™˜ìœ¨ ìƒìŠ¹) ì‹œ ìžì—°ìŠ¤ëŸ¬ìš´ í™˜ìœ¨ ë°©ì–´(Hedge) íš¨ê³¼ë¥¼ ì œê³µí•©ë‹ˆë‹¤.
+                <strong>±Û·Î¹ú °Å·¡¼Ò Àü·« (¹ÙÀÌ³½½º)</strong>:
+                ¹ÙÀÌ³½½º ±Û·Î¹ú Å×´õ(USDT) ¸¶ÄÏÀÇ ½Ç°Å·¡ ÀÏºÀ µ¥ÀÌÅÍ¸¦ ±â¹ÝÀ¸·Î ¹éÅ×½ºÆ®ÇÏ¿© ¼±ÅÃµÈ Àü·«ÀÔ´Ï´Ù. ±èÄ¡ÇÁ¸®¹Ì¾öÀÌ ¹èÁ¦µÈ ¼ø¼ö ±Û·Î¹ú À¯µ¿¼ºÀ» ¹Ý¿µÇÏ¸ç, ÇÏ¶ô ¹× °ü¸Á ½Ã ´Þ·¯(USDT)¸¦ º¸À¯ÇÔÀ¸·Î½á ¿øÈ­ ¾à¼¼(È¯À² »ó½Â) ½Ã ÀÚ¿¬½º·¯¿î È¯À² ¹æ¾î(Hedge) È¿°ú¸¦ Á¦°øÇÕ´Ï´Ù.
               </li>
             </ul>
           </div>
 
           <h3 class="guide-sub-title">
             <i data-lucide="bar-chart-3" class="lucide-sm"></i>
-            <span>5.2ë…„ ê³¼ê±° ë°ì´í„° ë°±í…ŒìŠ¤íŠ¸ ì¢…í•© ì„±ê³¼ ë¹„êµí‘œ</span>
+            <span>5.2³â °ú°Å µ¥ÀÌÅÍ ¹éÅ×½ºÆ® Á¾ÇÕ ¼º°ú ºñ±³Ç¥</span>
           </h3>
           <div class="guide-table-wrapper">
             <table class="guide-table">
-              <caption class="sr-only">5.2ë…„ ê³¼ê±° ë°ì´í„° ë°±í…ŒìŠ¤íŠ¸ ì¢…í•© ì„±ê³¼ ë¹„êµí‘œ</caption>
+              <caption class="sr-only">5.2³â °ú°Å µ¥ÀÌÅÍ ¹éÅ×½ºÆ® Á¾ÇÕ ¼º°ú ºñ±³Ç¥</caption>
               <thead>
                 <tr>
-                  <th scope="col">ì „ëžµëª…</th>
-                  <th scope="col">ê¶Œìž¥ ê±°ëž˜ì†Œ</th>
-                  <th scope="col">ë°±í…ŒìŠ¤íŠ¸ ê¸°ì¤€ ë°ì´í„°</th>
-                  <th scope="col">ìš´ìš© ëŒ€ìƒ ìžì‚°</th>
-                  <th scope="col">ì—°ë³µë¦¬ ìˆ˜ìµë¥  (CAGR)</th>
-                  <th scope="col">ìµœëŒ€ ë‚™í­ (MDD)</th>
-                  <th scope="col">ìŠ¹ë¥  (Win Rate)</th>
-                  <th scope="col">ìƒ¤í”„ ì§€ìˆ˜ (Sharpe)</th>
-                  <th scope="col">í•µì‹¬ ë©”ì»¤ë‹ˆì¦˜</th>
+                  <th scope="col">Àü·«¸í</th>
+                  <th scope="col">±ÇÀå °Å·¡¼Ò</th>
+                  <th scope="col">¹éÅ×½ºÆ® ±âÁØ µ¥ÀÌÅÍ</th>
+                  <th scope="col">¿î¿ë ´ë»ó ÀÚ»ê</th>
+                  <th scope="col">¿¬º¹¸® ¼öÀÍ·ü (CAGR)</th>
+                  <th scope="col">ÃÖ´ë ³«Æø (MDD)</th>
+                  <th scope="col">½Â·ü (Win Rate)</th>
+                  <th scope="col">»þÇÁ Áö¼ö (Sharpe)</th>
+                  <th scope="col">ÇÙ½É ¸ÞÄ¿´ÏÁò</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>BTC/ETH 50:50 ë™ì  ë¦¬ë°¸ëŸ°ì‹±</td>
-                  <td><span class="guide-badge">ì—…ë¹„íŠ¸ (Upbit)</span></td>
-                  <td><strong>ì—…ë¹„íŠ¸ ì›í™”(KRW) ì¼ë´‰ ë°ì´í„°</strong></td>
-                  <td>KRW-BTC, KRW-ETH (50:50 ë¶„í• )</td>
-                  <td><span class="metric-badge green">+42.3% / ë…„</span></td>
+                  <td>BTC/ETH 50:50 µ¿Àû ¸®¹ë·±½Ì</td>
+                  <td><span class="guide-badge">¾÷ºñÆ® (Upbit)</span></td>
+                  <td><strong>¾÷ºñÆ® ¿øÈ­(KRW) ÀÏºÀ µ¥ÀÌÅÍ</strong></td>
+                  <td>KRW-BTC, KRW-ETH (50:50 ºÐÇÒ)</td>
+                  <td><span class="metric-badge green">+42.3% / ³â</span></td>
                   <td><span class="metric-badge red">-21.8%</span></td>
                   <td><span class="metric-badge blue">58.2%</span></td>
                   <td><strong>1.38</strong></td>
-                  <td>220ì¼ SMA + 1.5 ATR ì±„ë„ ì´ì¤‘ í•„í„°, 60% ë¹„ì¤‘ ì´ˆê³¼ ì‹œ ì´ˆê³¼ë¶„ ìµì ˆ í˜„ê¸ˆí™” (ì›í™” ë°©ì–´)</td>
+                  <td>220ÀÏ SMA + 1.5 ATR Ã¤³Î ÀÌÁß ÇÊÅÍ, 60% ºñÁß ÃÊ°ú ½Ã ÃÊ°úºÐ ÀÍÀý Çö±ÝÈ­ (¿øÈ­ ¹æ¾î)</td>
                 </tr>
                 <tr>
-                  <td>ì´ë”ë¦¬ì›€ SuperTrend ë‹¨ë… ì¶”ì„¸ì¶”ì¢…</td>
-                  <td><span class="guide-badge">ë¹—ì¸ (Bithumb)</span></td>
-                  <td><strong>ë¹—ì¸ ì›í™”(KRW) ì¼ë´‰ ë°ì´í„°</strong></td>
-                  <td>KRW-ETH ë‹¨ë… (100% ì§‘ì¤‘)</td>
-                  <td><span class="metric-badge green">+58.7% / ë…„</span></td>
+                  <td>ÀÌ´õ¸®¿ò SuperTrend ´Üµ¶ Ãß¼¼ÃßÁ¾</td>
+                  <td><span class="guide-badge">ºø½æ (Bithumb)</span></td>
+                  <td><strong>ºø½æ ¿øÈ­(KRW) ÀÏºÀ µ¥ÀÌÅÍ</strong></td>
+                  <td>KRW-ETH ´Üµ¶ (100% ÁýÁß)</td>
+                  <td><span class="metric-badge green">+58.7% / ³â</span></td>
                   <td><span class="metric-badge red">-25.4%</span></td>
                   <td><span class="metric-badge blue">61.4%</span></td>
                   <td><strong>1.45</strong></td>
-                  <td>50ì¼ SMA ëŒ€ì¶”ì„¸ì„  + SuperTrend(7, 3.5) ìƒìŠ¹ ë°´ë“œ ì‹œ í’€ë§¤ìˆ˜, í•˜ë½ ì‹œ 100% ì›í™” ë°©ì–´</td>
+                  <td>50ÀÏ SMA ´ëÃß¼¼¼± + SuperTrend(7, 3.5) »ó½Â ¹êµå ½Ã Ç®¸Å¼ö, ÇÏ¶ô ½Ã 100% ¿øÈ­ ¹æ¾î</td>
                 </tr>
                 <tr>
-                  <td>BTCUSDT/ETHUSDT ê¸€ë¡œë²Œ í…Œë”</td>
-                  <td><span class="guide-badge">ë°”ì´ë‚¸ìŠ¤ (Binance)</span></td>
-                  <td><strong>ë°”ì´ë‚¸ìŠ¤ í…Œë”(USDT) ì¼ë´‰ ë°ì´í„°</strong></td>
-                  <td>BTCUSDT, ETHUSDT (50:50 ë¶„í• )</td>
-                  <td><span class="metric-badge green">+38.6% / ë…„</span></td>
+                  <td>BTCUSDT/ETHUSDT ±Û·Î¹ú Å×´õ</td>
+                  <td><span class="guide-badge">¹ÙÀÌ³½½º (Binance)</span></td>
+                  <td><strong>¹ÙÀÌ³½½º Å×´õ(USDT) ÀÏºÀ µ¥ÀÌÅÍ</strong></td>
+                  <td>BTCUSDT, ETHUSDT (50:50 ºÐÇÒ)</td>
+                  <td><span class="metric-badge green">+38.6% / ³â</span></td>
                   <td><span class="metric-badge red">-20.1%</span></td>
                   <td><span class="metric-badge blue">57.8%</span></td>
                   <td><strong>1.32</strong></td>
-                  <td>ê¸€ë¡œë²Œ í…Œë”(USDT) ê¸°ë°˜ ê¹€í”„ ë°°ì œ, BTC 200ì¼ SMA & ETH 40ì¼ SMA 1.2 ATR, ê´€ë§ ì‹œ ë‹¬ëŸ¬(USDT) ë³´ìœ </td>
+                  <td>±Û·Î¹ú Å×´õ(USDT) ±â¹Ý ±èÇÁ ¹èÁ¦, BTC 200ÀÏ SMA & ETH 40ÀÏ SMA 1.2 ATR, °ü¸Á ½Ã ´Þ·¯(USDT) º¸À¯</td>
                 </tr>
                 <tr>
-                  <td>ë‹¨ìˆœ ë³´ìœ  (Buy & Hold ë²¤ì¹˜ë§ˆí¬)</td>
-                  <td><span class="guide-badge">ì „ ê±°ëž˜ì†Œ ê³µí†µ (ë¹„êµêµ°)</span></td>
-                  <td>ì‹œìž¥ ë‹¨ìˆœ ì‹œì„¸ (ë²¤ì¹˜ë§ˆí¬)</td>
+                  <td>´Ü¼ø º¸À¯ (Buy & Hold º¥Ä¡¸¶Å©)</td>
+                  <td><span class="guide-badge">Àü °Å·¡¼Ò °øÅë (ºñ±³±º)</span></td>
+                  <td>½ÃÀå ´Ü¼ø ½Ã¼¼ (º¥Ä¡¸¶Å©)</td>
                   <td>BTC, ETH (50:50)</td>
-                  <td><span class="metric-badge blue">+21.5% / ë…„</span></td>
+                  <td><span class="metric-badge blue">+21.5% / ³â</span></td>
                   <td><span class="metric-badge red">-73.4%</span></td>
                   <td>-</td>
                   <td>0.54</td>
-                  <td>í•˜ë½ìž¥ ë° í¬ë¦½í†  ìœˆí„° ì‹œ ìžì‚°ì˜ -70% ì´ìƒì´ ì¦ë°œí•˜ëŠ” ì¹˜ëª…ì  ì‹¬ë¦¬ ë¶•ê´´ ë°œìƒ</td>
+                  <td>ÇÏ¶ôÀå ¹× Å©¸³Åä À©ÅÍ ½Ã ÀÚ»êÀÇ -70% ÀÌ»óÀÌ Áõ¹ßÇÏ´Â Ä¡¸íÀû ½É¸® ºØ±« ¹ß»ý</td>
                 </tr>
               </tbody>
             </table>
@@ -255,226 +255,226 @@
 
           <h3 class="guide-sub-title">
             <i data-lucide="help-circle" class="lucide-sm"></i>
-            <span>ì™œ ë°±í…ŒìŠ¤íŠ¸ MDD(ìµœëŒ€ ë‚™í­)ê°€ ì¤‘ìš”í•œê°€ìš”?</span>
+            <span>¿Ö ¹éÅ×½ºÆ® MDD(ÃÖ´ë ³«Æø)°¡ Áß¿äÇÑ°¡¿ä?</span>
           </h3>
           <p class="guide-text">
-            ì½”ì¸ ì‹œìž¥ì—ì„œ ë‹¨ìˆœ ë³´ìœ (ì¡´ë²„) ì „ëžµì€ ìƒìŠ¹ìž¥ì—ì„œëŠ” ëˆì„ ë²Œì§€ë§Œ, í•˜ë½ìž¥ì—ì„œ <strong>-70%ì—ì„œ -80% ìˆ˜ì¤€ì˜ í­ë½</strong>ì„ ê·¸ëŒ€ë¡œ ì–»ì–´ë§žì•„ ê³„ì¢Œê°€ íšŒë³µ ë¶ˆëŠ¥ ìƒíƒœì— ë¹ ì§‘ë‹ˆë‹¤. ë³¸ ë´‡ì˜ ì „ëžµë“¤ì€ í•˜ë½ ì¶”ì„¸ ê°ì§€ ì‹œ <strong>ì›í™”(KRW) ë˜ëŠ” í…Œë”(USDT)ë¡œ ì „ëŸ‰ ëŒ€í”¼</strong>í•˜ì—¬ ê³„ì¢Œì˜ ìµœëŒ€ ë‚™í­ì„ -20%ëŒ€ë¡œ ì² ì €ížˆ ë¬¶ì–´ë‘ê³ , ë‹¤ì‹œ ì•ˆì „í•œ ìƒìŠ¹ íŒŒë™ì´ í™•ì¸ë  ë•Œë§Œ ìž¬ì§„ìž…í•˜ì—¬ ë³µë¦¬ ìˆ˜ìµì„ ê·¹ëŒ€í™”í•©ë‹ˆë‹¤.
+            ÄÚÀÎ ½ÃÀå¿¡¼­ ´Ü¼ø º¸À¯(Á¸¹ö) Àü·«Àº »ó½ÂÀå¿¡¼­´Â µ·À» ¹úÁö¸¸, ÇÏ¶ôÀå¿¡¼­ <strong>-70%¿¡¼­ -80% ¼öÁØÀÇ Æø¶ô</strong>À» ±×´ë·Î ¾ò¾î¸Â¾Æ °èÁÂ°¡ È¸º¹ ºÒ´É »óÅÂ¿¡ ºüÁý´Ï´Ù. º» º¿ÀÇ Àü·«µéÀº ÇÏ¶ô Ãß¼¼ °¨Áö ½Ã <strong>¿øÈ­(KRW) ¶Ç´Â Å×´õ(USDT)·Î Àü·® ´ëÇÇ</strong>ÇÏ¿© °èÁÂÀÇ ÃÖ´ë ³«ÆøÀ» -20%´ë·Î Ã¶ÀúÈ÷ ¹­¾îµÎ°í, ´Ù½Ã ¾ÈÀüÇÑ »ó½Â ÆÄµ¿ÀÌ È®ÀÎµÉ ¶§¸¸ ÀçÁøÀÔÇÏ¿© º¹¸® ¼öÀÍÀ» ±Ø´ëÈ­ÇÕ´Ï´Ù.
           </p>
         </article>
 
-        <!-- 3. API Key & ì•Œë¦¼ ì—°ë™ ë°œê¸‰ ë§¤ë‰´ì–¼ -->
+        <!-- 3. API Key & ¾Ë¸² ¿¬µ¿ ¹ß±Þ ¸Å´º¾ó -->
         <article class="guide-card" id="guide-keys">
           <div class="guide-card-head">
             <h2 class="guide-card-title">
               <i data-lucide="key"></i>
-              <span>3. ê±°ëž˜ì†Œ API Key ë° ë””ìŠ¤ì½”ë“œ ì›¹í›… ë°œê¸‰ ë§¤ë‰´ì–¼</span>
+              <span>3. °Å·¡¼Ò API Key ¹× µð½ºÄÚµå À¥ÈÅ ¹ß±Þ ¸Å´º¾ó</span>
             </h2>
             <span class="guide-tag">Security & Integration</span>
           </div>
 
           <div class="warning-box">
-            <strong><i data-lucide="shield-alert" class="lucide-sm"></i> [ìµœìš°ì„  í•„ìˆ˜ ë³´ì•ˆ ìˆ˜ì¹™] (ëª¨ë“  ê±°ëž˜ì†Œ ê³µí†µ)</strong><br>
-            â€¢ ì–´ë–¤ ê²½ìš°ì—ë„ <strong>ì¶œê¸ˆ(Withdraw) ê¶Œí•œì€ ì ˆëŒ€ ì²´í¬í•˜ì§€ ë§ˆì„¸ìš”!</strong> ë´‡ì€ <strong>'ìžì‚° ì¡°íšŒ'</strong>ì™€ <strong>'ì£¼ë¬¸(ë§¤ìˆ˜/ë§¤ë„)'</strong> ê¶Œí•œë§Œ ìžˆìœ¼ë©´ 100% ì •ìƒ ìž‘ë™í•©ë‹ˆë‹¤. ì¶œê¸ˆ ê¶Œí•œì„ ì£¼ì§€ ì•Šìœ¼ë©´ ì„¤ë ¹ í‚¤ê°€ ìœ ì¶œë˜ë”ë¼ë„ ì™¸ë¶€ë¡œ ìžì‚°ì´ ë¹ ì ¸ë‚˜ê°ˆ ìœ„í—˜ì´ ì—†ìŠµë‹ˆë‹¤.<br>
-            â€¢ ë°œê¸‰ë°›ì€ Secret KeyëŠ” ì°½ì„ ë‹«ìœ¼ë©´ ë‘ ë²ˆ ë‹¤ì‹œ í™•ì¸í•  ìˆ˜ ì—†ìœ¼ë¯€ë¡œ, ë°œê¸‰ ì§í›„ ë³µì‚¬í•˜ì—¬ ë§ˆë²•ì‚¬ì— ë¶™ì—¬ë„£ìœ¼ì„¸ìš”.
+            <strong><i data-lucide="shield-alert" class="lucide-sm"></i> [ÃÖ¿ì¼± ÇÊ¼ö º¸¾È ¼öÄ¢] (¸ðµç °Å·¡¼Ò °øÅë)</strong><br>
+            ? ¾î¶² °æ¿ì¿¡µµ <strong>Ãâ±Ý(Withdraw) ±ÇÇÑÀº Àý´ë Ã¼Å©ÇÏÁö ¸¶¼¼¿ä!</strong> º¿Àº <strong>'ÀÚ»ê Á¶È¸'</strong>¿Í <strong>'ÁÖ¹®(¸Å¼ö/¸Åµµ)'</strong> ±ÇÇÑ¸¸ ÀÖÀ¸¸é 100% Á¤»ó ÀÛµ¿ÇÕ´Ï´Ù. Ãâ±Ý ±ÇÇÑÀ» ÁÖÁö ¾ÊÀ¸¸é ¼³·É Å°°¡ À¯ÃâµÇ´õ¶óµµ ¿ÜºÎ·Î ÀÚ»êÀÌ ºüÁ®³ª°¥ À§ÇèÀÌ ¾ø½À´Ï´Ù.<br>
+            ? ¹ß±Þ¹ÞÀº Secret Key´Â Ã¢À» ´ÝÀ¸¸é µÎ ¹ø ´Ù½Ã È®ÀÎÇÒ ¼ö ¾øÀ¸¹Ç·Î, ¹ß±Þ Á÷ÈÄ º¹»çÇÏ¿© ¸¶¹ý»ç¿¡ ºÙ¿©³ÖÀ¸¼¼¿ä.
           </div>
 
-          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> ì—…ë¹„íŠ¸ (Upbit) API Key ë°œê¸‰</h3>
+          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> ¾÷ºñÆ® (Upbit) API Key ¹ß±Þ</h3>
           <ol class="guide-step-list">
-            <li>ì—…ë¹„íŠ¸ ì›¹ì‚¬ì´íŠ¸ ë¡œê·¸ì¸ &rarr; ìš°ì¸¡ ìƒë‹¨ <strong>[ë§ˆì´íŽ˜ì´ì§€]</strong> &rarr; ì¢Œì¸¡ <strong>[Open API ê´€ë¦¬]</strong> ë©”ë‰´ë¡œ ì´ë™í•©ë‹ˆë‹¤.</li>
-            <li>Open API ì£¼ìš” ê¸°ëŠ¥ ì¤‘ <strong>[ìžì‚°ì¡°íšŒ]</strong>, <strong>[ì£¼ë¬¸ì¡°íšŒ]</strong>, <strong>[ì£¼ë¬¸í•˜ê¸°]</strong> 3ê°œë§Œ ì²´í¬í•©ë‹ˆë‹¤. (ì¶œê¸ˆ ê´€ë ¨ í•­ëª© ì ˆëŒ€ ì²´í¬ ê¸ˆì§€)</li>
-            <li><strong>íŠ¹ì • IP ë“±ë¡</strong>: ì˜¤ë¼í´ í´ë¼ìš°ë“œ ê³ ì • ê³µì¸ IP ë˜ëŠ” ë¡œì»¬ PC IPë¥¼ ìž…ë ¥í•©ë‹ˆë‹¤. (ë¯¸ë“±ë¡ ì‹œ ì—…ë¹„íŠ¸ ì •ì±…ìƒ API í˜¸ì¶œì´ ì°¨ë‹¨ë©ë‹ˆë‹¤.)</li>
-            <li>2ì±„ë„ ì¸ì¦(ì¹´ì¹´ì˜¤íŽ˜ì´ / ë„¤ì´ë²„ì¸ì¦) ì™„ë£Œ í›„ ë°œê¸‰ëœ <strong>Access Key</strong>ì™€ <strong>Secret Key</strong>ë¥¼ ë³µì‚¬í•˜ì—¬ ë§ˆë²•ì‚¬ì— ìž…ë ¥í•©ë‹ˆë‹¤.</li>
+            <li>¾÷ºñÆ® À¥»çÀÌÆ® ·Î±×ÀÎ &rarr; ¿ìÃø »ó´Ü <strong>[¸¶ÀÌÆäÀÌÁö]</strong> &rarr; ÁÂÃø <strong>[Open API °ü¸®]</strong> ¸Þ´º·Î ÀÌµ¿ÇÕ´Ï´Ù.</li>
+            <li>Open API ÁÖ¿ä ±â´É Áß <strong>[ÀÚ»êÁ¶È¸]</strong>, <strong>[ÁÖ¹®Á¶È¸]</strong>, <strong>[ÁÖ¹®ÇÏ±â]</strong> 3°³¸¸ Ã¼Å©ÇÕ´Ï´Ù. (Ãâ±Ý °ü·Ã Ç×¸ñ Àý´ë Ã¼Å© ±ÝÁö)</li>
+            <li><strong>Æ¯Á¤ IP µî·Ï</strong>: ¿À¶óÅ¬ Å¬¶ó¿ìµå °íÁ¤ °øÀÎ IP ¶Ç´Â ·ÎÄÃ PC IP¸¦ ÀÔ·ÂÇÕ´Ï´Ù. (¹Ìµî·Ï ½Ã ¾÷ºñÆ® Á¤Ã¥»ó API È£ÃâÀÌ Â÷´ÜµË´Ï´Ù.)</li>
+            <li>2Ã¤³Î ÀÎÁõ(Ä«Ä«¿ÀÆäÀÌ / ³×ÀÌ¹öÀÎÁõ) ¿Ï·á ÈÄ ¹ß±ÞµÈ <strong>Access Key</strong>¿Í <strong>Secret Key</strong>¸¦ º¹»çÇÏ¿© ¸¶¹ý»ç¿¡ ÀÔ·ÂÇÕ´Ï´Ù.</li>
           </ol>
 
-          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> ë¹—ì¸ (Bithumb) API Key ë°œê¸‰</h3>
+          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> ºø½æ (Bithumb) API Key ¹ß±Þ</h3>
           <ol class="guide-step-list">
-            <li>ë¹—ì¸ ë¡œê·¸ì¸ &rarr; ìš°ì¸¡ ìƒë‹¨ <strong>[ê³ ê°ì„¼í„°]</strong> &rarr; <strong>[API ê´€ë¦¬]</strong> ë©”ë‰´ë¡œ ì´ë™í•©ë‹ˆë‹¤.</li>
-            <li>ê¶Œí•œ ì„ íƒì—ì„œ <strong>[íšŒì›ì •ë³´ ë° ê±°ëž˜ë‚´ì—­ ì¡°íšŒ]</strong>, <strong>[ì£¼ë¬¸(ë§¤ìˆ˜/ë§¤ë„)]</strong>ë§Œ í™œì„±í™”í•©ë‹ˆë‹¤. (ì¶œê¸ˆ ê´€ë ¨ ë¹„í™œì„±í™” ìœ ì§€)</li>
-            <li><strong>IP ì£¼ì†Œ ì œí•œ</strong>: ì„œë²„ ë˜ëŠ” PCì˜ ê³µì¸ IPë¥¼ ë“±ë¡í•©ë‹ˆë‹¤.</li>
-            <li>SMS ë˜ëŠ” OTP ì¸ì¦ í›„ ìƒì„±ëœ í‚¤ ìŒì„ ë³µì‚¬í•˜ì—¬ ë§ˆë²•ì‚¬ì— ìž…ë ¥í•©ë‹ˆë‹¤.</li>
+            <li>ºø½æ ·Î±×ÀÎ &rarr; ¿ìÃø »ó´Ü <strong>[°í°´¼¾ÅÍ]</strong> &rarr; <strong>[API °ü¸®]</strong> ¸Þ´º·Î ÀÌµ¿ÇÕ´Ï´Ù.</li>
+            <li>±ÇÇÑ ¼±ÅÃ¿¡¼­ <strong>[È¸¿øÁ¤º¸ ¹× °Å·¡³»¿ª Á¶È¸]</strong>, <strong>[ÁÖ¹®(¸Å¼ö/¸Åµµ)]</strong>¸¸ È°¼ºÈ­ÇÕ´Ï´Ù. (Ãâ±Ý °ü·Ã ºñÈ°¼ºÈ­ À¯Áö)</li>
+            <li><strong>IP ÁÖ¼Ò Á¦ÇÑ</strong>: ¼­¹ö ¶Ç´Â PCÀÇ °øÀÎ IP¸¦ µî·ÏÇÕ´Ï´Ù.</li>
+            <li>SMS ¶Ç´Â OTP ÀÎÁõ ÈÄ »ý¼ºµÈ Å° ½ÖÀ» º¹»çÇÏ¿© ¸¶¹ý»ç¿¡ ÀÔ·ÂÇÕ´Ï´Ù.</li>
           </ol>
 
-          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> ë°”ì´ë‚¸ìŠ¤ (Binance) API Key ë°œê¸‰</h3>
+          <h3 class="guide-sub-title"><i data-lucide="wallet" class="lucide-sm"></i> ¹ÙÀÌ³½½º (Binance) API Key ¹ß±Þ</h3>
           <ol class="guide-step-list">
-            <li>ë°”ì´ë‚¸ìŠ¤ ë¡œê·¸ì¸ &rarr; ìš°ì¸¡ ìƒë‹¨ í”„ë¡œí•„ &rarr; <strong>[API Management]</strong> &rarr; <strong>[Create API]</strong> í´ë¦­í•©ë‹ˆë‹¤.</li>
-            <li>API ìœ í˜•ìœ¼ë¡œ <strong>[System generated]</strong>ë¥¼ ì„ íƒí•˜ê³  ì‹ë³„ìš© ë¼ë²¨(ì˜ˆ: <code>crypto-quant-wizard</code>)ì„ ìž…ë ¥í•©ë‹ˆë‹¤.</li>
-            <li>API ê¶Œí•œì—ì„œ <strong>[Enable Reading]</strong> ë° <strong>[Enable Spot & Margin Trading]</strong> 2ê°œë§Œ ì²´í¬í•©ë‹ˆë‹¤.</li>
-            <li><strong>IP Access Restriction</strong>: <code>[Restrict access to trusted IPs only]</code> ì„ íƒ í›„ ì„œë²„ ê³ ì • IPë¥¼ ë“±ë¡í•©ë‹ˆë‹¤.</li>
-            <li>ë°œê¸‰ëœ <strong>API Key</strong>ì™€ <strong>Secret Key</strong>ë¥¼ ë§ˆë²•ì‚¬ì— ìž…ë ¥í•©ë‹ˆë‹¤.</li>
+            <li>¹ÙÀÌ³½½º ·Î±×ÀÎ &rarr; ¿ìÃø »ó´Ü ÇÁ·ÎÇÊ &rarr; <strong>[API Management]</strong> &rarr; <strong>[Create API]</strong> Å¬¸¯ÇÕ´Ï´Ù.</li>
+            <li>API À¯ÇüÀ¸·Î <strong>[System generated]</strong>¸¦ ¼±ÅÃÇÏ°í ½Äº°¿ë ¶óº§(¿¹: <code>crypto-quant-wizard</code>)À» ÀÔ·ÂÇÕ´Ï´Ù.</li>
+            <li>API ±ÇÇÑ¿¡¼­ <strong>[Enable Reading]</strong> ¹× <strong>[Enable Spot & Margin Trading]</strong> 2°³¸¸ Ã¼Å©ÇÕ´Ï´Ù.</li>
+            <li><strong>IP Access Restriction</strong>: <code>[Restrict access to trusted IPs only]</code> ¼±ÅÃ ÈÄ ¼­¹ö °íÁ¤ IP¸¦ µî·ÏÇÕ´Ï´Ù.</li>
+            <li>¹ß±ÞµÈ <strong>API Key</strong>¿Í <strong>Secret Key</strong>¸¦ ¸¶¹ý»ç¿¡ ÀÔ·ÂÇÕ´Ï´Ù.</li>
           </ol>
 
-          <h3 class="guide-sub-title"><i data-lucide="message-square" class="lucide-sm"></i> ë””ìŠ¤ì½”ë“œ (Discord) ìŠ¤ë§ˆíŠ¸í° ì•Œë¦¼ ì›¹í›… ë°œê¸‰</h3>
+          <h3 class="guide-sub-title"><i data-lucide="message-square" class="lucide-sm"></i> µð½ºÄÚµå (Discord) ½º¸¶Æ®Æù ¾Ë¸² À¥ÈÅ ¹ß±Þ</h3>
           <ol class="guide-step-list">
-            <li>ë””ìŠ¤ì½”ë“œ PC í”„ë¡œê·¸ëž¨ ë˜ëŠ” ì›¹ì—ì„œ ì•Œë¦¼ì„ ìˆ˜ì‹ í•  ë³¸ì¸ë§Œì˜ <strong>ê°œì¸ ì„œë²„</strong>ë¥¼ í•˜ë‚˜ ìƒì„±í•©ë‹ˆë‹¤. (ë¬´ë£Œ)</li>
-            <li>ì•Œë¦¼ì„ ë°›ì„ ì±„ë„(ì˜ˆ: <code>#íŠ¸ë ˆì´ë”©-ë¦¬í¬íŠ¸</code>) ìš°ì¸¡ì˜ <strong>í†±ë‹ˆë°”í€´ [ì±„ë„ ì„¤ì •]</strong> í´ë¦­ &rarr; ì¢Œì¸¡ <strong>[ì—°ë™]</strong> ë©”ë‰´ë¡œ ì´ë™í•©ë‹ˆë‹¤.</li>
-            <li><strong>[ì›¹í›„í¬(Webhook)]</strong> í´ë¦­ &rarr; <strong>[ìƒˆ ì›¹í›„í¬ ë§Œë“¤ê¸°]</strong> í´ë¦­ í›„ <strong>[ì›¹í›„í¬ URL ë³µì‚¬]</strong> ë²„íŠ¼ì„ ëˆ„ë¦…ë‹ˆë‹¤.</li>
-            <li>ë³µì‚¬í•œ ì£¼ì†Œ(<code>https://discord.com/api/webhooks/...</code>)ë¥¼ ì„¤ì • ë§ˆë²•ì‚¬ì— ë¶™ì—¬ë„£ê³  <strong>[í…ŒìŠ¤íŠ¸ ë°œì†¡]</strong>ì„ ëˆŒëŸ¬ ìŠ¤ë§ˆíŠ¸í°ìœ¼ë¡œ ì•Œë¦¼ì´ ì˜¤ëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.</li>
+            <li>µð½ºÄÚµå PC ÇÁ·Î±×·¥ ¶Ç´Â À¥¿¡¼­ ¾Ë¸²À» ¼ö½ÅÇÒ º»ÀÎ¸¸ÀÇ <strong>°³ÀÎ ¼­¹ö</strong>¸¦ ÇÏ³ª »ý¼ºÇÕ´Ï´Ù. (¹«·á)</li>
+            <li>¾Ë¸²À» ¹ÞÀ» Ã¤³Î(¿¹: <code>#Æ®·¹ÀÌµù-¸®Æ÷Æ®</code>) ¿ìÃøÀÇ <strong>Åé´Ï¹ÙÄû [Ã¤³Î ¼³Á¤]</strong> Å¬¸¯ &rarr; ÁÂÃø <strong>[¿¬µ¿]</strong> ¸Þ´º·Î ÀÌµ¿ÇÕ´Ï´Ù.</li>
+            <li><strong>[À¥ÈÄÅ©(Webhook)]</strong> Å¬¸¯ &rarr; <strong>[»õ À¥ÈÄÅ© ¸¸µé±â]</strong> Å¬¸¯ ÈÄ <strong>[À¥ÈÄÅ© URL º¹»ç]</strong> ¹öÆ°À» ´©¸¨´Ï´Ù.</li>
+            <li>º¹»çÇÑ ÁÖ¼Ò(<code>https://discord.com/api/webhooks/...</code>)¸¦ ¼³Á¤ ¸¶¹ý»ç¿¡ ºÙ¿©³Ö°í <strong>[Å×½ºÆ® ¹ß¼Û]</strong>À» ´­·¯ ½º¸¶Æ®ÆùÀ¸·Î ¾Ë¸²ÀÌ ¿À´ÂÁö È®ÀÎÇÕ´Ï´Ù.</li>
           </ol>
         </article>
 
-        <!-- 4. ì˜¤ë¼í´ í´ë¼ìš°ë“œ Always Free 24ì‹œê°„ ë¬´ì¸ ë°°í¬ ê°€ì´ë“œ -->
+        <!-- 4. ¿À¶óÅ¬ Å¬¶ó¿ìµå Always Free 24½Ã°£ ¹«ÀÎ ¹èÆ÷ °¡ÀÌµå -->
         <article class="guide-card" id="guide-cloud">
           <div class="guide-card-head">
             <h2 class="guide-card-title">
               <i data-lucide="cloud"></i>
-              <span>4. ì˜¤ë¼í´ í´ë¼ìš°ë“œ(OCI) Always Free 24ì‹œê°„ ë¬´ì¸ ë°°í¬ ê°€ì´ë“œ</span>
+              <span>4. ¿À¶óÅ¬ Å¬¶ó¿ìµå(OCI) Always Free 24½Ã°£ ¹«ÀÎ ¹èÆ÷ °¡ÀÌµå</span>
             </h2>
             <span class="guide-tag">365 Days Unattended</span>
           </div>
 
           <div class="callout-box">
-            <strong><i data-lucide="info" class="lucide-sm"></i> [ë‚´ ì»´í“¨í„°ë¥¼ 24ì‹œê°„ ì¼œë‘˜ í•„ìš”ê°€ ì—†ìŠµë‹ˆë‹¤!]</strong><br>
-            ì˜¤ë¼í´ í´ë¼ìš°ë“œì˜ <strong>í‰ìƒ ë¬´ë£Œ ê°€ìƒ ì»´í“¨í„°(Always Free VM)</strong>ì— ë³¸ ë´‡ì„ ì˜¬ë ¤ë‘ì‹œë©´, ì§‘ PCë¥¼ ì™„ì „ížˆ ë„ê³  ì™¸ì¶œí•˜ê±°ë‚˜ ìžëŠ” ë™ì•ˆì—ë„ <strong>ë§¤ì¼ ì•„ì¹¨ 09:05 KSTì— ìžë™ìœ¼ë¡œ ì‹œìž¥ì„ ë¶„ì„í•˜ê³  ë§¤ë§¤</strong>í•œ ë’¤ ìŠ¤ë§ˆíŠ¸í° ë””ìŠ¤ì½”ë“œë¡œ ë¦¬í¬íŠ¸ë¥¼ ë³´ë‚´ì¤ë‹ˆë‹¤.
+            <strong><i data-lucide="info" class="lucide-sm"></i> [³» ÄÄÇ»ÅÍ¸¦ 24½Ã°£ ÄÑµÑ ÇÊ¿ä°¡ ¾ø½À´Ï´Ù!]</strong><br>
+            ¿À¶óÅ¬ Å¬¶ó¿ìµåÀÇ <strong>Æò»ý ¹«·á °¡»ó ÄÄÇ»ÅÍ(Always Free VM)</strong>¿¡ º» º¿À» ¿Ã·ÁµÎ½Ã¸é, Áý PC¸¦ ¿ÏÀüÈ÷ ²ô°í ¿ÜÃâÇÏ°Å³ª ÀÚ´Â µ¿¾È¿¡µµ <strong>¸ÅÀÏ ¾ÆÄ§ 09:05 KST¿¡ ÀÚµ¿À¸·Î ½ÃÀåÀ» ºÐ¼®ÇÏ°í ¸Å¸Å</strong>ÇÑ µÚ ½º¸¶Æ®Æù µð½ºÄÚµå·Î ¸®Æ÷Æ®¸¦ º¸³»ÁÝ´Ï´Ù.
           </div>
 
           <h3 class="guide-sub-title">
             <i data-lucide="list-ordered" class="lucide-sm"></i>
-            <span>6ë‹¨ê³„ ì™„ë²½ ë°°í¬ ê°€ì´ë“œ</span>
+            <span>6´Ü°è ¿Ïº® ¹èÆ÷ °¡ÀÌµå</span>
           </h3>
           <ol class="guide-step-list">
             <li>
-              <strong>1ë‹¨ê³„: ì˜¤ë¼í´ í´ë¼ìš°ë“œ íšŒì›ê°€ìž… ë° í‰ìƒ ë¬´ë£Œ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±</strong>
+              <strong>1´Ü°è: ¿À¶óÅ¬ Å¬¶ó¿ìµå È¸¿ø°¡ÀÔ ¹× Æò»ý ¹«·á ÀÎ½ºÅÏ½º »ý¼º</strong>
               <div class="guide-text">
-                â€¢ <a href="https://cloud.oracle.com" target="_blank" class="btn-link">cloud.oracle.com</a> ì—ì„œ ë¬´ë£Œ ê³„ì • ê°€ìž… í›„ ì½˜ì†”ë¡œ ë¡œê·¸ì¸í•©ë‹ˆë‹¤.<br>
-                â€¢ OCI ì½˜ì†” ì¢Œì¸¡ ë©”ë‰´ &rarr; [ì»´í“¨íŠ¸] &rarr; [ì¸ìŠ¤í„´ìŠ¤] &rarr; <strong>[ì¸ìŠ¤í„´ìŠ¤ ìƒì„±]</strong> í´ë¦­<br>
-                â€¢ ëª¨ë¸(Shape): ë°˜ë“œì‹œ <strong>`VM.Standard.E2.1.Micro` (AMD)</strong> ì„ íƒ <em>(Always Free í‰ìƒ ë¬´ë£Œ ë§ˆí¬ í™•ì¸)</em><br>
-                â€¢ ì´ë¯¸ì§€(OS): <strong>Ubuntu 24.04 LTS</strong> ë˜ëŠ” 22.04 LTS ì„ íƒ<br>
-                â€¢ SSH í‚¤: [ìžë™ìœ¼ë¡œ í‚¤ ìŒ ìƒì„±] &rarr; <strong>[í”„ë¼ì´ë¹— í‚¤ ë‹¤ìš´ë¡œë“œ]</strong> í´ë¦­ í›„ <code>.key</code> íŒŒì¼ì„ PCì— ë³´ê´€
+                ? <a href="https://cloud.oracle.com" target="_blank" class="btn-link">cloud.oracle.com</a> ¿¡¼­ ¹«·á °èÁ¤ °¡ÀÔ ÈÄ ÄÜ¼Ö·Î ·Î±×ÀÎÇÕ´Ï´Ù.<br>
+                ? OCI ÄÜ¼Ö ÁÂÃø ¸Þ´º &rarr; [ÄÄÇ»Æ®] &rarr; [ÀÎ½ºÅÏ½º] &rarr; <strong>[ÀÎ½ºÅÏ½º »ý¼º]</strong> Å¬¸¯<br>
+                ? ¸ðµ¨(Shape): ¹Ýµå½Ã <strong>`VM.Standard.E2.1.Micro` (AMD)</strong> ¼±ÅÃ <em>(Always Free Æò»ý ¹«·á ¸¶Å© È®ÀÎ)</em><br>
+                ? ÀÌ¹ÌÁö(OS): <strong>Ubuntu 24.04 LTS</strong> ¶Ç´Â 22.04 LTS ¼±ÅÃ<br>
+                ? SSH Å°: [ÀÚµ¿À¸·Î Å° ½Ö »ý¼º] &rarr; <strong>[ÇÁ¶óÀÌºø Å° ´Ù¿î·Îµå]</strong> Å¬¸¯ ÈÄ <code>.key</code> ÆÄÀÏÀ» PC¿¡ º¸°ü
               </div>
             </li>
             <li>
-              <strong>2ë‹¨ê³„: ì˜êµ¬ ê³ ì • ê³µì¸ IP(ì˜ˆì•½ëœ ê³µìš© IP) í• ë‹¹ (í•„ìˆ˜)</strong>
+              <strong>2´Ü°è: ¿µ±¸ °íÁ¤ °øÀÎ IP(¿¹¾àµÈ °ø¿ë IP) ÇÒ´ç (ÇÊ¼ö)</strong>
               <div class="guide-text">
-                â€¢ ì¸ìŠ¤í„´ìŠ¤ ìƒì„¸ í™”ë©´ &rarr; [ë„¤íŠ¸ì›Œí‚¹] &rarr; ê¸°ë³¸ VNIC í´ë¦­ &rarr; [IP ê´€ë¦¬] í´ë¦­<br>
-                â€¢ í”„ë¼ì´ë¹— IP í–‰ ìš°ì¸¡ ì  3ê°œ(<code>...</code>) &rarr; [íŽ¸ì§‘] &rarr; <strong>`ì˜ˆì•½ëœ í¼ë¸”ë¦­ IP`</strong> ì„ íƒ í›„ ìƒˆ ì˜ˆì•½ IP ë°œê¸‰<br>
-                â€¢ <em>íš¨ê³¼: ì„œë²„ë¥¼ ìž¬ë¶€íŒ…í•´ë„ IPê°€ ì ˆëŒ€ ë³€ê²½ë˜ì§€ ì•Šì•„ ì—…ë¹„íŠ¸/ë¹—ì¸/ë°”ì´ë‚¸ìŠ¤ í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ì— í‰ìƒ ë“±ë¡ ê°€ëŠ¥í•©ë‹ˆë‹¤.</em>
+                ? ÀÎ½ºÅÏ½º »ó¼¼ È­¸é &rarr; [³×Æ®¿öÅ·] &rarr; ±âº» VNIC Å¬¸¯ &rarr; [IP °ü¸®] Å¬¸¯<br>
+                ? ÇÁ¶óÀÌºø IP Çà ¿ìÃø Á¡ 3°³(<code>...</code>) &rarr; [ÆíÁý] &rarr; <strong>`¿¹¾àµÈ ÆÛºí¸¯ IP`</strong> ¼±ÅÃ ÈÄ »õ ¿¹¾à IP ¹ß±Þ<br>
+                ? <em>È¿°ú: ¼­¹ö¸¦ ÀçºÎÆÃÇØµµ IP°¡ Àý´ë º¯°æµÇÁö ¾Ê¾Æ ¾÷ºñÆ®/ºø½æ/¹ÙÀÌ³½½º È­ÀÌÆ®¸®½ºÆ®¿¡ Æò»ý µî·Ï °¡´ÉÇÕ´Ï´Ù.</em>
               </div>
             </li>
             <li>
-              <strong>3ë‹¨ê³„: ì›¹ ëŒ€ì‹œë³´ë“œ ì ‘ì†ì„ ìœ„í•œ 8080 ë°©í™”ë²½ í¬íŠ¸ ê°œë°©</strong>
+              <strong>3´Ü°è: À¥ ´ë½Ãº¸µå Á¢¼ÓÀ» À§ÇÑ 8080 ¹æÈ­º® Æ÷Æ® °³¹æ</strong>
               <div class="guide-text">
-                â€¢ OCI ì½˜ì†” &rarr; [ê°€ìƒ í´ë¼ìš°ë“œ ë„¤íŠ¸ì›Œí¬(VCN)] &rarr; ë³´ì•ˆ ëª©ë¡(Security Lists) &rarr; `Default Security List` í´ë¦­<br>
-                â€¢ <strong>[ìˆ˜ì‹  ê·œì¹™ ì¶”ê°€(Add Ingress Rules)]</strong> í´ë¦­:<br>
-                â€¢ ì†ŒìŠ¤ CIDR: <code>0.0.0.0/0</code>, ëŒ€ìƒ í¬íŠ¸: <code>8080</code>, í”„ë¡œí† ì½œ: <code>TCP</code>, ì„¤ëª…: <code>Web UI</code>
+                ? OCI ÄÜ¼Ö &rarr; [°¡»ó Å¬¶ó¿ìµå ³×Æ®¿öÅ©(VCN)] &rarr; º¸¾È ¸ñ·Ï(Security Lists) &rarr; `Default Security List` Å¬¸¯<br>
+                ? <strong>[¼ö½Å ±ÔÄ¢ Ãß°¡(Add Ingress Rules)]</strong> Å¬¸¯:<br>
+                ? ¼Ò½º CIDR: <code>0.0.0.0/0</code>, ´ë»ó Æ÷Æ®: <code>8080</code>, ÇÁ·ÎÅäÄÝ: <code>TCP</code>, ¼³¸í: <code>Web UI</code>
               </div>
             </li>
             <li>
-              <strong>4ë‹¨ê³„: ê±°ëž˜ì†Œ API ê´€ë¦¬ì— ë°œê¸‰ë°›ì€ ì„œë²„ ê³ ì • IP ë“±ë¡</strong>
+              <strong>4´Ü°è: °Å·¡¼Ò API °ü¸®¿¡ ¹ß±Þ¹ÞÀº ¼­¹ö °íÁ¤ IP µî·Ï</strong>
               <div class="guide-text">
-                â€¢ ì—…ë¹„íŠ¸, ë¹—ì¸, ë°”ì´ë‚¸ìŠ¤ì˜ API ì„¤ì • ë©”ë‰´ì—ì„œ ìœ„ 2ë‹¨ê³„ì—ì„œ ë°œê¸‰ë°›ì€ <strong>&lt;ì˜¤ë¼í´_ê³ ì •_ê³µì¸_IP&gt;</strong>ë¥¼ í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ì— ë“±ë¡í•©ë‹ˆë‹¤.
+                ? ¾÷ºñÆ®, ºø½æ, ¹ÙÀÌ³½½ºÀÇ API ¼³Á¤ ¸Þ´º¿¡¼­ À§ 2´Ü°è¿¡¼­ ¹ß±Þ¹ÞÀº <strong>&lt;¿À¶óÅ¬_°íÁ¤_°øÀÎ_IP&gt;</strong>¸¦ È­ÀÌÆ®¸®½ºÆ®¿¡ µî·ÏÇÕ´Ï´Ù.
               </div>
             </li>
             <li>
-              <strong>5ë‹¨ê³„: ì„œë²„ ì ‘ì† ë° ì›í´ë¦­ ëŸ°ì²˜ êµ¬ë™ (í„°ë¯¸ë„ ëª…ë ¹ì–´)</strong>
-              <div class="guide-text">PC í„°ë¯¸ë„ì—ì„œ SSH í‚¤ë¡œ ì„œë²„ì— ì ‘ì†í•œ í›„ ì•„ëž˜ ëª…ë ¹ì–´ë¥¼ ìž…ë ¥í•©ë‹ˆë‹¤:</div>
-              <div class="guide-code">ssh -i &lt;í‚¤íŒŒì¼ê²½ë¡œ.key&gt; ubuntu@&lt;ì˜¤ë¼í´_ê³ ì •_IP&gt;</div>
-              <div class="guide-text">ì‹œìŠ¤í…œ íŒ¨í‚¤ì§€ ì„¤ì¹˜ ë° ë¦¬í¬ì§€í† ë¦¬ í´ë¡ :</div>
+              <strong>5´Ü°è: ¼­¹ö Á¢¼Ó ¹× ¿øÅ¬¸¯ ·±Ã³ ±¸µ¿ (ÅÍ¹Ì³Î ¸í·É¾î)</strong>
+              <div class="guide-text">PC ÅÍ¹Ì³Î¿¡¼­ SSH Å°·Î ¼­¹ö¿¡ Á¢¼ÓÇÑ ÈÄ ¾Æ·¡ ¸í·É¾î¸¦ ÀÔ·ÂÇÕ´Ï´Ù:</div>
+              <div class="guide-code">ssh -i &lt;Å°ÆÄÀÏ°æ·Î.key&gt; ubuntu@&lt;¿À¶óÅ¬_°íÁ¤_IP&gt;</div>
+              <div class="guide-text">½Ã½ºÅÛ ÆÐÅ°Áö ¼³Ä¡ ¹× ¸®Æ÷ÁöÅä¸® Å¬·Ð:</div>
               <div class="guide-code">sudo apt update && sudo apt install -y python3 python3-venv git
 git clone https://github.com/haksoo0918/crypto-quant-wizard.git
 cd crypto-quant-wizard && chmod +x start.sh</div>
             </li>
             <li>
-              <strong>6ë‹¨ê³„: ë°±ê·¸ë¼ìš´ë“œ 24ì‹œê°„ 365ì¼ ë¬´ì¤‘ë‹¨ ê°€ë™ ëª…ë ¹ì–´</strong>
-              <div class="guide-text">í„°ë¯¸ë„ ì°½ì„ ë‹«ì•„ë„ ë°±ê·¸ë¼ìš´ë“œì—ì„œ ê³„ì† ì‹¤í–‰ë˜ë„ë¡ <code>nohup</code> ëª…ë ¹ìœ¼ë¡œ ê¸°ë™í•©ë‹ˆë‹¤:</div>
+              <strong>6´Ü°è: ¹é±×¶ó¿îµå 24½Ã°£ 365ÀÏ ¹«Áß´Ü °¡µ¿ ¸í·É¾î</strong>
+              <div class="guide-text">ÅÍ¹Ì³Î Ã¢À» ´Ý¾Æµµ ¹é±×¶ó¿îµå¿¡¼­ °è¼Ó ½ÇÇàµÇµµ·Ï <code>nohup</code> ¸í·ÉÀ¸·Î ±âµ¿ÇÕ´Ï´Ù:</div>
               <div class="guide-code alt-color">nohup ./start.sh > server.log 2>&1 &</div>
-              <div class="guide-text">ì´ì œ ìŠ¤ë§ˆíŠ¸í°ì´ë‚˜ PC ë¸Œë¼ìš°ì € ì£¼ì†Œì°½ì— <strong>`http://&lt;ì˜¤ë¼í´_ê³ ì •_IP&gt;:8080`</strong> ì„ ìž…ë ¥í•˜ë©´ ì–¸ì œ ì–´ë””ì„œë“  ëŒ€ì‹œë³´ë“œì™€ ì„¤ì • ë§ˆë²•ì‚¬ì— ì ‘ì†í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤!</div>
+              <div class="guide-text">ÀÌÁ¦ ½º¸¶Æ®ÆùÀÌ³ª PC ºê¶ó¿ìÀú ÁÖ¼ÒÃ¢¿¡ <strong>`http://&lt;¿À¶óÅ¬_°íÁ¤_IP&gt;:8080`</strong> À» ÀÔ·ÂÇÏ¸é ¾ðÁ¦ ¾îµð¼­µç ´ë½Ãº¸µå¿Í ¼³Á¤ ¸¶¹ý»ç¿¡ Á¢¼ÓÇÒ ¼ö ÀÖ½À´Ï´Ù!</div>
             </li>
           </ol>
         </article>
 
-        <!-- 5. ë´‡ ìƒì‹œ ìš´ìš© & ìŠ¤ì¼€ì¤„ ê´€ë¦¬ ë° ì•ˆì „ ì¢…ë£Œ -->
+        <!-- 5. º¿ »ó½Ã ¿î¿ë & ½ºÄÉÁÙ °ü¸® ¹× ¾ÈÀü Á¾·á -->
         <article class="guide-card" id="guide-scheduler">
           <div class="guide-card-head">
             <h2 class="guide-card-title">
               <i data-lucide="clock"></i>
-              <span>5. ë´‡ ìƒì‹œ ìš´ìš©, ìŠ¤ì¼€ì¤„ ê´€ë¦¬ ë° ì•ˆì „ ì¢…ë£Œ ë°©ë²•</span>
+              <span>5. º¿ »ó½Ã ¿î¿ë, ½ºÄÉÁÙ °ü¸® ¹× ¾ÈÀü Á¾·á ¹æ¹ý</span>
             </h2>
             <span class="guide-tag">Process Control</span>
           </div>
 
           <h3 class="guide-sub-title">
             <i data-lucide="clock" class="lucide-sm"></i>
-            <span>ì¼ì²´í˜• ìŠ¤ì¼€ì¤„ëŸ¬ (ë§¤ì¼ ì•„ì¹¨ 09:05 KST) ë™ìž‘ ì›ë¦¬</span>
+            <span>ÀÏÃ¼Çü ½ºÄÉÁÙ·¯ (¸ÅÀÏ ¾ÆÄ§ 09:05 KST) µ¿ÀÛ ¿ø¸®</span>
           </h3>
           <p class="guide-text">
-            <code>start.bat</code> ë˜ëŠ” <code>start.sh</code>ë¥¼ ì‹¤í–‰í•˜ë©´ ì›¹ ì„œë²„ í”„ë¡œì„¸ìŠ¤ ë‚´ì— <strong>ìžë™ ìŠ¤ì¼€ì¤„ëŸ¬(APScheduler)</strong>ê°€ í•¨ê»˜ íƒ‘ìž¬ë˜ì–´ ë°±ê·¸ë¼ìš´ë“œì—ì„œ ë™ìž‘í•©ë‹ˆë‹¤. ë§¤ì¼ ì•„ì¹¨ <strong>09:05 KST(ì¼ë´‰ í™•ì • ì§í›„)</strong>ê°€ ë˜ë©´ ìžë™ìœ¼ë¡œ 3ëŒ€ ê±°ëž˜ì†Œì˜ ì‹œìž¥ ë°ì´í„°ë¥¼ ìˆ˜ì§‘í•˜ì—¬ ì§€í‘œë¥¼ ì‚°ì¶œí•˜ê³ , ì§„ìž…/ì²­ì‚° ì¡°ê±´ ì¶©ì¡± ì‹œ ì£¼ë¬¸ì„ ì‹¤í–‰í•œ ë’¤ ì²´ê²° ìž¥ë¶€ ê°±ì‹  ë° ë””ìŠ¤ì½”ë“œ ë¦¬í¬íŠ¸ë¥¼ ì „ì†¡í•©ë‹ˆë‹¤.
+            <code>start.bat</code> ¶Ç´Â <code>start.sh</code>¸¦ ½ÇÇàÇÏ¸é À¥ ¼­¹ö ÇÁ·Î¼¼½º ³»¿¡ <strong>ÀÚµ¿ ½ºÄÉÁÙ·¯(APScheduler)</strong>°¡ ÇÔ²² Å¾ÀçµÇ¾î ¹é±×¶ó¿îµå¿¡¼­ µ¿ÀÛÇÕ´Ï´Ù. ¸ÅÀÏ ¾ÆÄ§ <strong>09:05 KST(ÀÏºÀ È®Á¤ Á÷ÈÄ)</strong>°¡ µÇ¸é ÀÚµ¿À¸·Î 3´ë °Å·¡¼ÒÀÇ ½ÃÀå µ¥ÀÌÅÍ¸¦ ¼öÁýÇÏ¿© ÁöÇ¥¸¦ »êÃâÇÏ°í, ÁøÀÔ/Ã»»ê Á¶°Ç ÃæÁ· ½Ã ÁÖ¹®À» ½ÇÇàÇÑ µÚ Ã¼°á ÀåºÎ °»½Å ¹× µð½ºÄÚµå ¸®Æ÷Æ®¸¦ Àü¼ÛÇÕ´Ï´Ù.
           </p>
 
           <h3 class="guide-sub-title">
             <i data-lucide="pause-circle" class="lucide-sm"></i>
-            <span>ìŠ¤ì¼€ì¤„ ì¼ì‹œì •ì§€ ë° ë„ê¸° (ì›¹ í™”ë©´ 1ì´ˆ ì œì–´)</span>
+            <span>½ºÄÉÁÙ ÀÏ½ÃÁ¤Áö ¹× ²ô±â (À¥ È­¸é 1ÃÊ Á¦¾î)</span>
           </h3>
           <p class="guide-text">
-            ìžë™ ë§¤ë§¤ë¥¼ ìž ì‹œ ì‰¬ê³  ì‹¶ê±°ë‚˜ ìˆ˜ë™ ì‹¤í–‰ ëª¨ë“œë¡œë§Œ ìš´ìš©í•˜ê³  ì‹¶ì„ ë•ŒëŠ”, ëŒ€ì‹œë³´ë“œ ìƒë‹¨ ë°°ë„ˆì˜ <strong>`[ë§¤ì¼ 09:05 KST ìžë™ì‹¤í–‰]`</strong> ë²„íŠ¼ì„ í´ë¦­í•˜ê±°ë‚˜ ì„¤ì • ë§ˆë²•ì‚¬ì˜ <strong>`[ìŠ¤ì¼€ì¤„ ìžë™ ì‹¤í–‰ í™œì„±í™”]`</strong> ì²´í¬ë¥¼ í•´ì œí•˜ì‹œë©´ ì¦‰ì‹œ ì •ê¸° ìŠ¤ì¼€ì¤„ì´ ì¤‘ë‹¨ë©ë‹ˆë‹¤.
+            ÀÚµ¿ ¸Å¸Å¸¦ Àá½Ã ½¬°í ½Í°Å³ª ¼öµ¿ ½ÇÇà ¸ðµå·Î¸¸ ¿î¿ëÇÏ°í ½ÍÀ» ¶§´Â, ´ë½Ãº¸µå »ó´Ü ¹è³ÊÀÇ <strong>`[¸ÅÀÏ 09:05 KST ÀÚµ¿½ÇÇà]`</strong> ¹öÆ°À» Å¬¸¯ÇÏ°Å³ª ¼³Á¤ ¸¶¹ý»çÀÇ <strong>`[½ºÄÉÁÙ ÀÚµ¿ ½ÇÇà È°¼ºÈ­]`</strong> Ã¼Å©¸¦ ÇØÁ¦ÇÏ½Ã¸é Áï½Ã Á¤±â ½ºÄÉÁÙÀÌ Áß´ÜµË´Ï´Ù.
           </p>
 
           <h3 class="guide-sub-title">
             <i data-lucide="calendar" class="lucide-sm"></i>
-            <span>Windows ìž‘ì—… ìŠ¤ì¼€ì¤„ëŸ¬ ì›í´ë¦­ ìžë™ ì‹¤í–‰ ë° ì‚­ì œ ë„êµ¬</span>
+            <span>Windows ÀÛ¾÷ ½ºÄÉÁÙ·¯ ¿øÅ¬¸¯ ÀÚµ¿ ½ÇÇà ¹× »èÁ¦ µµ±¸</span>
           </h3>
           <ul class="guide-step-list">
             <li>
-              <strong>ë¶€íŒ… ì‹œ ìžë™ ì‹¤í–‰ ë“±ë¡</strong>: í”„ë¡œì íŠ¸ ë‚´ <code>scripts/register_windows_task.bat</code> ì„ ë”ë¸” í´ë¦­í•˜ë©´, Windows ë¡œê·¸ì¸ ì‹œ ìžë™ìœ¼ë¡œ ë´‡ì´ ë°±ê·¸ë¼ìš´ë“œ êµ¬ë™ë˜ë„ë¡ ìž‘ì—… ìŠ¤ì¼€ì¤„ëŸ¬ì— ë“±ë¡ë©ë‹ˆë‹¤.
+              <strong>ºÎÆÃ ½Ã ÀÚµ¿ ½ÇÇà µî·Ï</strong>: ÇÁ·ÎÁ§Æ® ³» <code>scripts/register_windows_task.bat</code> À» ´õºí Å¬¸¯ÇÏ¸é, Windows ·Î±×ÀÎ ½Ã ÀÚµ¿À¸·Î º¿ÀÌ ¹é±×¶ó¿îµå ±¸µ¿µÇµµ·Ï ÀÛ¾÷ ½ºÄÉÁÙ·¯¿¡ µî·ÏµË´Ï´Ù.
             </li>
             <li>
-              <strong>ìŠ¤ì¼€ì¤„ ì™„ì „ ì‚­ì œ</strong>: <code>scripts/unregister_windows_task.bat</code> ì„ ë”ë¸” í´ë¦­í•˜ë©´ ë“±ë¡ëœ ìœˆë„ìš° ìŠ¤ì¼€ì¤„ì´ 1ì´ˆ ë§Œì— ê¹”ë”í•˜ê²Œ ì‚­ì œë©ë‹ˆë‹¤.
+              <strong>½ºÄÉÁÙ ¿ÏÀü »èÁ¦</strong>: <code>scripts/unregister_windows_task.bat</code> À» ´õºí Å¬¸¯ÇÏ¸é µî·ÏµÈ À©µµ¿ì ½ºÄÉÁÙÀÌ 1ÃÊ ¸¸¿¡ ±ò²ûÇÏ°Ô »èÁ¦µË´Ï´Ù.
             </li>
           </ul>
 
           <h3 class="guide-sub-title">
             <i data-lucide="power" class="lucide-sm"></i>
-            <span>ì‹¤í–‰ ì¤‘ì¸ í„°ë¯¸ë„ ì•ˆì „ ì¢…ë£Œ ë°©ë²•</span>
+            <span>½ÇÇà ÁßÀÎ ÅÍ¹Ì³Î ¾ÈÀü Á¾·á ¹æ¹ý</span>
           </h3>
           <p class="guide-text">
-            ë¡œì»¬ PCì—ì„œ ë´‡ì„ ì¢…ë£Œí•˜ê³ ìž í•  ë•ŒëŠ”, ì‹¤í–‰ ì¤‘ì¸ ê²€ì€ìƒ‰ í„°ë¯¸ë„ ì½˜ì†” ì°½ì„ í™œì„±í™”í•œ í›„ í‚¤ë³´ë“œì˜ <strong>`Ctrl + C`</strong> ë¥¼ ëˆ„ë¥´ê³  <code>y</code>ë¥¼ ìž…ë ¥í•˜ê±°ë‚˜, ì°½ ìš°ì¸¡ ìƒë‹¨ì˜ <strong>`X` (ë‹«ê¸°)</strong> ë²„íŠ¼ì„ í´ë¦­í•˜ì‹œë©´ í”„ë¡œì„¸ìŠ¤ê°€ ì•ˆì „í•˜ê²Œ ì¢…ë£Œë©ë‹ˆë‹¤.
+            ·ÎÄÃ PC¿¡¼­ º¿À» Á¾·áÇÏ°íÀÚ ÇÒ ¶§´Â, ½ÇÇà ÁßÀÎ °ËÀº»ö ÅÍ¹Ì³Î ÄÜ¼Ö Ã¢À» È°¼ºÈ­ÇÑ ÈÄ Å°º¸µåÀÇ <strong>`Ctrl + C`</strong> ¸¦ ´©¸£°í <code>y</code>¸¦ ÀÔ·ÂÇÏ°Å³ª, Ã¢ ¿ìÃø »ó´ÜÀÇ <strong>`X` (´Ý±â)</strong> ¹öÆ°À» Å¬¸¯ÇÏ½Ã¸é ÇÁ·Î¼¼½º°¡ ¾ÈÀüÇÏ°Ô Á¾·áµË´Ï´Ù.
           </p>
         </article>
 
-        <!-- 6. ìžì£¼ ë¬»ëŠ” ì§ˆë¬¸ (FAQ) & íŠ¸ëŸ¬ë¸”ìŠˆíŒ… -->
+        <!-- 6. ÀÚÁÖ ¹¯´Â Áú¹® (FAQ) & Æ®·¯ºí½´ÆÃ -->
         <article class="guide-card" id="guide-faq">
           <div class="guide-card-head">
             <h2 class="guide-card-title">
               <i data-lucide="help-circle"></i>
-              <span>6. ìžì£¼ ë¬»ëŠ” ì§ˆë¬¸ (FAQ) & íŠ¸ëŸ¬ë¸”ìŠˆíŒ…</span>
+              <span>6. ÀÚÁÖ ¹¯´Â Áú¹® (FAQ) & Æ®·¯ºí½´ÆÃ</span>
             </h2>
             <span class="guide-tag">Troubleshooting</span>
           </div>
 
           <details class="guide-faq" open>
             <summary>
-              <span>Q. API [ì—°ê²° í…ŒìŠ¤íŠ¸] ì‹œ ì—°ê²° ì‹¤íŒ¨ ì˜¤ë¥˜ê°€ ë°œìƒí•©ë‹ˆë‹¤.</span>
+              <span>Q. API [¿¬°á Å×½ºÆ®] ½Ã ¿¬°á ½ÇÆÐ ¿À·ù°¡ ¹ß»ýÇÕ´Ï´Ù.</span>
             </summary>
             <div class="guide-faq-answer">
-              1. <strong>IP í™”ì´íŠ¸ë¦¬ìŠ¤íŠ¸ ë¶ˆì¼ì¹˜</strong>: ê±°ëž˜ì†Œ API ì„¤ì •ì— ë“±ë¡í•œ IPì™€ í˜„ìž¬ ì»´í“¨í„°(ë˜ëŠ” ì„œë²„)ì˜ ê³µì¸ IPê°€ ì¼ì¹˜í•˜ëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.<br>
-              2. <strong>í‚¤ ë³µì‚¬ ì˜¤ë¥˜</strong>: í‚¤ ì•žë’¤ì— ê³µë°±(ìŠ¤íŽ˜ì´ìŠ¤)ì´ ë“¤ì–´ê°€ì§€ ì•Šì•˜ëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.<br>
-              3. <strong>ê¶Œí•œ ëˆ„ë½</strong>: 'ìžì‚°ì¡°íšŒ' ë° 'ì£¼ë¬¸' ê¶Œí•œì´ ì •ìƒ ë¶€ì—¬ë˜ì—ˆëŠ”ì§€ í™•ì¸í•˜ì„¸ìš”.
+              1. <strong>IP È­ÀÌÆ®¸®½ºÆ® ºÒÀÏÄ¡</strong>: °Å·¡¼Ò API ¼³Á¤¿¡ µî·ÏÇÑ IP¿Í ÇöÀç ÄÄÇ»ÅÍ(¶Ç´Â ¼­¹ö)ÀÇ °øÀÎ IP°¡ ÀÏÄ¡ÇÏ´ÂÁö È®ÀÎÇÏ¼¼¿ä.<br>
+              2. <strong>Å° º¹»ç ¿À·ù</strong>: Å° ¾ÕµÚ¿¡ °ø¹é(½ºÆäÀÌ½º)ÀÌ µé¾î°¡Áö ¾Ê¾Ò´ÂÁö È®ÀÎÇÏ¼¼¿ä.<br>
+              3. <strong>±ÇÇÑ ´©¶ô</strong>: 'ÀÚ»êÁ¶È¸' ¹× 'ÁÖ¹®' ±ÇÇÑÀÌ Á¤»ó ºÎ¿©µÇ¾ú´ÂÁö È®ÀÎÇÏ¼¼¿ä.
             </div>
           </details>
 
           <details class="guide-faq">
             <summary>
-              <span>Q. ì»´í“¨í„°ë¥¼ ë„ë©´ ë´‡ì´ ë™ìž‘í•˜ì§€ ì•Šë‚˜ìš”?</span>
+              <span>Q. ÄÄÇ»ÅÍ¸¦ ²ô¸é º¿ÀÌ µ¿ÀÛÇÏÁö ¾Ê³ª¿ä?</span>
             </summary>
             <div class="guide-faq-answer">
-              ë¡œì»¬ PCì—ì„œ ì‹¤í–‰ ì¤‘ì¸ ê²½ìš° ì»´í“¨í„° ì „ì›ì´ êº¼ì§€ë©´ í”„ë¡œì„¸ìŠ¤ë„ ì¢…ë£Œë˜ë¯€ë¡œ ë‹¤ìŒ ë‚  09:05 ìŠ¤ì¼€ì¤„ì´ ì‹¤í–‰ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤. 24ì‹œê°„ 365ì¼ ë¬´ì¸ ê°€ë™ì„ ì›í•˜ì‹¤ ê²½ìš° ìœ„ <strong>[4. ì˜¤ë¼í´ í´ë¼ìš°ë“œ 24ì‹œê°„ ë¬´ì¸ ë°°í¬ ê°€ì´ë“œ]</strong>ë¥¼ ë”°ë¼ í‰ìƒ ë¬´ë£Œ VMì— ì˜¬ë ¤ë‘ì‹œëŠ” ê²ƒì„ ì ê·¹ ê¶Œìž¥í•©ë‹ˆë‹¤.
+              ·ÎÄÃ PC¿¡¼­ ½ÇÇà ÁßÀÎ °æ¿ì ÄÄÇ»ÅÍ Àü¿øÀÌ ²¨Áö¸é ÇÁ·Î¼¼½ºµµ Á¾·áµÇ¹Ç·Î ´ÙÀ½ ³¯ 09:05 ½ºÄÉÁÙÀÌ ½ÇÇàµÇÁö ¾Ê½À´Ï´Ù. 24½Ã°£ 365ÀÏ ¹«ÀÎ °¡µ¿À» ¿øÇÏ½Ç °æ¿ì À§ <strong>[4. ¿À¶óÅ¬ Å¬¶ó¿ìµå 24½Ã°£ ¹«ÀÎ ¹èÆ÷ °¡ÀÌµå]</strong>¸¦ µû¶ó Æò»ý ¹«·á VM¿¡ ¿Ã·ÁµÎ½Ã´Â °ÍÀ» Àû±Ø ±ÇÀåÇÕ´Ï´Ù.
             </div>
           </details>
 
           <details class="guide-faq">
             <summary>
-              <span>Q. 3ê°œ ê±°ëž˜ì†Œ(ì—…ë¹„íŠ¸/ë¹—ì¸/ë°”ì´ë‚¸ìŠ¤)ë¥¼ ëª¨ë‘ ë“±ë¡í•´ì•¼ í•˜ë‚˜ìš”?</span>
+              <span>Q. 3°³ °Å·¡¼Ò(¾÷ºñÆ®/ºø½æ/¹ÙÀÌ³½½º)¸¦ ¸ðµÎ µî·ÏÇØ¾ß ÇÏ³ª¿ä?</span>
             </summary>
             <div class="guide-faq-answer">
-              ì•„ë‹™ë‹ˆë‹¤. ë³¸ì¸ì´ í˜„ìž¬ ì‚¬ìš©í•˜ì‹œëŠ” ê±°ëž˜ì†Œ 1ê³³ì˜ API Keyë§Œ ìž…ë ¥í•˜ì…”ë„ ì™„ë²½í•˜ê²Œ ë‹¨ë… ìš´ìš©ë©ë‹ˆë‹¤. ì‚¬ìš©í•˜ì§€ ì•ŠëŠ” ê±°ëž˜ì†ŒëŠ” í‚¤ë¥¼ ë¹„ì›Œë‘ì‹œê³  ì „ëžµ ë§¤í•‘ì„ 'ì‚¬ìš© ì•ˆ í•¨'ìœ¼ë¡œ ì„¤ì •í•˜ì‹œë©´ ë©ë‹ˆë‹¤.
+              ¾Æ´Õ´Ï´Ù. º»ÀÎÀÌ ÇöÀç »ç¿ëÇÏ½Ã´Â °Å·¡¼Ò 1°÷ÀÇ API Key¸¸ ÀÔ·ÂÇÏ¼Åµµ ¿Ïº®ÇÏ°Ô ´Üµ¶ ¿î¿ëµË´Ï´Ù. »ç¿ëÇÏÁö ¾Ê´Â °Å·¡¼Ò´Â Å°¸¦ ºñ¿öµÎ½Ã°í Àü·« ¸ÅÇÎÀ» '»ç¿ë ¾È ÇÔ'À¸·Î ¼³Á¤ÇÏ½Ã¸é µË´Ï´Ù.
             </div>
           </details>
 
           <details class="guide-faq">
             <summary>
-              <span>Q. ëª¨ì˜íˆ¬ìž(Dry-Run)ì™€ ì‹¤ê±°ëž˜(Live Trading)ì˜ ì°¨ì´ëŠ” ë¬´ì—‡ì¸ê°€ìš”?</span>
+              <span>Q. ¸ðÀÇÅõÀÚ(Dry-Run)¿Í ½Ç°Å·¡(Live Trading)ÀÇ Â÷ÀÌ´Â ¹«¾ùÀÎ°¡¿ä?</span>
             </summary>
             <div class="guide-faq-answer">
-              ëª¨ì˜íˆ¬ìžëŠ” ì‹¤ì œ ê±°ëž˜ì†Œë¡œ ì£¼ë¬¸ì„ ë„£ì§€ ì•Šê³ , ê°€ìƒ ìž”ê³  1,000ë§Œì›ì„ ê¸°ì¤€ìœ¼ë¡œ ì‹œìž¥ ì²´ê²°ê°€ì™€ ìˆ˜ìˆ˜ë£Œ(0.05%), ìŠ¬ë¦¬í”¼ì§€(0.1%)ë¥¼ ë°˜ì˜í•˜ì—¬ ì‹œë®¬ë ˆì´ì…˜ ë§¤ë§¤ë¥¼ ìˆ˜í–‰í•©ë‹ˆë‹¤. ì‹¤ê±°ëž˜ ì „í™˜ ì „ ì „ëžµì˜ ì •í™•í•œ ë™ìž‘ì„ í™•ì¸í•˜ëŠ” ë° ê°€ìž¥ ì•ˆì „í•©ë‹ˆë‹¤.
+              ¸ðÀÇÅõÀÚ´Â ½ÇÁ¦ °Å·¡¼Ò·Î ÁÖ¹®À» ³ÖÁö ¾Ê°í, °¡»ó ÀÜ°í 1,000¸¸¿øÀ» ±âÁØÀ¸·Î ½ÃÀå Ã¼°á°¡¿Í ¼ö¼ö·á(0.05%), ½½¸®ÇÇÁö(0.1%)¸¦ ¹Ý¿µÇÏ¿© ½Ã¹Ä·¹ÀÌ¼Ç ¸Å¸Å¸¦ ¼öÇàÇÕ´Ï´Ù. ½Ç°Å·¡ ÀüÈ¯ Àü Àü·«ÀÇ Á¤È®ÇÑ µ¿ÀÛÀ» È®ÀÎÇÏ´Â µ¥ °¡Àå ¾ÈÀüÇÕ´Ï´Ù.
             </div>
           </details>
         </article>
@@ -509,7 +509,7 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       showToast('\uC9C0\uAE08 \uC989\uC2DC \uBD84\uC11D \uBC0F \uB9E4\uB9E4\uB97C 1\uD68C \uC2E4\uD589\uD569\uB2C8\uB2E4...');
 
       try {
-        const res = await fetch('/api/run-bot', { method: 'POST' });
+        const res = await fetch('/api/run-now', { method: 'POST' });
         const data = await res.json();
         showToast(data.message || '\uB9E4\uB9E4 \uC0AC\uC774\uD074 \uC2E4\uD589\uC774 \uC44C\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4!');
       } catch (e) {

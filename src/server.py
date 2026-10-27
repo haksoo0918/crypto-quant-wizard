@@ -180,6 +180,7 @@ class ConfigSaveRequest(BaseModel):
     bithumb_access_key: Optional[str] = None
     bithumb_secret_key: Optional[str] = None
     binance_access_key: Optional[str] = None
+    binance_api_key: Optional[str] = None
     binance_secret_key: Optional[str] = None
     discord_webhook_url: Optional[str] = None
     schedule_time: Optional[str] = None
@@ -447,9 +448,10 @@ def test_discord(payload: DiscordTestRequest):
         return {"success": False, "message": f"전송 오류: {str(e)}"}
 
 
+@app.post("/api/run-bot")
 @app.post("/api/run-now")
 def run_now(payload: Optional[RunBotRequest] = None, background_tasks: BackgroundTasks = None):
-    """사용자 요청에 의한 즉시 실행 (백그라운드 스레드)"""
+    """사용자 요청에 의한 즉시 실행 (백그라운드 스레드, /api/run-bot 및 /api/run-now 모두 지원)"""
     if bot_state["is_running"]:
         return JSONResponse(
             status_code=409,
