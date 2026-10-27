@@ -29,8 +29,8 @@
       --bg-card-sub: #f1f5f9;
       --border-color: #e2e8f0;
       --text-primary: #0f172a;
-      --text-secondary: #475569;
-      --text-muted: #94a3b8;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
       --accent-primary: #0d9488;
       --accent-hover: #0f766e;
       --accent-success: #10b981;
@@ -49,8 +49,8 @@
       --bg-card-sub: #0f172a;
       --border-color: #26334d;
       --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --text-muted: #64748b;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
       --accent-primary: #14b8a6;
       --accent-hover: #2dd4bf;
       --accent-success: #34d399;
@@ -104,8 +104,8 @@
       color: var(--text-primary);
     }
     .brand-sub {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
       font-weight: 500;
     }
 
@@ -153,11 +153,10 @@
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      transition: transform 0.15s ease, opacity 0.2s ease;
+      transition: opacity 0.2s ease, background 0.2s ease;
     }
     .btn-run:hover:not(:disabled) {
-      opacity: 0.92;
-      transform: translateY(-1px);
+      opacity: 0.90;
     }
     .btn-run:disabled {
       opacity: 0.6;
@@ -223,9 +222,9 @@
     .badge {
       display: inline-flex;
       align-items: center;
-      padding: 0.25rem 0.65rem;
+      padding: 0.3rem 0.7rem;
       border-radius: 9999px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 600;
     }
     .badge-live { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
@@ -266,8 +265,9 @@
       gap: 0.4rem;
     }
     .guide-desc {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
 
     /* Grid Layouts */
@@ -304,9 +304,9 @@
 
     /* Stat Cards */
     .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.86rem;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       margin-bottom: 0.25rem;
     }
     .stat-val {
@@ -316,8 +316,9 @@
       letter-spacing: -0.02em;
     }
     .stat-sub {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
+      font-weight: 500;
       margin-top: 0.35rem;
     }
 
@@ -327,16 +328,17 @@
     }
     .form-label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 600;
       margin-bottom: 0.4rem;
       color: var(--text-primary);
     }
     .form-desc {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: -0.25rem;
-      margin-bottom: 0.5rem;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+      margin-top: -0.2rem;
+      margin-bottom: 0.55rem;
+      line-height: 1.5;
     }
     .form-control {
       width: 100%;
@@ -438,14 +440,16 @@
       background: rgba(13, 148, 136, 0.08);
     }
     .mode-title {
-      font-size: 0.9rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--text-primary);
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.35rem;
     }
     .mode-desc {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      font-weight: 500;
     }
 
     /* Terminal Log View */
@@ -592,18 +596,18 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
     }
     th {
       text-align: left;
-      padding: 0.6rem 0.75rem;
+      padding: 0.65rem 0.85rem;
       background: var(--bg-card-sub);
       color: var(--text-secondary);
       font-weight: 600;
       border-bottom: 1px solid var(--border-color);
     }
     td {
-      padding: 0.6rem 0.75rem;
+      padding: 0.65rem 0.85rem;
       border-bottom: 1px solid var(--border-color);
       color: var(--text-primary);
     }
@@ -721,7 +725,7 @@
     }
 
     .help-link {
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       color: var(--accent-primary);
       text-decoration: underline;
       cursor: pointer;
@@ -733,10 +737,11 @@
       background: var(--bg-card-sub);
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 0.85rem;
+      padding: 0.9rem 1rem;
       margin-top: 0.6rem;
-      font-size: 0.82rem;
-      line-height: 1.5;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
     }
     .strategy-card strong { color: var(--accent-primary); }
 
@@ -744,20 +749,21 @@
       background: rgba(13, 148, 136, 0.08);
       border-left: 4px solid var(--accent-primary);
       border-radius: 6px;
-      padding: 0.85rem 1rem;
+      padding: 0.9rem 1rem;
       margin-bottom: 1.25rem;
-      font-size: 0.85rem;
-      line-height: 1.6;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
     }
     .warning-box {
       background: rgba(239, 68, 68, 0.08);
       border-left: 4px solid var(--accent-danger);
       border-radius: 6px;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1rem;
       margin-top: 0.85rem;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       color: var(--accent-danger);
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
   </style>
@@ -805,17 +811,17 @@
         <div class="status-left">
           <span id="badge-mode" class="badge badge-dry">🟢 모의매매 (Dry-Run)</span>
           <button id="btn-toggle-schedule" class="badge badge-schedule" onclick="toggleSchedule()" style="cursor: pointer; border: none;" data-tooltip="클릭하여 매일 09:05 정기 자동 스케줄을 활성화하거나 일시정지(삭제)합니다." data-tooltip-pos="bottom">⏰ 매일 09:05 KST 자동실행</button>
-          <span style="font-size: 0.8rem; color: var(--text-muted);" id="next-run-text">다음 실행: 계산 중...</span>
+          <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;" id="next-run-text">다음 실행: 계산 중...</span>
         </div>
-        <div style="font-size: 0.8rem; color: var(--text-muted);" id="last-update-text">
+        <div style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500;" id="last-update-text">
           최종 업데이트: 동기화 중...
         </div>
       </div>
 
       <!-- Oracle Cloud 24h Notice Banner -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: -0.25rem; margin-bottom: 1.25rem; padding: 0.65rem 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.82rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: -0.25rem; margin-bottom: 1.25rem; padding: 0.75rem 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.88rem;">
         <span style="color: var(--text-secondary);">☁️ <strong>24시간 무인 구동 팁</strong>: PC를 켜두지 않고도 오라클 클라우드 평생 무료 VM에서 365일 자동 운용할 수 있습니다.</span>
-        <button type="button" class="help-link" onclick="openKeyModal('oracle')" style="background: none; border: none; font-size: 0.82rem; cursor: pointer;">클라우드 배포 가이드 열기 ➔</button>
+        <button type="button" class="help-link" onclick="openKeyModal('oracle')" style="background: none; border: none; font-size: 0.88rem; cursor: pointer;">클라우드 배포 가이드 열기 ➔</button>
       </div>
 
       <!-- Action Direction Guide Banner -->
@@ -847,7 +853,7 @@
         <div class="card">
           <div class="card-title">
             <span>국내 메인: 업비트 (Upbit) 60일 지표</span>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">BTC 220일 SMA & ETH ATR</span>
+            <span style="font-size: 0.84rem; color: var(--text-secondary); font-weight: 500;">BTC 220일 SMA & ETH ATR</span>
           </div>
           <div style="height: 280px; position: relative;">
             <canvas id="chart-upbit"></canvas>
@@ -857,7 +863,7 @@
         <div class="card">
           <div class="card-title">
             <span>국내 서브: 빗썸 (Bithumb) 60일 지표</span>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">ETH SuperTrend(7, 3.5)</span>
+            <span style="font-size: 0.84rem; color: var(--text-secondary); font-weight: 500;">ETH SuperTrend(7, 3.5)</span>
           </div>
           <div style="height: 280px; position: relative;">
             <canvas id="chart-bithumb"></canvas>
@@ -868,7 +874,7 @@
       <div class="card" style="margin-bottom: 1.5rem;">
         <div class="card-title">
           <span>해외 글로벌: 바이낸스 (Binance) 60일 지표</span>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">BTCUSDT & ETHUSDT 동적 채널</span>
+          <span style="font-size: 0.84rem; color: var(--text-secondary); font-weight: 500;">BTCUSDT & ETHUSDT 동적 채널</span>
         </div>
         <div style="height: 280px; position: relative;">
           <canvas id="chart-binance"></canvas>
@@ -879,7 +885,7 @@
       <div class="card" style="margin-bottom: 1.5rem;">
         <div class="card-title">
           <span>일자별 총 자산 성장 곡선</span>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">최근 60일 추이</span>
+          <span style="font-size: 0.84rem; color: var(--text-secondary); font-weight: 500;">최근 60일 추이</span>
         </div>
         <div style="height: 260px; position: relative;">
           <canvas id="chart-asset-growth"></canvas>
@@ -890,7 +896,7 @@
       <div class="card">
         <div class="card-title">
           <span>최근 거래 체결 장부</span>
-          <span style="font-size: 0.75rem; color: var(--text-muted);">최근 20건 내역</span>
+          <span style="font-size: 0.84rem; color: var(--text-secondary); font-weight: 500;">최근 20건 내역</span>
         </div>
         <div class="table-wrap">
           <table id="trade-table">
@@ -907,7 +913,7 @@
               </tr>
             </thead>
             <tbody id="trade-tbody">
-              <tr><td colspan="8" style="text-align: center; color: var(--text-muted);">체결 내역을 불러오는 중...</td></tr>
+              <tr><td colspan="8" style="text-align: center; color: var(--text-secondary); font-weight: 500;">체결 내역을 불러오는 중...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1033,7 +1039,7 @@
             <div class="card-title">
               <span>3. 거래소별 퀀트 전략 매핑 및 특징</span>
             </div>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5;">
               각 거래소의 시장 특성(원화 마켓 vs 글로벌 테더 마켓, 단독 코인 집중 vs 분할 리밸런싱)에 맞추어 설계된 검증된 모델들입니다.
             </p>
 
@@ -1094,7 +1100,7 @@
               </div>
             </div>
 
-            <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; background: var(--bg-card-sub); padding: 0.85rem; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem; background: var(--bg-card-sub); padding: 0.95rem; border-radius: 8px; border: 1px solid var(--border-color);">
               • <strong>어떤 기능인가요?</strong>: 매일 아침 09:05 KST 정기 매매가 완료되면, <strong>당일 주문 체결 내역과 3대 거래소별 자산 잔고, 종합 수익률 리포트</strong>를 본인의 스마트폰 디스코드 앱으로 자동 푸시 전송해 줍니다.<br>
               • <strong>왜 쓰나요?</strong>: 매번 컴퓨터나 오라클 클라우드에 로그인하지 않아도, 아침 출근길이나 외출 중에 스마트폰 알림으로 매매 결과를 즉시 확인할 수 있습니다.<br>
               • <strong>선택 사항</strong>: 디스코드 알림을 받지 않으려면 빈칸으로 비워두셔도 자동 매매와 웹 대시보드는 100% 정상 작동합니다.
@@ -1116,13 +1122,13 @@
             <div class="card-title">
               <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
                 <span>5. 정기 자동 매매 스케줄링 설정</span>
-                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer; color: var(--accent-primary); font-weight: 600;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.88rem; cursor: pointer; color: var(--accent-primary); font-weight: 600;">
                   <input type="checkbox" id="schedule-enabled-check" checked style="width: 1.15rem; height: 1.15rem; cursor: pointer;">
                   스케줄 자동 실행 활성화
                 </label>
               </div>
             </div>
-            <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+            <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6;">
               • <strong>활성화(체크)</strong>: 매일 아침 09:05 KST(일봉 마감 직후)에 봇이 자동으로 시장 데이터를 분석하고 매매 사이클을 실행합니다.<br>
               • <strong>비활성화(체크 해제/삭제)</strong>: 정기 스케줄이 중지되며, 상단 <strong>[⚡ 지금 1회 수동 실행]</strong> 버튼을 누를 때만 매매가 실행됩니다.
             </div>
@@ -1130,21 +1136,21 @@
 
           <!-- Submit Button -->
           <div style="text-align: center; margin-top: 1.5rem;">
-            <button type="submit" id="btn-save-wizard" class="btn-primary" style="width: 100%; max-width: 320px; font-size: 1.05rem;" data-tooltip="입력한 키와 전략 설정을 저장합니다." data-tooltip-pos="top">
+            <button type="submit" id="btn-save-wizard" class="btn-primary" style="width: 100%; max-width: 320px; font-size: 1.05rem;">
               💾 설정 저장하기
             </button>
           </div>
 
           <!-- Operating Guidance Card -->
-          <div style="margin-top: 1.5rem; background: var(--bg-card-sub); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.1rem; font-size: 0.82rem; line-height: 1.65; color: var(--text-secondary);">
-            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.4rem;">
+          <div style="margin-top: 1.5rem; background: var(--bg-card-sub); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.1rem; font-size: 0.88rem; line-height: 1.65; color: var(--text-secondary);">
+            <div style="font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; font-size: 0.95rem; display: flex; align-items: center; gap: 0.4rem;">
               <span>⏰ 봇 상시 운용 및 종료 안내</span>
             </div>
             <div>
               • <strong>자동 스케줄 대기</strong>: [설정 저장]을 완료하시면 내장 스케줄러가 활성화되어 터미널 창을 켜두시는 동안 <strong>매일 아침 09:05 KST에 자동으로 분석 및 매매</strong>를 실행합니다. 매일 start.bat을 다시 실행하실 필요가 없습니다.<br>
               • <strong>컴퓨터를 껐다 켰을 때</strong>: PC를 재부팅했거나 터미널을 닫았다면, 다음 날 09:05 전에 <code>start.bat</code>을 한 번만 다시 실행해 두시면 됩니다.<br>
               • <strong>터미널 종료 방법</strong>: 실행 중인 검은색 터미널 창에서 <strong>Ctrl + C</strong> 를 누르고 <code>y</code>를 입력하시거나, 창 우측 상단의 <strong>X</strong> 버튼을 클릭하시면 안전하게 종료됩니다.<br>
-              • <strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다. <button type="button" class="help-link" onclick="openKeyModal('oracle')" style="background: none; border: none; margin-left: 0.35rem; font-size: 0.82rem; cursor: pointer;">[📖 1분 클라우드 가이드 열기]</button>
+              • <strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다. <button type="button" class="help-link" onclick="openKeyModal('oracle')" style="background: none; border: none; margin-left: 0.35rem; font-size: 0.88rem; cursor: pointer;">[📖 1분 클라우드 가이드 열기]</button>
             </div>
           </div>
 
@@ -1160,7 +1166,7 @@
         <div class="card-title">
           <span>실시간 콘솔 실행 로그</span>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
-            <label style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer;">
+            <label style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; cursor: pointer;">
               <input type="checkbox" id="auto-refresh-logs" checked> 3초마다 자동 갱신
             </label>
             <button class="btn-test" onclick="fetchLogs()">지금 새로고침</button>
@@ -1722,7 +1728,7 @@
         const trades = data.trades || [];
 
         if (trades.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">아직 체결된 거래 내역이 없습니다.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-secondary); font-weight: 500;">아직 체결된 거래 내역이 없습니다.</td></tr>';
           return;
         }
 
@@ -1850,11 +1856,11 @@
       oracle: {
         title: '☁️ 오라클 클라우드(OCI) Always Free 24시간 무인 배포 가이드',
         steps: `
-          <div style="font-size: 0.85rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.85rem; background: var(--bg-card-sub); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
+          <div style="font-size: 0.88rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0.85rem; background: var(--bg-card-sub); padding: 0.85rem 1rem; border-radius: 8px; border: 1px solid var(--border-color);">
             💡 <strong>내 컴퓨터를 24시간 켜둘 필요가 없습니다!</strong><br>
             오라클 클라우드의 <strong>평생 무료 가상 컴퓨터(Always Free VM)</strong>에 본 봇을 올려두시면, 집 PC를 완전히 끄고 외출하거나 자는 동안에도 <strong>매일 아침 09:05 KST에 자동으로 시장을 분석하고 매매</strong>한 뒤 스마트폰 디스코드로 알림을 보내줍니다.
           </div>
-          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.85rem; line-height: 1.6;">
+          <ol style="padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.88rem; line-height: 1.6;">
             <li><strong>오라클 클라우드 회원가입</strong>:
               <br>• <a href="https://cloud.oracle.com" target="_blank" style="color: var(--accent-primary); font-weight: 600;">cloud.oracle.com</a> 에서 무료 계정을 생성합니다. (해외 결제 가능한 신용/체크카드 필요, $1 승인 후 즉시 취소)
             </li>
@@ -1875,16 +1881,16 @@
             </li>
             <li><strong>원클릭 런처 구동 (터미널 2줄)</strong>:
               <br>• SSH 터미널 접속 후 아래 명령어를 복사/붙여넣기 합니다:
-              <pre style="background: #080c14; padding: 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.8rem; color: #38bdf8; border: 1px solid #1e293b; overflow-x: auto;">git clone https://github.com/haksoo0918/crypto-quant-wizard.git
+              <pre style="background: #080c14; padding: 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.85rem; color: #38bdf8; border: 1px solid #1e293b; overflow-x: auto;">git clone https://github.com/haksoo0918/crypto-quant-wizard.git
 cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
               • 터미널 창을 닫아도 24시간 계속 돌리는 백그라운드 명령어:
-              <pre style="background: #080c14; padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.8rem; color: #10b981; border: 1px solid #1e293b;">nohup ./start.sh > server.log 2>&1 &</pre>
+              <pre style="background: #080c14; padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0.4rem 0; font-size: 0.85rem; color: #10b981; border: 1px solid #1e293b;">nohup ./start.sh > server.log 2>&1 &</pre>
             </li>
             <li><strong>원격 웹 접속</strong>:
               <br>• 스마트폰 또는 PC 브라우저 주소창에 <code>http://&lt;오라클_고정_공인_IP&gt;:8080</code> 을 입력하여 대시보드와 설정 마법사를 언제 어디서든 자유롭게 모니터링합니다.
             </li>
           </ol>
-          <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: var(--bg-card-sub); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.82rem;">
+          <div style="margin-top: 1rem; padding: 0.75rem 1rem; background: var(--bg-card-sub); border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.88rem;">
             📖 <strong>단계별 상세 매뉴얼</strong>: 프로젝트 내 <code>docs/ORACLE_CLOUD_GUIDE.md</code> 에 모든 클릭 과정 스크린샷과 상세 설정이 안내되어 있습니다.
           </div>
         `
@@ -1918,7 +1924,7 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
       const descEl = document.getElementById(`desc-${exchange}`);
       if (!descEl) return;
       if (val === 'none') {
-        descEl.innerHTML = '<span style="color:var(--text-muted);">이 거래소의 전략이 비활성화되었습니다. 매매 및 잔고 분석이 수행되지 않습니다.</span>';
+        descEl.innerHTML = '<span style="color:var(--text-secondary); font-weight: 500;">이 거래소의 전략이 비활성화되었습니다. 매매 및 잔고 분석이 수행되지 않습니다.</span>';
       } else {
         // reload default text
         if (exchange === 'upbit') {
