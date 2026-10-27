@@ -77,7 +77,7 @@
    ```
 3. **리포지토리 클론 및 실행**:
    ```bash
-   git clone https://github.com/<내_계정>/crypto-quant-wizard.git
+   git clone https://github.com/haksoo0918/crypto-quant-wizard.git
    cd crypto-quant-wizard
    chmod +x start.sh
    ```
