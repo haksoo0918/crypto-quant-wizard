@@ -560,6 +560,26 @@ def serve_guide():
     raise HTTPException(status_code=404, detail="Guide not found")
 
 
+@app.get("/wizard")
+@app.get("/wizard.html")
+def serve_wizard():
+    """설정 마법사 전용 페이지 서빙"""
+    wizard_path = DOCS_DIR / "wizard.html"
+    if wizard_path.exists():
+        return FileResponse(wizard_path)
+    raise HTTPException(status_code=404, detail="Wizard not found")
+
+
+@app.get("/logs")
+@app.get("/logs.html")
+def serve_logs():
+    """실행 로그 전용 페이지 서빙"""
+    logs_path = DOCS_DIR / "logs.html"
+    if logs_path.exists():
+        return FileResponse(logs_path)
+    raise HTTPException(status_code=404, detail="Logs not found")
+
+
 @app.get("/")
 def serve_index():
     """메인 웹페이지 서빙"""

@@ -1005,17 +1005,22 @@
       flex-shrink: 0;
     }
 
-    /* Guide Navigation Grid */
+    /* Guide Navigation Sticky Top Bar */
     .guide-quick-nav {
+      position: sticky;
+      top: 4.25rem;
+      z-index: 40;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
       gap: 0.6rem;
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 10px;
-      padding: 0.85rem;
-      box-shadow: var(--card-shadow);
-      margin-bottom: 0.5rem;
+      padding: 0.75rem 0.85rem;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      margin-bottom: 1.25rem;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
     }
     .guide-pill {
       background: var(--bg-card-sub);
@@ -1034,20 +1039,23 @@
       gap: 0.45rem;
       text-align: center;
     }
-    .guide-pill:hover, .guide-pill:focus-visible {
+    .guide-pill:hover, .guide-pill:focus-visible, .guide-pill.active {
       background: var(--accent-primary);
       color: #ffffff;
       border-color: var(--accent-primary);
     }
+    .guide-pill:hover svg.lucide, .guide-pill:focus-visible svg.lucide, .guide-pill.active svg.lucide {
+      color: #ffffff;
+    }
 
-    /* Guide Section Cards */
+    /* Guide Section Cards with Sticky Offset Margin */
     .guide-card {
       background: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: var(--card-shadow);
-      scroll-margin-top: 5rem;
+      scroll-margin-top: 9.5rem;
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
     .guide-card.highlight-target {
@@ -1507,6 +1515,53 @@
       margin-top: 1rem;
     }
     .strategy-disabled-text {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Market Grouping (Korean KRW Exchanges vs Global USDT Binance) */
+    .market-group-container {
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      background: var(--bg-card);
+    }
+    .market-group-container:last-child {
+      margin-bottom: 0;
+    }
+    .market-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    .market-group-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.35rem 0.85rem;
+      border-radius: 20px;
+    }
+    .market-group-badge.krw {
+      background: rgba(13, 148, 136, 0.12);
+      color: var(--accent-primary);
+      border: 1px solid rgba(13, 148, 136, 0.3);
+    }
+    .market-group-badge.usdt {
+      background: rgba(245, 158, 11, 0.12);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .market-group-desc {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
       color: var(--text-secondary);
       font-weight: 500;
     }

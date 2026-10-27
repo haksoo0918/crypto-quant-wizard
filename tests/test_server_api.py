@@ -116,3 +116,17 @@ def test_serve_favicon_exists():
     assert fav_file.exists()
     content = fav_file.read_text(encoding="utf-8")
     assert "<svg" in content
+
+
+def test_serve_wizard_exists():
+    wizard_file = server.DOCS_DIR / "wizard.html"
+    assert wizard_file.exists()
+    content = wizard_file.read_text(encoding="utf-8")
+    assert "설정 마법사" in content
+
+
+def test_serve_logs_exists():
+    logs_file = server.DOCS_DIR / "logs.html"
+    assert logs_file.exists()
+    content = logs_file.read_text(encoding="utf-8")
+    assert "실행 로그" in content

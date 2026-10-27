@@ -1,19 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ko" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>올인원 퀀트 가이드 & 도움말 - Crypto Quant Wizard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>도움말 - Crypto Quant Wizard</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  <!-- Pretendard Web Font CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="alternate icon" href="favicon.ico">
 
-  <!-- External Stylesheet (No Inline Styles) -->
+
+
+
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Lucide Vector Icons CDN -->
+
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
@@ -35,25 +35,25 @@
       </svg>
       <div>
         <div class="brand-title">Crypto Quant Wizard</div>
-        <div class="brand-subtitle">올인원 퀀트 가이드 & 공식 도움말 매뉴얼</div>
+        <div class="brand-subtitle">오픈소스 3대 거래소 암호화폐 퀀트 매니저</div>
       </div>
     </div>
 
     <!-- Navigation Tabs (Multi-Page Coherence) -->
     <nav class="nav-tabs" role="tablist" aria-label="메인 네비게이션">
-      <a href="index.html" class="tab-btn">
+      <a href="index.html" class="tab-btn" id="tab-btn-dashboard">
         <i data-lucide="layout-dashboard"></i>
         <span>대시보드</span>
       </a>
-      <a href="index.html?tab=wizard" class="tab-btn">
+      <a href="wizard.html" class="tab-btn" id="tab-btn-wizard">
         <i data-lucide="sliders"></i>
         <span>설정 마법사</span>
       </a>
-      <a href="index.html?tab=logs" class="tab-btn">
+      <a href="logs.html" class="tab-btn" id="tab-btn-logs">
         <i data-lucide="terminal"></i>
         <span>실행 로그</span>
       </a>
-      <a href="guide.html" class="tab-btn active">
+      <a href="guide.html" class="tab-btn active" id="tab-btn-guide">
         <i data-lucide="book-open"></i>
         <span>도움말</span>
       </a>
@@ -61,7 +61,14 @@
 
     <!-- Header Actions -->
     <div class="header-actions">
-      <button class="icon-btn" onclick="toggleTheme()" aria-label="테마 전환 (다크/라이트)">
+      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다." data-tooltip-pos="bottom-left">
+        <i data-lucide="zap"></i>
+        <span>지금 1회 수동 실행</span>
+      </button>
+      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="자산 가치 마스킹 / 표시 전환" data-tooltip-pos="bottom-left" aria-label="자산 가치 마스킹 전환">
+        <i data-lucide="eye" id="privacy-icon"></i>
+      </button>
+      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="다크 모드 / 라이트 모드 전환" data-tooltip-pos="bottom-left" aria-label="테마 전환">
         <i data-lucide="sun-moon" id="theme-icon"></i>
       </button>
     </div>
@@ -475,8 +482,45 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       </div>
   </main>
 
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
   <!-- Client JavaScript Logic for Guide Page -->
   <script>
+    let isPrivacyMasked = false;
+
+    function togglePrivacy() {
+      showToast('\uB3C4\uC6C0\uB9D0 \uD398\uC774\uC9C0\uC785\uB2C8\uB2E4.');
+    }
+
+    function showToast(msg, duration = 3000) {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, duration);
+    }
+
+    async function triggerRunNow() {
+      const btn = document.getElementById('btn-run-now');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide=\"loader-2\"></i> <span>\uC2E4\uD589 \uC911...</span>';
+      if (window.lucide) lucide.createIcons();
+      showToast('\uC9C0\uAE08 \uC989\uC2DC \uBD84\uC11D \uBC0F \uB9E4\uB9E4\uB97C 1\uD68C \uC2E4\uD589\uD569\uB2C8\uB2E4...');
+
+      try {
+        const res = await fetch('/api/run-bot', { method: 'POST' });
+        const data = await res.json();
+        showToast(data.message || '\uB9E4\uB9E4 \uC0AC\uC774\uD074 \uC2E4\uD589\uC774 \uC44C\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4!');
+      } catch (e) {
+        showToast('\uC2E4\uD589 \uC694\uCCAD \uC911 \uC624\uB958\uAC00 \uBC1C\uC0DD\uD588\uC2B5\uB2C8\uB2E4: ' + e);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide=\"zap\"></i> <span>\uC9C0\uAE08 1\uD68C \uC218\uB3D9 \uC2E4\uD589</span>';
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
     // Theme Toggle
     function toggleTheme() {
       const current = document.documentElement.getAttribute('data-theme');
@@ -506,12 +550,37 @@ cd crypto-quant-wizard && chmod +x start.sh</div>
       }
     }
 
+    // Setup Scroll Spy for Sticky Quick Nav
+    function setupScrollSpy() {
+      const sections = document.querySelectorAll('.guide-card');
+      const pills = document.querySelectorAll('.guide-pill');
+      if (!sections.length || !pills.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.id;
+            pills.forEach(p => {
+              if (p.getAttribute('href') === `#${id}`) {
+                p.classList.add('active');
+              } else {
+                p.classList.remove('active');
+              }
+            });
+          }
+        });
+      }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+      sections.forEach(s => observer.observe(s));
+    }
+
     // Initialize immediately on DOMContentLoaded
     document.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('quant_theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
       if (window.lucide) lucide.createIcons();
       checkUrlHash();
+      setupScrollSpy();
     });
   </script>
 

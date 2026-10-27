@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>설정 마법사 - Crypto Quant Wizard</title>
+  
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="favicon.ico">
+  
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <header>
+    <div class="brand-wrap">
+      <svg class="brand-svg-logo" viewBox="0 0 36 36" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Crypto Quant Wizard 로고">
+        <rect width="36" height="36" rx="9" fill="url(#brand-logo-grad)"/>
+        <defs>
+          <linearGradient id="brand-logo-grad" x1="0" y1="0" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#0d9488"/>
+            <stop offset="1" stop-color="#059669"/>
+          </linearGradient>
+        </defs>
+        <path d="M8 24L14 17L19 21L28 11" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="28" cy="11" r="2.5" fill="#ffffff"/>
+        <path d="M13 7L14.2 10.2L17.5 11.5L14.2 12.8L13 16L11.8 12.8L8.5 11.5L11.8 10.2Z" fill="#fbbf24"/>
+      </svg>
+      <div>
+        <div class="brand-title">Crypto Quant Wizard</div>
+        <div class="brand-subtitle">오픈소스 3대 거래소 암호화폐 퀀트 매니저</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs (Multi-Page Coherence) -->
+    <nav class="nav-tabs" role="tablist" aria-label="메인 네비게이션">
+      <a href="index.html" class="tab-btn" id="tab-btn-dashboard">
+        <i data-lucide="layout-dashboard"></i>
+        <span>대시보드</span>
+      </a>
+      <a href="wizard.html" class="tab-btn active" id="tab-btn-wizard">
+        <i data-lucide="sliders"></i>
+        <span>설정 마법사</span>
+      </a>
+      <a href="logs.html" class="tab-btn" id="tab-btn-logs">
+        <i data-lucide="terminal"></i>
+        <span>실행 로그</span>
+      </a>
+      <a href="guide.html" class="tab-btn" id="tab-btn-guide">
+        <i data-lucide="book-open"></i>
+        <span>도움말</span>
+      </a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <button class="btn-run" id="btn-run-now" onclick="triggerRunNow()" data-tooltip="매일 아침 09:05 스케줄을 기다리지 않고, 현재 시장 데이터로 지금 즉시 분석 및 매매를 1회 수동 실행합니다." data-tooltip-pos="bottom-left">
+        <i data-lucide="zap"></i>
+        <span>지금 1회 수동 실행</span>
+      </button>
+      <button class="icon-btn" onclick="togglePrivacy()" data-tooltip="자산 가치 마스킹 / 표시 전환" data-tooltip-pos="bottom-left" aria-label="자산 가치 마스킹 전환">
+        <i data-lucide="eye" id="privacy-icon"></i>
+      </button>
+      <button class="icon-btn" onclick="toggleTheme()" data-tooltip="다크 모드 / 라이트 모드 전환" data-tooltip-pos="bottom-left" aria-label="테마 전환">
+        <i data-lucide="sun-moon" id="theme-icon"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="wizard-container">
+
+      <div class="wizard-header">
+        <h1 class="wizard-title">
+          <i data-lucide="sparkles"></i>
+          <span>퀀트 봇 설정 마법사</span>
+        </h1>
+        <p class="wizard-desc">
+          누구나 쉽게 시작하는 3대 거래소 암호화폐 퀀트 플랫폼입니다. 아래 단계를 따라 설정을 완료해 보세요.
+        </p>
+
+        <div class="callout-box">
+          <strong><i data-lucide="lightbulb" class="lucide-sm"></i> [처음 시작하시는 분들을 위한 친절 가이드]</strong><br>
+          • <strong>모의투자 우선 권장</strong>: 처음이시라면 <strong>[1. 운용 모드]</strong>에서 <code>모의투자 (Dry-Run)</code>를 선택하세요. 실제 돈이 나가지 않고 가상 잔고로 전략의 정확한 동작을 먼저 확인할 수 있어 안전합니다.<br>
+          • <strong>선택적 거래소 등록</strong>: 3개 거래소를 모두 등록할 필요가 없습니다. <strong>현재 사용하시는 거래소 1곳만</strong> 키를 입력하셔도 정상 가동됩니다.<br>
+          • <strong>철저한 개인정보 보호</strong>: 입력하신 API Key는 여러분의 PC(로컬 파일)에만 안전하게 보관되며, 그 어떤 외부 서버로도 전송되지 않습니다.
+        </div>
+      </div>
+
+      <form id="wizard-form" onsubmit="handleSaveConfig(event)">
+
+        <!-- 1. 운용 모드 선택 -->
+        <div class="card card-mb">
+          <div class="card-title">1. 운용 모드 선택</div>
+          <div class="mode-selector">
+            <div class="mode-card selected" id="mode-dry" onclick="selectMode('dry_run')">
+              <div class="mode-title"><i data-lucide="play-circle" class="lucide-sm"></i> <span>모의투자 (Dry-Run)</span></div>
+              <div class="mode-desc">실제 자금 집행 없이 가상 잔고로 주문 체결 및 전략 검증 (권장)</div>
+            </div>
+            <div class="mode-card" id="mode-live" onclick="selectMode('live')">
+              <div class="mode-title"><i data-lucide="zap" class="lucide-sm"></i> <span>실거래 (Live Trading)</span></div>
+              <div class="mode-desc">실제 거래소 잔고를 바탕으로 매일 아침 시장가 자동 주문 집행</div>
+            </div>
+            <div class="mode-card" id="mode-signal" onclick="selectMode('signal')">
+              <div class="mode-title"><i data-lucide="bell" class="lucide-sm"></i> <span>시그널 브리핑 (Signal Only)</span></div>
+              <div class="mode-desc">API Key 없이 공개 시세 지표 분석 결과만 디스코드로 수신</div>
+            </div>
+          </div>
+          <input type="hidden" id="input-run-mode" value="dry_run">
+        </div>
+
+        <!-- 2. 거래소 API Key 등록 및 연결 검증 (국내 KRW vs 해외 USDT 구분) -->
+        <div class="card card-mb">
+          <div class="card-title">
+            <span>2. 거래소 API Key 등록 및 연결 검증</span>
+            <span class="card-subtitle">최소 1개 이상의 거래소 키만 등록하셔도 자동 운용됩니다</span>
+          </div>
+
+          <!-- 한국 거래소 (KRW 원화 마켓) -->
+          <div class="market-group-container">
+            <div class="market-group-header">
+              <span class="market-group-badge krw">
+                <i data-lucide="coins" class="lucide-sm"></i>
+                <span>한국 거래소 (국내 원화 KRW 마켓)</span>
+              </span>
+              <span class="market-group-desc">국내 계좌 원화(KRW) 입출금 지원 마켓</span>
+            </div>
+
+            <!-- Upbit -->
+            <div class="form-group">
+              <div class="exchange-head">
+                <label class="form-label mb-0"><i data-lucide="wallet" class="lucide-sm"></i> 업비트 (Upbit)</label>
+                <button type="button" class="btn-link" onclick="openKeyModal('upbit')">
+                  <i data-lucide="key" class="lucide-sm"></i>
+                  <span>API Key 발급 방법</span>
+                </button>
+              </div>
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label" for="upbit-access">Access Key</label>
+                  <input type="password" id="upbit-access" class="form-control privacy-target" placeholder="업비트 Access Key">
+                </div>
+                <div class="form-col">
+                  <label class="form-label" for="upbit-secret">Secret Key</label>
+                  <input type="password" id="upbit-secret" class="form-control privacy-target" placeholder="업비트 Secret Key">
+                </div>
+                <div class="form-btn-col">
+                  <button type="button" class="btn-test" id="btn-test-upbit" onclick="testConnection('upbit')">연결 테스트</button>
+                </div>
+              </div>
+              <div id="test-upbit-res" class="test-result"></div>
+            </div>
+
+            <!-- Bithumb -->
+            <div class="form-group mb-0">
+              <div class="exchange-head">
+                <label class="form-label mb-0"><i data-lucide="wallet" class="lucide-sm"></i> 빗썸 (Bithumb)</label>
+                <button type="button" class="btn-link" onclick="openKeyModal('bithumb')">
+                  <i data-lucide="key" class="lucide-sm"></i>
+                  <span>API Key 발급 방법</span>
+                </button>
+              </div>
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label" for="bithumb-access">Access Key</label>
+                  <input type="password" id="bithumb-access" class="form-control privacy-target" placeholder="빗썸 Access Key">
+                </div>
+                <div class="form-col">
+                  <label class="form-label" for="bithumb-secret">Secret Key</label>
+                  <input type="password" id="bithumb-secret" class="form-control privacy-target" placeholder="빗썸 Secret Key">
+                </div>
+                <div class="form-btn-col">
+                  <button type="button" class="btn-test" id="btn-test-bithumb" onclick="testConnection('bithumb')">연결 테스트</button>
+                </div>
+              </div>
+              <div id="test-bithumb-res" class="test-result"></div>
+            </div>
+          </div>
+
+          <!-- 해외 글로벌 거래소 (USDT 테더 마켓) -->
+          <div class="market-group-container">
+            <div class="market-group-header">
+              <span class="market-group-badge usdt">
+                <i data-lucide="globe" class="lucide-sm"></i>
+                <span>해외 글로벌 거래소 (테더 USDT 마켓)</span>
+              </span>
+              <span class="market-group-desc">글로벌 테더(USDT) 기반 마켓</span>
+            </div>
+
+            <!-- Binance -->
+            <div class="form-group mb-0">
+              <div class="exchange-head">
+                <label class="form-label mb-0"><i data-lucide="wallet" class="lucide-sm"></i> 바이낸스 (Binance)</label>
+                <button type="button" class="btn-link" onclick="openKeyModal('binance')">
+                  <i data-lucide="key" class="lucide-sm"></i>
+                  <span>API Key 발급 방법</span>
+                </button>
+              </div>
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="form-label" for="binance-access">API Key</label>
+                  <input type="password" id="binance-access" class="form-control privacy-target" placeholder="바이낸스 API Key">
+                </div>
+                <div class="form-col">
+                  <label class="form-label" for="binance-secret">Secret Key</label>
+                  <input type="password" id="binance-secret" class="form-control privacy-target" placeholder="바이낸스 Secret Key">
+                </div>
+                <div class="form-btn-col">
+                  <button type="button" class="btn-test" id="btn-test-binance" onclick="testConnection('binance')">연결 테스트</button>
+                </div>
+              </div>
+              <div id="test-binance-res" class="test-result"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 거래소별 퀀트 전략 매핑 및 특징 (국내 KRW vs 해외 USDT 완벽 구분) -->
+        <div class="card card-mb">
+          <div class="card-title">
+            <span>3. 거래소별 퀀트 전략 매핑 및 특징</span>
+          </div>
+          <p class="section-subtext">
+            한국 거래소(원화 마켓)와 해외 글로벌 거래소(테더 마켓)의 시장 특성에 따라 완전히 분리된 데이터와 전략 모델을 제공합니다.
+          </p>
+
+          <!-- 1) 국내 거래소 전략 그룹 (한국 거래소 - KRW 원화 마켓) -->
+          <div class="market-group-container">
+            <div class="market-group-header">
+              <span class="market-group-badge krw">
+                <i data-lucide="coins" class="lucide-sm"></i>
+                <span>국내 거래소 전략 (한국 거래소 - KRW 원화 마켓 최적화)</span>
+              </span>
+              <span class="market-group-desc">국내 원화 일봉 실데이터 검증 · 김치프리미엄 및 원화 변동성 최적화</span>
+            </div>
+
+            <!-- Upbit Strategy -->
+            <div class="form-group strategy-form-group">
+              <label class="form-label" for="upbit-strategy"><i data-lucide="arrow-right-circle" class="lucide-sm"></i> 업비트(Upbit) 적용 전략</label>
+              <select class="form-control" id="upbit-strategy" onchange="updateStrategyDesc('upbit')">
+                <option value="dual_momentum_5050">BTC / ETH 50:50 동적 리밸런싱 (220일 SMA & ATR 채널) [기본 권장]</option>
+                <option value="eth_trend">이더리움 단독 추세 추종</option>
+                <option value="none">전략 미사용 (업비트 비활성화)</option>
+              </select>
+              <div class="strategy-card" id="desc-upbit">
+                <strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징 (업비트 권장)]</strong><br>
+                • <strong>업비트 원화(KRW) 일봉 데이터 기반 검증</strong>: 과거 5.2년 업비트 원화 실데이터로 백테스트하여 김치프리미엄과 원화 수급에 최적화되었습니다.<br>
+                • <strong>분할 리스크 관리</strong>: 총 평가액을 비트코인 50%, 이더리움 50%로 나누어 배분합니다.<br>
+                • <strong>이중 추세 필터</strong>: BTC는 220일 이동평균선(±2% 버퍼), ETH는 50일 이동평균선(1.5 ATR 채널)을 돌파하는 강력한 상승장일 때만 진입합니다.<br>
+                • <strong>수익 보존 리밸런싱</strong>: 한쪽 코인이 급등하여 자산 비중이 60%를 초과하면 초과분을 즉시 시장가 매도하여 원화(KRW) 50%를 확보, 수익을 확정합니다.
+              </div>
+            </div>
+
+            <!-- Bithumb Strategy -->
+            <div class="form-group strategy-form-group-last">
+              <label class="form-label" for="bithumb-strategy"><i data-lucide="arrow-right-circle" class="lucide-sm"></i> 빗썸(Bithumb) 적용 전략</label>
+              <select class="form-control" id="bithumb-strategy" onchange="updateStrategyDesc('bithumb')">
+                <option value="eth_supertrend">이더리움 SuperTrend(7, 3.5) + 50일 SMA 100% 추세 추종 [기본 권장]</option>
+                <option value="dual_momentum_5050">BTC / ETH 50:50 동적 리밸런싱</option>
+                <option value="none">전략 미사용 (빗썸 비활성화)</option>
+              </select>
+              <div class="strategy-card" id="desc-bithumb">
+                <strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징 (빗썸 권장)]</strong><br>
+                • <strong>빗썸 원화(KRW) 일봉 데이터 기반 검증</strong>: 과거 5.2년 빗썸 원화 실데이터로 백테스트하여 높은 승률(61.4%)과 복리 수익을 입증한 모델입니다.<br>
+                • <strong>100% 집중 공격형</strong>: 높은 변동성을 가진 이더리움(ETH) 1종목에 자산 100%를 집중 운용합니다.<br>
+                • <strong>복합 지표 필터</strong>: 50일 SMA 대추세선 위에 있고 SuperTrend(7, 3.5)가 상승 밴드(Green)일 때 100% 풀매수 보유합니다.<br>
+                • <strong>철저한 하락장 회피</strong>: 하락 시그널 발생 즉시 100% 원화로 전량 현금화하여 최대 낙폭(MDD -25% 수준)을 완벽히 방어합니다.
+              </div>
+            </div>
+          </div>
+
+          <!-- 2) 해외 글로벌 거래소 전략 그룹 (글로벌 테더 USDT 마켓) -->
+          <div class="market-group-container">
+            <div class="market-group-header">
+              <span class="market-group-badge usdt">
+                <i data-lucide="globe" class="lucide-sm"></i>
+                <span>해외 글로벌 거래소 전략 (테더 USDT 마켓 최적화)</span>
+              </span>
+              <span class="market-group-desc">글로벌 테더 일봉 실데이터 검증 · 김치프리미엄 배제 및 환율 리스크 헤지</span>
+            </div>
+
+            <!-- Binance Strategy -->
+            <div class="form-group strategy-form-group-last">
+              <label class="form-label" for="binance-strategy"><i data-lucide="arrow-right-circle" class="lucide-sm"></i> 바이낸스(Binance) 적용 전략</label>
+              <select class="form-control" id="binance-strategy" onchange="updateStrategyDesc('binance')">
+                <option value="dual_momentum_5050">BTCUSDT / ETHUSDT 50:50 테더 글로벌 리밸런싱 [기본 권장]</option>
+                <option value="none">전략 미사용 (바이낸스 비활성화)</option>
+              </select>
+              <div class="strategy-card" id="desc-binance">
+                <strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징 (바이낸스 권장)]</strong><br>
+                • <strong>바이낸스 테더(USDT) 일봉 데이터 기반 검증</strong>: 김치프리미엄이 배제된 순수 글로벌 테더 마켓 실데이터 백테스트로 최적화된 파라미터를 적용합니다.<br>
+                • <strong>글로벌 최적 파라미터</strong>: 5.2년 실데이터 검증 최적치(BTC 200일 SMA, ETH 40일 SMA 1.2 ATR) 채널을 적용합니다.<br>
+                • <strong>환율 리스크 분산</strong>: 관망 시 안전한 달러(USDT)를 보유하여 원화 약세/환율 급등 리스크를 자연스럽게 헤지합니다.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 알림 채널 연동 -->
+        <div class="card card-mb">
+          <div class="card-title">4. 디스코드 알림 채널 연동</div>
+          <div class="callout-box">
+            • <strong>기능 안내</strong>: 매일 아침 09:05 KST 정기 매매 완료 시 주문 체결 내역과 거래소별 잔고 리포트를 스마트폰 디스코드로 자동 푸시 전송합니다.<br>
+            • <strong>선택 사항</strong>: 디스코드 알림을 받지 않으려면 빈칸으로 두셔도 자동 매매와 웹 대시보드는 100% 정상 작동합니다.
+          </div>
+
+          <div class="form-group mb-0">
+            <label class="form-label" for="discord-webhook">디스코드 웹훅(Webhook) URL</label>
+            <div class="form-row">
+              <div class="form-col-flex">
+                <input type="password" id="discord-webhook" class="form-control privacy-target" placeholder="https://discord.com/api/webhooks/...">
+              </div>
+              <div class="form-btn-col">
+                <button type="button" class="btn-test" id="btn-test-discord" onclick="testDiscord()">테스트 발송</button>
+              </div>
+            </div>
+            <div id="test-discord-res" class="test-result"></div>
+          </div>
+        </div>
+
+        <!-- 5. 정기 자동 매매 스케줄링 설정 -->
+        <div class="card card-mb">
+          <div class="card-title">5. 정기 자동 매매 스케줄링 설정</div>
+          <div class="checkbox-group">
+            <label class="checkbox-label" for="schedule-enabled">
+              <input type="checkbox" id="schedule-enabled" checked>
+              <span>스케줄 자동 실행 활성화</span>
+            </label>
+          </div>
+          <div class="schedule-meta-box">
+            • <strong>활성화(체크)</strong>: 매일 아침 09:05 KST(일봉 마감 직후)에 봇이 자동으로 시장 데이터를 분석하고 매매 사이클을 실행합니다.<br>
+            • <strong>비활성화(체크 해제/삭제)</strong>: 정기 스케줄이 중지되며, 상단 [지금 1회 수동 실행] 버튼을 누를 때만 매매가 실행됩니다.
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="wizard-submit-wrap">
+          <button type="submit" id="btn-save-wizard" class="btn-primary btn-submit-wizard">
+            <i data-lucide="save"></i>
+            <span>설정 저장하기</span>
+          </button>
+        </div>
+
+        <!-- Operational Info Box -->
+        <div class="operating-guide-box">
+          <div class="operating-guide-title">
+            <i data-lucide="help-circle" class="lucide-sm"></i> 봇 상시 운용 및 종료 안내
+          </div>
+          <ul class="operating-guide-list">
+            <li><strong>자동 스케줄 대기</strong>: [설정 저장]을 완료하시면 내장 스케줄러가 활성화되어 터미널 창을 켜두시는 동안 <strong>매일 아침 09:05 KST에 자동으로 분석 및 매매를 실행</strong>합니다. 매일 start.bat을 다시 실행하실 필요가 없습니다.</li>
+            <li><strong>컴퓨터를 껐다 켰을 때</strong>: PC를 재부팅했거나 터미널을 닫았다면, 다음 날 09:05 전에 start.bat을 한 번만 다시 실행해 두시면 됩니다.</li>
+            <li><strong>터미널 종료 방법</strong>: 실행 중인 검은색 터미널 창에서 <strong>Ctrl + C</strong> 를 누르고 y를 입력하시거나, 창 우측 상단의 <strong>X</strong> 버튼을 클릭하시면 안전하게 종료됩니다.</li>
+            <li><strong>24시간 무인 가동</strong>: 집 PC를 매일 켜두기 번거로우실 땐 <strong>오라클 클라우드 평생 무료 VM</strong>에 올려두시면 PC를 끄고도 365일 무중단으로 자동매매가 진행됩니다. <a href="guide.html#guide-cloud" class="btn-link"><span>[1분 클라우드 가이드 열기]</span> <i data-lucide="arrow-right" class="lucide-sm"></i></a></li>
+          </ul>
+        </div>
+
+      </form>
+
+    </div>
+  </main>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Key Guide Modal -->
+  <div class="modal-overlay" id="key-modal" onclick="closeKeyModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-head">
+        <div class="modal-title" id="modal-title"><i data-lucide="key" class="lucide-sm"></i> <span>안내 가이드</span></div>
+        <button type="button" class="btn-close" onclick="closeKeyModal()" aria-label="가이드 닫기"><i data-lucide="x"></i></button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn-test" onclick="closeKeyModal()">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let isPrivacyMasked = false;
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('quant_theme', next);
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function togglePrivacy() {
+      isPrivacyMasked = !isPrivacyMasked;
+      document.querySelectorAll('.privacy-target').forEach(el => {
+        if (isPrivacyMasked) {
+          el.classList.add('masked-blur');
+        } else {
+          el.classList.remove('masked-blur');
+        }
+      });
+    }
+
+    function showToast(msg, duration = 3000) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, duration);
+    }
+
+    async function triggerRunNow() {
+      const btn = document.getElementById('btn-run-now');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2"></i> <span>실행 중...</span>';
+      if (window.lucide) lucide.createIcons();
+      showToast('지금 즉시 분석 및 매매를 1회 실행합니다...');
+
+      try {
+        const res = await fetch('/api/run-bot', { method: 'POST' });
+        const data = await res.json();
+        showToast(data.message || '매매 사이클 실행이 완료되었습니다!');
+      } catch (e) {
+        showToast('실행 요청 중 오류가 발생했습니다: ' + e);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="zap"></i> <span>지금 1회 수동 실행</span>';
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    function selectMode(mode) {
+      document.getElementById('input-run-mode').value = mode;
+      document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+      if (mode === 'dry_run') document.getElementById('mode-dry').classList.add('selected');
+      if (mode === 'live') document.getElementById('mode-live').classList.add('selected');
+      if (mode === 'signal') document.getElementById('mode-signal').classList.add('selected');
+    }
+
+    function updateStrategyDesc(exchange) {
+      const st = document.getElementById(`${exchange}-strategy`).value;
+      const descEl = document.getElementById(`desc-${exchange}`);
+      if (!descEl) return;
+
+      if (exchange === 'upbit') {
+        if (st === 'dual_momentum_5050') {
+          descEl.innerHTML = '<strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징 (업비트 권장)]</strong><br>• <strong>업비트 원화(KRW) 실데이터 검증</strong>: 과거 5.2년 업비트 원화 일봉 백테스트 최적화.<br>• <strong>분할 리스크 관리</strong>: 총 평가액을 BTC 50%, ETH 50%로 나누어 배분합니다.<br>• <strong>이중 추세 필터</strong>: BTC 220일 SMA(±2%), ETH 50일 SMA(1.5 ATR) 돌파 시에만 진입합니다.<br>• <strong>수익 보존</strong>: 60% 비중 초과 시 즉시 초과분을 매도하여 원화 현금 50%를 회수합니다.';
+        } else if (st === 'eth_trend') {
+          descEl.innerHTML = '<strong><i data-lucide="trending-up" class="lucide-sm"></i> [이더리움 단독 추세 추종 전략]</strong><br>• <strong>단독 집중</strong>: 이더리움 1종목에 자산을 집중 운용합니다.<br>• <strong>추세 추종</strong>: 50일 이동평균선 돌파 시 매수, 이탈 시 전량 현금화합니다.';
+        } else {
+          descEl.innerHTML = '<em>업비트 자동매매 전략을 사용하지 않습니다. 계좌 잔고 조회만 수행됩니다.</em>';
+        }
+      } else if (exchange === 'bithumb') {
+        if (st === 'eth_supertrend') {
+          descEl.innerHTML = '<strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징 (빗썸 권장)]</strong><br>• <strong>빗썸 원화(KRW) 실데이터 검증</strong>: 과거 5.2년 빗썸 원화 일봉 백테스트 최적화 (승률 61.4%).<br>• <strong>100% 집중 공격형</strong>: 높은 변동성의 ETH 1종목에 자산 100%를 집중 운용합니다.<br>• <strong>복합 지표 필터</strong>: 50일 SMA 위 + SuperTrend(7, 3.5) 상승 밴드 시 100% 풀매수.<br>• <strong>철저한 하락 회피</strong>: 하락 전환 시 즉시 100% 원화로 전량 현금화(MDD -25% 철저 통제).';
+        } else if (st === 'dual_momentum_5050') {
+          descEl.innerHTML = '<strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱]</strong><br>• BTC 50%, ETH 50% 분할 리밸런싱 전략을 적용합니다.';
+        } else {
+          descEl.innerHTML = '<em>빗썸 자동매매 전략을 사용하지 않습니다.</em>';
+        }
+      } else if (exchange === 'binance') {
+        if (st === 'dual_momentum_5050') {
+          descEl.innerHTML = '<strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징 (바이낸스 권장)]</strong><br>• <strong>바이낸스 테더(USDT) 실데이터 검증</strong>: 김치프리미엄 배제 순수 글로벌 마켓 백테스트 최적화.<br>• <strong>글로벌 최적 파라미터</strong>: BTC 200일 SMA, ETH 40일 SMA 1.2 ATR 채널 적용.<br>• <strong>환율 리스크 헤지</strong>: 관망 시 달러(USDT)를 보유하여 원화 약세 리스크를 자연 방어.';
+        } else {
+          descEl.innerHTML = '<em>바이낸스 자동매매 전략을 사용하지 않습니다.</em>';
+        }
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    async function loadConfigForm() {
+      try {
+        const res = await fetch('/api/config');
+        const cfg = await res.json();
+
+        selectMode(cfg.run_mode || 'dry_run');
+        document.getElementById('upbit-access').value = cfg.upbit_access_key || '';
+        document.getElementById('upbit-secret').value = cfg.upbit_secret_key || '';
+        document.getElementById('bithumb-access').value = cfg.bithumb_access_key || '';
+        document.getElementById('bithumb-secret').value = cfg.bithumb_secret_key || '';
+        document.getElementById('binance-access').value = cfg.binance_api_key || '';
+        document.getElementById('binance-secret').value = cfg.binance_secret_key || '';
+        document.getElementById('discord-webhook').value = cfg.discord_webhook_url || '';
+
+        if (cfg.upbit_strategy) document.getElementById('upbit-strategy').value = cfg.upbit_strategy;
+        if (cfg.bithumb_strategy) document.getElementById('bithumb-strategy').value = cfg.bithumb_strategy;
+        if (cfg.binance_strategy) document.getElementById('binance-strategy').value = cfg.binance_strategy;
+
+        document.getElementById('schedule-enabled').checked = (cfg.schedule_enabled !== false);
+
+        updateStrategyDesc('upbit');
+        updateStrategyDesc('bithumb');
+        updateStrategyDesc('binance');
+      } catch (e) {
+        console.error('Failed to load configs:', e);
+      }
+    }
+
+    async function handleSaveConfig(event) {
+      event.preventDefault();
+      const payload = {
+        run_mode: document.getElementById('input-run-mode').value,
+        upbit_strategy: document.getElementById('upbit-strategy').value,
+        bithumb_strategy: document.getElementById('bithumb-strategy').value,
+        binance_strategy: document.getElementById('binance-strategy').value,
+        upbit_access_key: document.getElementById('upbit-access').value,
+        upbit_secret_key: document.getElementById('upbit-secret').value,
+        bithumb_access_key: document.getElementById('bithumb-access').value,
+        bithumb_secret_key: document.getElementById('bithumb-secret').value,
+        binance_api_key: document.getElementById('binance-access').value,
+        binance_secret_key: document.getElementById('binance-secret').value,
+        discord_webhook_url: document.getElementById('discord-webhook').value,
+        schedule_enabled: document.getElementById('schedule-enabled').checked
+      };
+
+      const btn = document.getElementById('btn-save-wizard');
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="loader-2"></i> <span>설정 저장 중...</span>';
+      if (window.lucide) lucide.createIcons();
+
+      try {
+        const res = await fetch('/api/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        showToast(data.message || '설정이 안전하게 저장되었습니다!');
+      } catch (e) {
+        showToast('설정 저장 중 오류가 발생했습니다: ' + e);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="save"></i> <span>설정 저장하기</span>';
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+
+    async function testConnection(exchange) {
+      const btn = document.getElementById(`btn-test-${exchange}`);
+      const resEl = document.getElementById(`test-${exchange}-res`);
+      btn.disabled = true;
+      btn.innerText = '검증 중...';
+      resEl.className = 'test-result';
+      resEl.innerText = '';
+
+      let payload = { exchange: exchange, access_key: '', secret_key: '' };
+      if (exchange === 'upbit') {
+        payload.access_key = document.getElementById('upbit-access').value;
+        payload.secret_key = document.getElementById('upbit-secret').value;
+      } else if (exchange === 'bithumb') {
+        payload.access_key = document.getElementById('bithumb-access').value;
+        payload.secret_key = document.getElementById('bithumb-secret').value;
+      } else if (exchange === 'binance') {
+        payload.access_key = document.getElementById('binance-access').value;
+        payload.secret_key = document.getElementById('binance-secret').value;
+      }
+
+      try {
+        const res = await fetch('/api/test-exchange', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          resEl.className = 'test-result success';
+          resEl.innerText = `[연결 성공] ${data.message}`;
+        } else {
+          resEl.className = 'test-result error';
+          resEl.innerText = `[연결 실패] ${data.message}`;
+        }
+      } catch (e) {
+        resEl.className = 'test-result error';
+        resEl.innerText = `[오류] 검증 요청 실패: ${e}`;
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '연결 테스트';
+      }
+    }
+
+    async function testDiscord() {
+      const url = document.getElementById('discord-webhook').value;
+      const btn = document.getElementById('btn-test-discord');
+      const resEl = document.getElementById('test-discord-res');
+
+      if (!url) {
+        resEl.className = 'test-result error';
+        resEl.innerText = '디스코드 Webhook URL을 먼저 입력해 주세요.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = '발송 중...';
+      resEl.className = 'test-result';
+      resEl.innerText = '';
+
+      try {
+        const res = await fetch('/api/test-discord', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ webhook_url: url })
+        });
+        const data = await res.json();
+        if (data.status === 'ok') {
+          resEl.className = 'test-result success';
+          resEl.innerText = `[발송 성공] ${data.message}`;
+        } else {
+          resEl.className = 'test-result error';
+          resEl.innerText = `[발송 실패] ${data.message}`;
+        }
+      } catch (e) {
+        resEl.className = 'test-result error';
+        resEl.innerText = `[오류] 요청 실패: ${e}`;
+      } finally {
+        btn.disabled = false;
+        btn.innerText = '테스트 발송';
+      }
+    }
+
+    const keyGuides = {
+      upbit: {
+        title: '업비트 (Upbit) Open API Key 발급 매뉴얼',
+        steps: `<ol class="modal-guide-list">
+          <li>업비트 웹사이트에 로그인 후 우측 상단 <strong>[MY]</strong> &rarr; <strong>[Open API 관리]</strong>로 이동합니다.</li>
+          <li>필수 권한으로 <strong>[자산조회]</strong> 및 <strong>[주문조회, 주문]</strong> 2가지를 체크합니다. (<em>※ 출금 권한은 보안을 위해 절대 체크하지 마세요!</em>)</li>
+          <li>특정 IP에서만 호출하도록 본인의 고정 IP(또는 오라클 클라우드 공인 IP)를 입력합니다.</li>
+          <li>카카오페이 인증 후 생성된 <strong>Access Key</strong>와 <strong>Secret Key</strong>를 복사하여 마법사에 붙여넣습니다.</li>
+        </ol>`
+      },
+      bithumb: {
+        title: '빗썸 (Bithumb) API Key 발급 매뉴얼',
+        steps: `<ol class="modal-guide-list">
+          <li>빗썸 웹사이트 로그인 후 상단 <strong>[고객지원]</strong> &rarr; <strong>[API 관리]</strong>로 이동합니다.</li>
+          <li><strong>[자산조회]</strong>, <strong>[주문조회]</strong>, <strong>[주문하기]</strong> 권한을 활성화합니다. (<em>※ 출금 권한은 절대 체크 금지</em>)</li>
+          <li>IP 접근 제한에 사용할 고정 IP를 등록합니다.</li>
+          <li>SMS 및 OTP 인증을 거쳐 발급된 <strong>Connect Key(Access Key)</strong>와 <strong>Secret Key</strong>를 마법사에 입력합니다.</li>
+        </ol>`
+      },
+      binance: {
+        title: '바이낸스 (Binance) API Key 발급 매뉴얼',
+        steps: `<ol class="modal-guide-list">
+          <li>바이낸스 웹사이트 로그인 후 우측 상단 프로필 &rarr; <strong>[API Management]</strong>로 이동합니다.</li>
+          <li><strong>[Create API]</strong> &rarr; System Generated 선택 후 API 라벨(예: QuantWizard)을 지정합니다.</li>
+          <li>API Restrictions에서 <strong>[Enable Reading]</strong> 및 <strong>[Enable Spot & Margin Trading]</strong>만 체크합니다. (<em>※ Enable Withdrawals 절대 체크 금지</em>)</li>
+          <li>IP Access Restriction에서 <strong>[Restrict access to trusted IPs only]</strong>를 선택하고 고정 IP를 입력합니다.</li>
+          <li>생성된 <strong>API Key</strong>와 <strong>Secret Key</strong>를 복사하여 마법사에 입력합니다.</li>
+        </ol>`
+      }
+    };
+
+    function openKeyModal(exchange) {
+      const guide = keyGuides[exchange];
+      if (!guide) return;
+      document.getElementById('modal-title').innerHTML = `<i data-lucide="key" class="lucide-sm"></i> <span>${guide.title}</span>`;
+      document.getElementById('modal-body').innerHTML = `<div class="modal-body-inner">${guide.steps}</div>
+        <div class="modal-guide-footer">
+          <a href="guide.html#guide-keys" class="btn-link"><span>도움말 페이지에서 전체 발급 매뉴얼 보기</span> <i data-lucide="arrow-right" class="lucide-sm"></i></a>
+        </div>`;
+      document.getElementById('key-modal').classList.add('active');
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeKeyModal() {
+      document.getElementById('key-modal').classList.remove('active');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('quant_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      if (window.lucide) lucide.createIcons();
+      loadConfigForm();
+    });
+  </script>
+
+</body>
+</html>
