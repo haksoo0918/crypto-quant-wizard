@@ -131,7 +131,11 @@ async def lifespan(app: FastAPI):
         replace_existing=True
     )
     scheduler.start()
-    logger.info(f"백그라운드 정기 스케줄러 등록 완료: 매일 {hour:02d}:{minute:02d} KST")
+    if not config.SCHEDULE_ENABLED:
+        scheduler.pause_job("daily_quant_trading")
+        logger.info("정기 스케줄러가 비활성화(일시정지) 상태로 대기합니다.")
+    else:
+        logger.info(f"백그라운드 정기 스케줄러 등록 완료: 매일 {hour:02d}:{minute:02d} KST")
 
     yield
 
@@ -179,6 +183,7 @@ class ConfigSaveRequest(BaseModel):
     binance_secret_key: Optional[str] = None
     discord_webhook_url: Optional[str] = None
     schedule_time: Optional[str] = None
+    schedule_enabled: Optional[bool] = None
 
 
 class ExchangeTestRequest(BaseModel):
@@ -237,7 +242,7 @@ def get_status():
     """봇 및 스케줄러 현재 상태 조회"""
     next_run = None
     job = scheduler.get_job("daily_quant_trading")
-    if job and job.next_run_time:
+    if job and config.SCHEDULE_ENABLED and job.next_run_time:
         next_run = job.next_run_time.strftime("%Y-%m-%d %H:%M:%S KST")
 
     # 설정 완료 여부 판정
@@ -252,6 +257,7 @@ def get_status():
         "status": "online",
         "bot_state": bot_state,
         "next_run": next_run,
+        "schedule_enabled": config.SCHEDULE_ENABLED,
         "schedule_time": config.AUTO_SCHEDULE_TIME,
         "is_configured": configured_any,
         "run_mode": config.RUN_MODE,
@@ -277,15 +283,59 @@ def update_config(payload: ConfigSaveRequest):
     if not success:
         raise HTTPException(status_code=500, detail="설정 저장 중 오류가 발생했습니다.")
 
-    # 스케줄 시간 갱신 확인
-    if payload.schedule_time:
-        reschedule_job(payload.schedule_time)
+    # 스케줄 시간 및 활성화 상태 갱신
+    target_enabled = payload.schedule_enabled if payload.schedule_enabled is not None else config.SCHEDULE_ENABLED
+    target_time = payload.schedule_time or config.AUTO_SCHEDULE_TIME
+    sync_scheduler_state(target_enabled, target_time)
 
     return {
         "success": True,
         "message": "설정이 성공적으로 저장되었습니다.",
         "config": config.get_public_config()
     }
+
+
+@app.post("/api/schedule/toggle")
+def toggle_schedule():
+    """정기 스케줄러 활성화 / 비활성화(일시정지/삭제) 토글"""
+    new_state = not config.SCHEDULE_ENABLED
+    config.SCHEDULE_ENABLED = new_state
+    config.save_config({"schedule_enabled": new_state})
+    sync_scheduler_state(new_state, config.AUTO_SCHEDULE_TIME)
+    status_text = "활성화" if new_state else "비활성화(일시정지)"
+    return {
+        "success": True,
+        "schedule_enabled": new_state,
+        "message": f"정기 스케줄이 {status_text}되었습니다."
+    }
+
+
+def sync_scheduler_state(enabled: bool, time_str: str = "09:05"):
+    """스케줄러 작업 상태(활성화/일시정지/재등록) 동기화"""
+    try:
+        job = scheduler.get_job("daily_quant_trading")
+        hour, minute = [int(x) for x in time_str.strip().split(":")]
+        if enabled:
+            if not job:
+                scheduler.add_job(
+                    scheduled_job,
+                    trigger=CronTrigger(hour=hour, minute=minute, timezone="Asia/Seoul"),
+                    id="daily_quant_trading",
+                    replace_existing=True
+                )
+            else:
+                scheduler.reschedule_job(
+                    "daily_quant_trading",
+                    trigger=CronTrigger(hour=hour, minute=minute, timezone="Asia/Seoul")
+                )
+                scheduler.resume_job("daily_quant_trading")
+            logger.info(f"정기 스케줄러 활성화 완료: 매일 {time_str} KST")
+        else:
+            if job:
+                scheduler.pause_job("daily_quant_trading")
+            logger.info("정기 스케줄러가 일시정지(비활성화)되었습니다.")
+    except Exception as e:
+        logger.warning(f"스케줄러 상태 동기화 실패 ({e})")
 
 
 def reschedule_job(time_str: str):

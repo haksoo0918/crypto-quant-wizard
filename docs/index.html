@@ -770,7 +770,7 @@
       <div class="status-banner">
         <div class="status-left">
           <span id="badge-mode" class="badge badge-dry">🟢 모의매매 (Dry-Run)</span>
-          <span class="badge badge-schedule">⏰ 매일 09:05 KST 자동실행</span>
+          <button id="btn-toggle-schedule" class="badge badge-schedule" onclick="toggleSchedule()" style="cursor: pointer; border: none;" data-tooltip="클릭하여 매일 09:05 정기 자동 스케줄을 활성화하거나 일시정지(삭제)합니다." data-tooltip-pos="bottom">⏰ 매일 09:05 KST 자동실행</button>
           <span style="font-size: 0.8rem; color: var(--text-muted);" id="next-run-text">다음 실행: 계산 중...</span>
         </div>
         <div style="font-size: 0.8rem; color: var(--text-muted);" id="last-update-text">
@@ -1077,6 +1077,23 @@
             </div>
           </div>
 
+          <!-- 5. 자동 매매 정기 스케줄 설정 -->
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-title">
+              <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <span>5. 정기 자동 매매 스케줄링 설정</span>
+                <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer; color: var(--accent-primary); font-weight: 600;">
+                  <input type="checkbox" id="schedule-enabled-check" checked style="width: 1.15rem; height: 1.15rem; cursor: pointer;">
+                  스케줄 자동 실행 활성화
+                </label>
+              </div>
+            </div>
+            <div style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6;">
+              • <strong>활성화(체크)</strong>: 매일 아침 09:05 KST(일봉 마감 직후)에 봇이 자동으로 시장 데이터를 분석하고 매매 사이클을 실행합니다.<br>
+              • <strong>비활성화(체크 해제/삭제)</strong>: 정기 스케줄이 중지되며, 상단 <strong>[⚡ 지금 1회 수동 실행]</strong> 버튼을 누를 때만 매매가 실행됩니다.
+            </div>
+          </div>
+
           <!-- Submit Button -->
           <div style="text-align: center; margin-top: 1.5rem;">
             <button type="submit" class="btn-primary" style="width: 100%; max-width: 320px; font-size: 1.05rem;" data-tooltip="입력한 키와 전략을 저장하고 스케줄러를 가동합니다." data-tooltip-pos="top">
@@ -1242,11 +1259,40 @@
         badge.innerText = '🟢 모의매매 (Dry-Run)';
       }
 
+      const btnSchedule = document.getElementById('btn-toggle-schedule');
+      if (btnSchedule) {
+        if (statusData.schedule_enabled) {
+          btnSchedule.className = 'badge badge-schedule';
+          btnSchedule.innerText = '⏰ 매일 09:05 KST 자동실행 (클릭 시 일시정지)';
+          btnSchedule.setAttribute('data-tooltip', '현재 정기 스케줄이 활성화되어 있습니다. 클릭하면 정기 스케줄을 일시정지(삭제)합니다.');
+        } else {
+          btnSchedule.className = 'badge badge-signal';
+          btnSchedule.innerText = '⏸️ 정기 스케줄 일시정지 (클릭 시 활성화)';
+          btnSchedule.setAttribute('data-tooltip', '현재 정기 스케줄이 중지되었습니다. 클릭하면 매일 09:05 자동 스케줄을 재등록합니다.');
+        }
+      }
+
       const nextRunEl = document.getElementById('next-run-text');
-      if (statusData.next_run) {
+      if (statusData.schedule_enabled && statusData.next_run) {
         nextRunEl.innerText = `다음 정기 실행: ${statusData.next_run}`;
+      } else if (!statusData.schedule_enabled) {
+        nextRunEl.innerText = '스케줄러: 일시정지됨 (수동 실행 전용)';
       } else {
         nextRunEl.innerText = '스케줄러: 대기 중';
+      }
+    }
+
+    // Toggle Schedule Active/Paused
+    async function toggleSchedule() {
+      try {
+        const res = await fetch('/api/schedule/toggle', { method: 'POST' });
+        const data = await res.json();
+        showToast(data.message);
+        const stRes = await fetch('/api/status');
+        const stData = await stRes.json();
+        updateStatusBadges(stData);
+      } catch (e) {
+        showToast(`스케줄 변경 실패: ${e.message}`);
       }
     }
 
@@ -1278,6 +1324,11 @@
 
         if (cfg.discord && cfg.discord.webhook_masked) {
           document.getElementById('discord-webhook-url').value = cfg.discord.webhook_masked;
+        }
+
+        if (cfg.schedule_enabled !== undefined) {
+          const chk = document.getElementById('schedule-enabled-check');
+          if (chk) chk.checked = Boolean(cfg.schedule_enabled);
         }
 
       } catch (e) {
@@ -1374,7 +1425,8 @@
         bithumb_secret_key: document.getElementById('bithumb-secret-key').value,
         binance_access_key: document.getElementById('binance-access-key').value,
         binance_secret_key: document.getElementById('binance-secret-key').value,
-        discord_webhook_url: document.getElementById('discord-webhook-url').value
+        discord_webhook_url: document.getElementById('discord-webhook-url').value,
+        schedule_enabled: document.getElementById('schedule-enabled-check') ? document.getElementById('schedule-enabled-check').checked : true
       };
 
       try {

@@ -79,6 +79,21 @@ def test_test_exchange_invalid_credentials():
     assert "실패" in res["message"] or "오류" in res["message"]
 
 
+def test_schedule_toggle():
+    # 현재 상태 저장
+    init_state = config.SCHEDULE_ENABLED
+
+    # 토글 1회 실행
+    res1 = server.toggle_schedule()
+    assert res1["success"] is True
+    assert res1["schedule_enabled"] != init_state
+
+    # 토글 2회 실행 (원복)
+    res2 = server.toggle_schedule()
+    assert res2["success"] is True
+    assert res2["schedule_enabled"] == init_state
+
+
 def test_serve_index_exists():
     index_file = server.DOCS_DIR / "index.html"
     assert index_file.exists()

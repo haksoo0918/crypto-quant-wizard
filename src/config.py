@@ -84,6 +84,7 @@ ENABLE_GIT_AUTO_PUSH = os.getenv("ENABLE_GIT_AUTO_PUSH", "false").lower() == "tr
 # 웹 서버 포트 및 스케줄 시간
 WEB_PORT = int(os.getenv("WEB_PORT", _json_cfg.get("web_port", 8080)))
 AUTO_SCHEDULE_TIME = os.getenv("AUTO_SCHEDULE_TIME", _json_cfg.get("auto_schedule_time", "09:05"))
+SCHEDULE_ENABLED = os.getenv("SCHEDULE_ENABLED", "true").lower() == "true" if "SCHEDULE_ENABLED" in os.environ else _json_cfg.get("schedule_enabled", True)
 
 # ==========================================
 # [전략 세부 운용 상수]
@@ -144,7 +145,8 @@ def get_public_config() -> dict:
             "webhook_masked": mask_key(DISCORD_WEBHOOK_URL)
         },
         "web_port": WEB_PORT,
-        "schedule_time": AUTO_SCHEDULE_TIME
+        "schedule_time": AUTO_SCHEDULE_TIME,
+        "schedule_enabled": SCHEDULE_ENABLED
     }
 
 
@@ -155,7 +157,7 @@ def save_config(new_config: dict) -> bool:
     global RUN_MODE, DRY_RUN, SIGNAL_ONLY
     global UPBIT_STRATEGY, USE_UPBIT_STRATEGY, BITHUMB_STRATEGY, USE_BITHUMB_STRATEGY, USE_ALTCOIN_STRATEGY, BINANCE_STRATEGY, USE_BINANCE_STRATEGY
     global UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY, BITHUMB_ACCESS_KEY, BITHUMB_SECRET_KEY, BINANCE_ACCESS_KEY, BINANCE_SECRET_KEY
-    global DISCORD_WEBHOOK_URL, WEB_PORT, AUTO_SCHEDULE_TIME
+    global DISCORD_WEBHOOK_URL, WEB_PORT, AUTO_SCHEDULE_TIME, SCHEDULE_ENABLED
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     
@@ -210,6 +212,10 @@ def save_config(new_config: dict) -> bool:
     if "discord_webhook_url" in new_config:
         DISCORD_WEBHOOK_URL = update_key("DISCORD_WEBHOOK_URL", new_config["discord_webhook_url"])
 
+    if "schedule_enabled" in new_config and new_config["schedule_enabled"] is not None:
+        SCHEDULE_ENABLED = bool(new_config["schedule_enabled"])
+        set_key(str(ENV_PATH), "SCHEDULE_ENABLED", "true" if SCHEDULE_ENABLED else "false")
+
     # 4. config.json 동기화 저장
     save_dict = {
         "run_mode": RUN_MODE,
@@ -217,7 +223,8 @@ def save_config(new_config: dict) -> bool:
         "bithumb_strategy": BITHUMB_STRATEGY,
         "binance_strategy": BINANCE_STRATEGY,
         "web_port": WEB_PORT,
-        "auto_schedule_time": AUTO_SCHEDULE_TIME
+        "auto_schedule_time": AUTO_SCHEDULE_TIME,
+        "schedule_enabled": SCHEDULE_ENABLED
     }
     with open(CONFIG_JSON_PATH, "w", encoding="utf-8") as f:
         json.dump(save_dict, f, ensure_ascii=False, indent=2)
