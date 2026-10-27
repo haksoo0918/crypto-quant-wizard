@@ -379,6 +379,8 @@ def test_discord(payload: DiscordTestRequest):
     url = payload.webhook_url.strip()
     if not url:
         return {"success": False, "message": "디스코드 웹훅 URL을 입력해 주세요."}
+    if not (url.startswith("https://discord.com/api/webhooks/") or url.startswith("https://discordapp.com/api/webhooks/")):
+        return {"success": False, "message": "올바른 디스코드 웹훅 URL 형식이 아닙니다. (https://discord.com/api/webhooks/... 형식이어야 합니다.)"}
 
     content = {
         "content": "🧙 **[Crypto Quant Wizard]** 디스코드 알림 연동 테스트 성공!\n"

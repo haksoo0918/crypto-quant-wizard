@@ -23,6 +23,7 @@ try:
 except ImportError:
     pass
 
+import config
 from config import (
     UPBIT_ACCESS_KEY, UPBIT_SECRET_KEY,
     BITHUMB_ACCESS_KEY, BITHUMB_SECRET_KEY,
@@ -74,7 +75,8 @@ def get_kst_now():
 
 def send_discord_message(content):
     """디스코드 웹훅으로 알림 메시지 발송"""
-    if not DISCORD_WEBHOOK_URL:
+    webhook_url = getattr(config, 'DISCORD_WEBHOOK_URL', '') or DISCORD_WEBHOOK_URL
+    if not webhook_url:
         logging.warning("디스코드 웹훅 URL이 설정되어 있지 않습니다. 알림 전송을 건너뜁니다.")
         return
 
@@ -82,7 +84,7 @@ def send_discord_message(content):
     headers = {"Content-Type": "application/json"}
 
     try:
-        response = requests.post(DISCORD_WEBHOOK_URL, data=json.dumps(payload), headers=headers, timeout=10)
+        response = requests.post(webhook_url, data=json.dumps(payload), headers=headers, timeout=10)
         if response.status_code in [200, 204]:
             logging.info("디스코드 알림 발송 성공")
         else:
@@ -282,15 +284,33 @@ def fetch_upbit_current_price(market):
 
 def fetch_upbit_balances(upbit_client, is_dry_run=False):
     """업비트 계좌 잔고 목록 조회"""
-    if is_dry_run and not (UPBIT_ACCESS_KEY and UPBIT_SECRET_KEY):
+    if is_dry_run:
+        if not (UPBIT_ACCESS_KEY and UPBIT_SECRET_KEY) or upbit_client is None:
+            return [
+                {"currency": "KRW", "balance": "10000000.0", "locked": "0.0", "avg_buy_price": "0"},
+                {"currency": "BTC", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"},
+                {"currency": "ETH", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"}
+            ]
+        try:
+            balances = upbit_client.get_balances()
+            if isinstance(balances, list):
+                return balances
+            logging.warning(f"업비트 잔고 조회 응답 이상 ({balances}). 모의매매 가상 잔고로 대체합니다.")
+        except Exception as e:
+            logging.warning(f"업비트 잔고 조회 실패 ({e}). 모의매매 가상 잔고로 대체합니다.")
         return [
             {"currency": "KRW", "balance": "10000000.0", "locked": "0.0", "avg_buy_price": "0"},
             {"currency": "BTC", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"},
             {"currency": "ETH", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"}
         ]
+
+    if upbit_client is None:
+        raise ValueError("업비트 API 키가 설정되지 않았습니다.")
     balances = upbit_client.get_balances()
     if isinstance(balances, dict) and "error" in balances:
         raise ValueError(f"업비트 잔고 조회 실패: {balances.get('error')}")
+    if not isinstance(balances, list):
+        raise ValueError(f"업비트 비정상 응답: {balances}")
     return balances
 
 
@@ -308,12 +328,27 @@ def fetch_bithumb_ticker_all():
 
 def fetch_bithumb_balances(bithumb_client, is_dry_run=False):
     """빗썸 계좌 잔고 조회"""
-    if is_dry_run and not (BITHUMB_ACCESS_KEY and BITHUMB_SECRET_KEY):
+    if is_dry_run:
+        if not (BITHUMB_ACCESS_KEY and BITHUMB_SECRET_KEY) or bithumb_client is None:
+            return [
+                {"currency": "KRW", "balance": "10000000.0", "locked": "0.0", "avg_buy_price": "0"},
+                {"currency": "BTC", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"},
+                {"currency": "ETH", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"}
+            ]
+        try:
+            res = bithumb_client.get_balances()
+            if isinstance(res, list):
+                return res
+            logging.warning(f"빗썸 응답 비정상 ({res}). 모의매매 가상 잔고로 대체합니다.")
+        except Exception as e:
+            logging.warning(f"빗썸 잔고 조회 실패 ({e}). 모의매매 가상 잔고로 대체합니다.")
         return [
             {"currency": "KRW", "balance": "10000000.0", "locked": "0.0", "avg_buy_price": "0"},
             {"currency": "BTC", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"},
             {"currency": "ETH", "balance": "0.0", "locked": "0.0", "avg_buy_price": "0"}
         ]
+    if bithumb_client is None:
+        raise ValueError("빗썸 API 키가 설정되지 않았습니다.")
     return bithumb_client.get_balances()
 
 

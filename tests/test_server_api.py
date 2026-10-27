@@ -59,6 +59,26 @@ def test_test_exchange_empty():
     assert "Key를 모두 입력" in res["message"]
 
 
+def test_test_discord_invalid():
+    # 빈 URL
+    req_empty = server.DiscordTestRequest(webhook_url="")
+    res_empty = server.test_discord(req_empty)
+    assert res_empty["success"] is False
+
+    # 잘못된 URL 형식
+    req_bad = server.DiscordTestRequest(webhook_url="https://google.com/bad")
+    res_bad = server.test_discord(req_bad)
+    assert res_bad["success"] is False
+    assert "형식이 아닙니다" in res_bad["message"]
+
+
+def test_test_exchange_invalid_credentials():
+    req = ExchangeTestRequest(exchange="upbit", access_key="invalid_test_key", secret_key="invalid_test_secret")
+    res = server.test_exchange(req)
+    assert res["success"] is False
+    assert "실패" in res["message"] or "오류" in res["message"]
+
+
 def test_serve_index_exists():
     index_file = server.DOCS_DIR / "index.html"
     assert index_file.exists()
