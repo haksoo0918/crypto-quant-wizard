@@ -1131,6 +1131,38 @@
       border: 1px solid var(--border-color);
     }
 
+    /* Guide Callout Box */
+    .guide-callout {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 1rem 0;
+      background: var(--bg-card-sub);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+    }
+    .guide-callout strong {
+      color: var(--text-primary);
+    }
+    .guide-callout.info {
+      border-left: 4px solid var(--accent-primary);
+    }
+    .guide-callout .guide-sub-title {
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+    }
+    .guide-badge {
+      display: inline-block;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      background: var(--bg-card-sub);
+      border: 1px solid var(--border-color);
+      color: var(--accent-primary);
+    }
+
     /* Strategy & Backtest Table with Sticky First Column */
     .guide-table-wrapper {
       overflow-x: auto;

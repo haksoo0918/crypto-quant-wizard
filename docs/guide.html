@@ -139,6 +139,27 @@
             감정에 휘둘리는 주관적 매매를 배제하고, 수년간의 과거 실데이터 시뮬레이션과 실거래로 수학적 우위가 입증된 3대 퀀트 모델을 기본 탑재하고 있습니다.
           </p>
 
+          <!-- 한국 거래소 vs 바이낸스 글로벌 테더 데이터 차이 안내 -->
+          <div class="guide-callout info">
+            <h3 class="guide-sub-title">
+              <i data-lucide="info" class="lucide-sm"></i>
+              <span>한국 거래소(KRW) vs 바이낸스 글로벌 테더(USDT) 데이터 기반 전략의 핵심 차이</span>
+            </h3>
+            <p class="guide-text">
+              본 시스템의 퀀트 전략은 거래소 환경과 통화 시장 특성에 따라 <strong>검증에 사용된 기준 데이터와 최적화 알고리즘이 명확히 구분</strong>되어 있습니다.
+            </p>
+            <ul class="guide-step-list">
+              <li>
+                <strong>한국 거래소 전략 (업비트 / 빗썸)</strong>:
+                국내 원화(KRW) 마켓의 실거래 일봉 데이터를 기반으로 백테스트하여 선택된 전략입니다. 한국 코인 시장 특유의 김치프리미엄(Kimchi Premium) 변동성과 국내 원화 수급 환경을 반영하며, 하락장 감지 시 100% 원화(KRW) 현금화를 통해 자산을 방어합니다.
+              </li>
+              <li>
+                <strong>글로벌 거래소 전략 (바이낸스)</strong>:
+                바이낸스 글로벌 테더(USDT) 마켓의 실거래 일봉 데이터를 기반으로 백테스트하여 선택된 전략입니다. 김치프리미엄이 배제된 순수 글로벌 유동성을 반영하며, 하락 및 관망 시 달러(USDT)를 보유함으로써 원화 약세(환율 상승) 시 자연스러운 환율 방어(Hedge) 효과를 제공합니다.
+              </li>
+            </ul>
+          </div>
+
           <h3 class="guide-sub-title">
             <i data-lucide="bar-chart-3" class="lucide-sm"></i>
             <span>5.2년 과거 데이터 백테스트 종합 성과 비교표</span>
@@ -150,6 +171,7 @@
                 <tr>
                   <th scope="col">전략명</th>
                   <th scope="col">권장 거래소</th>
+                  <th scope="col">백테스트 기준 데이터</th>
                   <th scope="col">운용 대상 자산</th>
                   <th scope="col">연복리 수익률 (CAGR)</th>
                   <th scope="col">최대 낙폭 (MDD)</th>
@@ -161,18 +183,20 @@
               <tbody>
                 <tr>
                   <td>BTC/ETH 50:50 동적 리밸런싱</td>
-                  <td>업비트, 바이낸스</td>
-                  <td>BTC, ETH (50:50 분할)</td>
+                  <td><span class="guide-badge">업비트 (Upbit)</span></td>
+                  <td><strong>업비트 원화(KRW) 일봉 데이터</strong></td>
+                  <td>KRW-BTC, KRW-ETH (50:50 분할)</td>
                   <td><span class="metric-badge green">+42.3% / 년</span></td>
                   <td><span class="metric-badge red">-21.8%</span></td>
                   <td><span class="metric-badge blue">58.2%</span></td>
                   <td><strong>1.38</strong></td>
-                  <td>220일 SMA + 1.5 ATR 채널 이중 필터, 60% 비중 초과 시 초과분 익절 현금화</td>
+                  <td>220일 SMA + 1.5 ATR 채널 이중 필터, 60% 비중 초과 시 초과분 익절 현금화 (원화 방어)</td>
                 </tr>
                 <tr>
                   <td>이더리움 SuperTrend 단독 추세추종</td>
-                  <td>빗썸</td>
-                  <td>ETH 단독 (100% 집중)</td>
+                  <td><span class="guide-badge">빗썸 (Bithumb)</span></td>
+                  <td><strong>빗썸 원화(KRW) 일봉 데이터</strong></td>
+                  <td>KRW-ETH 단독 (100% 집중)</td>
                   <td><span class="metric-badge green">+58.7% / 년</span></td>
                   <td><span class="metric-badge red">-25.4%</span></td>
                   <td><span class="metric-badge blue">61.4%</span></td>
@@ -181,18 +205,20 @@
                 </tr>
                 <tr>
                   <td>BTCUSDT/ETHUSDT 글로벌 테더</td>
-                  <td>바이낸스</td>
-                  <td>BTCUSDT, ETHUSDT</td>
+                  <td><span class="guide-badge">바이낸스 (Binance)</span></td>
+                  <td><strong>바이낸스 테더(USDT) 일봉 데이터</strong></td>
+                  <td>BTCUSDT, ETHUSDT (50:50 분할)</td>
                   <td><span class="metric-badge green">+38.6% / 년</span></td>
                   <td><span class="metric-badge red">-20.1%</span></td>
                   <td><span class="metric-badge blue">57.8%</span></td>
                   <td><strong>1.32</strong></td>
-                  <td>글로벌 테더(USDT) 기반 김프 배제, BTC 200일 SMA & ETH 40일 SMA 1.2 ATR</td>
+                  <td>글로벌 테더(USDT) 기반 김프 배제, BTC 200일 SMA & ETH 40일 SMA 1.2 ATR, 관망 시 달러(USDT) 보유</td>
                 </tr>
                 <tr>
                   <td>단순 보유 (Buy & Hold 벤치마크)</td>
-                  <td>전 거래소 공통</td>
-                  <td>BTC, ETH</td>
+                  <td><span class="guide-badge">전 거래소 공통 (비교군)</span></td>
+                  <td>시장 단순 시세 (벤치마크)</td>
+                  <td>BTC, ETH (50:50)</td>
                   <td><span class="metric-badge blue">+21.5% / 년</span></td>
                   <td><span class="metric-badge red">-73.4%</span></td>
                   <td>-</td>
@@ -204,7 +230,7 @@
           </div>
 
           <h3 class="guide-sub-title">
-            <i data-lucide="info" class="lucide-sm"></i>
+            <i data-lucide="help-circle" class="lucide-sm"></i>
             <span>왜 백테스트 MDD(최대 낙폭)가 중요한가요?</span>
           </h3>
           <p class="guide-text">

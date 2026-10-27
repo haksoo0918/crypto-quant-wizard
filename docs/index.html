@@ -343,7 +343,8 @@
                 <option value="none">전략 미사용 (업비트 비활성화)</option>
               </select>
               <div class="strategy-card" id="desc-upbit">
-                <strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징]</strong><br>
+                <strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징 (업비트 권장)]</strong><br>
+                • <strong>업비트 원화(KRW) 일봉 데이터 기반 검증</strong>: 과거 5.2년 업비트 원화 실데이터로 백테스트하여 김치프리미엄과 원화 수급에 최적화되었습니다.<br>
                 • <strong>분할 리스크 관리</strong>: 총 평가액을 비트코인 50%, 이더리움 50%로 나누어 배분합니다.<br>
                 • <strong>이중 추세 필터</strong>: BTC는 220일 이동평균선(±2% 버퍼), ETH는 50일 이동평균선(1.5 ATR 채널)을 돌파하는 강력한 상승장일 때만 진입합니다.<br>
                 • <strong>수익 보존 리밸런싱</strong>: 한쪽 코인이 급등하여 자산 비중이 60%를 초과하면 초과분을 즉시 시장가 매도하여 원화(KRW) 50%를 확보, 수익을 확정합니다.
@@ -359,7 +360,8 @@
                 <option value="none">전략 미사용 (빗썸 비활성화)</option>
               </select>
               <div class="strategy-card" id="desc-bithumb">
-                <strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징]</strong><br>
+                <strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징 (빗썸 권장)]</strong><br>
+                • <strong>빗썸 원화(KRW) 일봉 데이터 기반 검증</strong>: 과거 5.2년 빗썸 원화 실데이터로 백테스트하여 높은 승률(61.4%)과 복리 수익을 입증한 모델입니다.<br>
                 • <strong>100% 집중 공격형</strong>: 높은 변동성을 가진 이더리움(ETH) 1종목에 자산 100%를 집중 운용합니다.<br>
                 • <strong>복합 지표 필터</strong>: 50일 SMA 대추세선 위에 있고 SuperTrend(7, 3.5)가 상승 밴드(Green)일 때 100% 풀매수 보유합니다.<br>
                 • <strong>철저한 하락장 회피</strong>: 하락 시그널 발생 즉시 100% 원화로 전량 현금화하여 최대 낙폭(MDD -25% 수준)을 완벽히 방어합니다.
@@ -374,8 +376,8 @@
                 <option value="none">전략 미사용 (바이낸스 비활성화)</option>
               </select>
               <div class="strategy-card" id="desc-binance">
-                <strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징]</strong><br>
-                • <strong>김치프리미엄 배제</strong>: 순수 글로벌 달러 테더(USDT) 마켓에서 달러 자산을 안정적으로 증식합니다.<br>
+                <strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징 (바이낸스 권장)]</strong><br>
+                • <strong>바이낸스 테더(USDT) 일봉 데이터 기반 검증</strong>: 김치프리미엄이 배제된 순수 글로벌 테더 마켓 실데이터 백테스트로 최적화된 파라미터를 적용합니다.<br>
                 • <strong>글로벌 최적 파라미터</strong>: 5.2년 실데이터 검증 최적치(BTC 200일 SMA, ETH 40일 SMA 1.2 ATR) 채널을 적용합니다.<br>
                 • <strong>환율 리스크 분산</strong>: 관망 시 안전한 달러(USDT)를 보유하여 원화 약세/환율 급등 리스크를 자연스럽게 헤지합니다.
               </div>
@@ -1269,11 +1271,11 @@ cd crypto-quant-wizard && chmod +x start.sh && ./start.sh</pre>
       } else {
         // reload default text
         if (exchange === 'upbit') {
-          descEl.innerHTML = '<strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징]</strong><br>• <strong>분할 리스크 관리</strong>: 총 평가액을 BTC 50%, ETH 50%로 나누어 배분합니다.<br>• <strong>이중 추세 필터</strong>: BTC 220일 SMA(±2%), ETH 50일 SMA(1.5 ATR) 돌파 시에만 진입합니다.<br>• <strong>수익 보존</strong>: 60% 비중 초과 시 즉시 초과분을 매도하여 원화 현금 50%를 회수합니다.';
+          descEl.innerHTML = '<strong><i data-lucide="trending-up" class="lucide-sm"></i> [BTC/ETH 50:50 동적 리밸런싱 전략의 특징 (업비트 권장)]</strong><br>• <strong>업비트 원화(KRW) 실데이터 검증</strong>: 과거 5.2년 업비트 원화 일봉 백테스트 최적화.<br>• <strong>분할 리스크 관리</strong>: 총 평가액을 BTC 50%, ETH 50%로 나누어 배분합니다.<br>• <strong>이중 추세 필터</strong>: BTC 220일 SMA(±2%), ETH 50일 SMA(1.5 ATR) 돌파 시에만 진입합니다.<br>• <strong>수익 보존</strong>: 60% 비중 초과 시 즉시 초과분을 매도하여 원화 현금 50%를 회수합니다.';
         } else if (exchange === 'bithumb') {
-          descEl.innerHTML = '<strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징]</strong><br>• <strong>100% 집중 공격형</strong>: 높은 변동성의 ETH 1종목에 자산 100%를 집중 운용합니다.<br>• <strong>복합 지표 필터</strong>: 50일 SMA 위 + SuperTrend(7, 3.5) 상승 밴드 시 100% 풀매수.<br>• <strong>철저한 하락 회피</strong>: 하락 전환 시 즉시 100% 원화로 전량 현금화(MDD -25% 철저 통제).';
+          descEl.innerHTML = '<strong><i data-lucide="rocket" class="lucide-sm"></i> [이더리움 SuperTrend 추세추종 전략의 특징 (빗썸 권장)]</strong><br>• <strong>빗썸 원화(KRW) 실데이터 검증</strong>: 과거 5.2년 빗썸 원화 일봉 백테스트 최적화 (승률 61.4%).<br>• <strong>100% 집중 공격형</strong>: 높은 변동성의 ETH 1종목에 자산 100%를 집중 운용합니다.<br>• <strong>복합 지표 필터</strong>: 50일 SMA 위 + SuperTrend(7, 3.5) 상승 밴드 시 100% 풀매수.<br>• <strong>철저한 하락 회피</strong>: 하락 전환 시 즉시 100% 원화로 전량 현금화(MDD -25% 철저 통제).';
         } else if (exchange === 'binance') {
-          descEl.innerHTML = '<strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징]</strong><br>• <strong>김치프리미엄 배제</strong>: 순수 글로벌 테더(USDT) 마켓에서 달러 자산을 안정적 증식.<br>• <strong>글로벌 최적 파라미터</strong>: BTC 200일 SMA, ETH 40일 SMA 1.2 ATR 채널 적용.<br>• <strong>환율 리스크 헤지</strong>: 관망 시 달러(USDT)를 보유하여 원화 약세 리스크를 자연 방어.';
+          descEl.innerHTML = '<strong><i data-lucide="dollar-sign" class="lucide-sm"></i> [BTC/ETH 글로벌 테더(USDT) 리밸런싱 전략의 특징 (바이낸스 권장)]</strong><br>• <strong>바이낸스 테더(USDT) 실데이터 검증</strong>: 김치프리미엄 배제 순수 글로벌 마켓 백테스트 최적화.<br>• <strong>글로벌 최적 파라미터</strong>: BTC 200일 SMA, ETH 40일 SMA 1.2 ATR 채널 적용.<br>• <strong>환율 리스크 헤지</strong>: 관망 시 달러(USDT)를 보유하여 원화 약세 리스크를 자연 방어.';
         }
       }
       if (window.lucide) lucide.createIcons();
