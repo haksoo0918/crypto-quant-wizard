@@ -25,6 +25,12 @@ from apscheduler.triggers.cron import CronTrigger
 import requests
 import pandas as pd
 
+# 콘솔 UTF-8 인코딩 보장 (Windows CP949 이모지 에러 방지)
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+if hasattr(sys.stderr, 'reconfigure'):
+    sys.stderr.reconfigure(encoding='utf-8', errors='replace')
+
 # 로컬 모듈 로드
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import config
@@ -472,4 +478,4 @@ def serve_index():
 if __name__ == "__main__":
     port = config.WEB_PORT
     logger.info(f"🌐 웹 서비스 시작: http://localhost:{port}")
-    uvicorn.run("server:app", host="0.0.0.0", port=port, reload=False)
+    uvicorn.run(app, host="0.0.0.0", port=port)
