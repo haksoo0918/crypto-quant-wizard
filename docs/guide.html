@@ -39,11 +39,28 @@
       </div>
     </div>
 
-    <div class="header-actions">
-      <a href="index.html" class="tab-btn active">
-        <i data-lucide="arrow-left"></i>
-        <span>대시보드로 돌아가기</span>
+    <!-- Navigation Tabs (Multi-Page Coherence) -->
+    <nav class="nav-tabs" role="tablist" aria-label="메인 네비게이션">
+      <a href="index.html" class="tab-btn">
+        <i data-lucide="layout-dashboard"></i>
+        <span>대시보드</span>
       </a>
+      <a href="index.html?tab=wizard" class="tab-btn">
+        <i data-lucide="sliders"></i>
+        <span>설정 마법사</span>
+      </a>
+      <a href="index.html?tab=logs" class="tab-btn">
+        <i data-lucide="terminal"></i>
+        <span>실행 로그</span>
+      </a>
+      <a href="guide.html" class="tab-btn active">
+        <i data-lucide="book-open"></i>
+        <span>도움말</span>
+      </a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
       <button class="icon-btn" onclick="toggleTheme()" aria-label="테마 전환 (다크/라이트)">
         <i data-lucide="sun-moon" id="theme-icon"></i>
       </button>

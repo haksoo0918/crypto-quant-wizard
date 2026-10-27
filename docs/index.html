@@ -55,10 +55,10 @@
         <i data-lucide="terminal"></i>
         <span>실행 로그</span>
       </button>
-      <button class="tab-btn" id="tab-btn-guide" role="tab" aria-selected="false" aria-controls="tab-guide" onclick="switchTab('guide')">
+      <a href="guide.html" class="tab-btn" id="tab-btn-guide">
         <i data-lucide="book-open"></i>
         <span>도움말</span>
-      </button>
+      </a>
     </nav>
 
     <!-- Header Actions -->
@@ -522,6 +522,10 @@
 
     // Switch Navigation Tabs
     function switchTab(tabId) {
+      if (tabId === 'guide') {
+        window.location.href = 'guide.html';
+        return;
+      }
       currentTab = tabId;
       document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.remove('active');
@@ -585,6 +589,13 @@
       const savedTheme = localStorage.getItem('quant_theme') || 'light';
       document.documentElement.setAttribute('data-theme', savedTheme);
 
+      // Check URL query param or hash for initial tab immediately
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get('tab') || window.location.hash.replace('#', '');
+      if (tabParam && ['dashboard', 'wizard', 'logs'].includes(tabParam)) {
+        switchTab(tabParam);
+      }
+
       try {
         const res = await fetch('/api/status');
         const data = await res.json();
@@ -592,11 +603,12 @@
         // Update header badges
         updateStatusBadges(data);
 
-        // If not configured, guide to wizard tab first
-        if (!data.is_configured) {
-          switchTab('wizard');
-        } else {
-          switchTab('dashboard');
+        if (!tabParam) {
+          if (!data.is_configured) {
+            switchTab('wizard');
+          } else {
+            switchTab('dashboard');
+          }
         }
 
         // Load configs into wizard
